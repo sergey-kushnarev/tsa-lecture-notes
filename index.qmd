@@ -1,0 +1,35 @@
+---
+title: "Time Series Analysis: Lecture Notes"
+format:
+  html:
+    toc: false
+---
+
+## Welcome!
+
+These are the lecture notes for **Time Series Analysis**, based on the Cryer and Chen textbook "Time Series Analysis: With Applications in R".
+
+The notes are authored and maintained by [Sergey Kushnarev](about.qmd), and include:
+
+- Topic summaries
+- Mathematical derivations
+- R/Python code examples
+- Figures and simulation results
+
+> These notes are meant to supplement, not replace, in-class lectures and discussions.
+
+---
+
+## 📚 Lecture Notes
+
+- [Lecture 1: Introduction to Time Series Analysis](TSA-Lecture01.qmd)
+- *More lectures coming soon...*
+
+---
+
+## 🔗 Resources
+
+- [Course Syllabus (PDF)] **TBD**
+- [RStudio Cloud Project](https://posit.cloud/)
+- [Course GitHub Repo](https://github.com/yourusername/your-repo)
+

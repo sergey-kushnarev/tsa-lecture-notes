@@ -1,0 +1,33 @@
+---
+title: "About this Course"
+format:
+  html:
+    toc: false
+---
+
+## Instructor
+
+**Dr Sergey Kushnarev**  
+Senior Lecturer, AMS JHU  
+
+## Course Info
+
+**Course Title**: Time Series Analysis  
+**Course Code**: EN.553.439/639
+
+
+## What This Site Contains
+
+These are live lecture notes created with [Quarto](https://quarto.org). They include:
+
+- Summaries of lecture topics
+- Math and derivations
+- Code examples in R and/or Python
+- Figures and visualizations
+
+They are meant to reinforce material covered in class and serve as a review resource. Some material may be added after class depending on questions and discussion.
+
+## License
+
+Content is © 2025 Sergey Kushnarev unless otherwise noted. You may share or adapt the materials for non-commercial purposes with attribution.
+
