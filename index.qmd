@@ -7,9 +7,9 @@ format:
 
 ## Welcome!
 
-These are the lecture notes for **Time Series Analysis**, based on the Cryer and Chen textbook "Time Series Analysis: With Applications in R".
+These are the lecture notes for **Time Series Analysis**, based on the Cryer and Chen textbook "Time Series Analysis: With Applications in R" and Time Series Lecture notes of Dr Torcaso.
 
-The notes are authored and maintained by [Sergey Kushnarev](about.qmd), and include:
+The notes are typed by Yue Wu. The notes are authored and maintained by [Sergey Kushnarev](about.qmd), and include:
 
 - Topic summaries
 - Mathematical derivations
