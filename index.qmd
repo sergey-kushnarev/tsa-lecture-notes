@@ -17,6 +17,7 @@ The notes are typed by Yue Wu. The notes are authored and maintained by [Sergey 
 - Figures and simulation results
 
 > These notes are meant to supplement, not replace, in-class lectures and discussions.
+> There are typos and errors in the notes. Please refer to the textbook and lecture materials for the most accurate information. Please email me (or consult TAs/me in the Office Hours) if you find any issues or have questions.
 
 ---
 
@@ -31,5 +32,5 @@ The notes are typed by Yue Wu. The notes are authored and maintained by [Sergey 
 
 - [Course Syllabus (PDF)] **TBD**
 - [RStudio Cloud Project](https://posit.cloud/)
-- [Course GitHub Repo](https://github.com/yourusername/your-repo)
+
 

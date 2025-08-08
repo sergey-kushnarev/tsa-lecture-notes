@@ -204,7 +204,8 @@ window.Quarto = {
 </section>
 <section id="formal-definition-of-time-series" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="formal-definition-of-time-series"><span class="header-section-number">1.2</span> Formal definition of time series</h2>
-<p><strong>Definition:</strong> A time series is a stochastic process model (for an observed time series) of the general form <span class="math inline">\(\{ Y(\omega,t), t\in T\}\)</span>.</p>
+<p><strong>Definition:</strong> A <strong>time series model</strong> for the observed data <span class="math inline">\((y_t)\)</span> is a specification of the joint distribution, or possibly just the means and covariances, of a sequence of random variables <span class="math inline">\(\{ Y(\omega,t), t\in T\}\)</span> of which <span class="math inline">\((y_t)\)</span> is a realization.</p>
+<p>We will frequently use the term <strong>time series</strong> to denote both the model and the observed data.</p>
 <p>In this definition, the stochastic process can be seen as a set/sequence of random variables <span class="math inline">\(Y(\omega,t)\)</span> indexed by time <span class="math inline">\(t\)</span>. The <span class="math inline">\(T\)</span> is an index set for time <span class="math inline">\(t\)</span>. The randomness comes from <span class="math inline">\(\omega\)</span>, which takes values from the sample space <span class="math inline">\(\Omega\)</span>. For this course TSA, in most cases, we have the following setting:</p>
 <ul>
 <li>The time index set <span class="math inline">\(T\)</span> is often <span class="math inline">\(\mathbb{Z}\)</span> (the set of integers) or <span class="math inline">\(\mathbb{Z}_{\ge 0}\)</span> (nonnegative integers).</li>
@@ -294,7 +295,7 @@ window.Quarto = {
 </section>
 <section id="example-3-moving-average" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="example-3-moving-average"><span class="header-section-number">3.3</span> Example 3: “Moving Average”</h2>
-<p>Let <span class="math inline">\(e_t\dots \sim IID(0,\sigma_e^2)\)</span>, and define <span class="math inline">\(Y_t = \frac{1}{2} (e_t + e_{t-1})\)</span>. For this example,</p>
+<p>Let <span class="math inline">\((e_t) \sim IID(0,\sigma_e^2)\)</span>, and define <span class="math inline">\(Y_t = \frac{1}{2} (e_t + e_{t-1})\)</span>. For this example,</p>
 <ul>
 <li>Mean function: <span class="math inline">\(\mu_t = \mathbb{E}[Y_t] = \frac{1}{2} \mathbb{E}[e_t + e_{t-1}] = 0.\)</span> Note that this mean function does not depend on time <span class="math inline">\(t\)</span>.</li>
 <li>Variance function: <span class="math inline">\(\gamma_{t,t} = Var(Y_t) = Var(\frac{1}{2} (e_t + e_{t-1})) = \frac{1}{4} (Var(e_t) + Var(e_{t-1}) + 2 Cov(e_t, e_{t-1})) = \frac{1}{2} \sigma_e^2\)</span>. Note that this variance function does not depend on time <span class="math inline">\(t\)</span>.</li>

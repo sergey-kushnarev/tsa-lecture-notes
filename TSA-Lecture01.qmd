@@ -17,7 +17,9 @@ format:
 
 ## Formal definition of time series
 
-**Definition:** A time series is a stochastic process model (for an observed time series) of the general form $\{ Y(\omega,t), t\in T\}$.
+**Definition:** A **time series model** for the observed data $(y_t)$ is a specification of the joint distribution, or possibly just the means and covariances, of a sequence of random variables $\{ Y(\omega,t), t\in T\}$ of which $(y_t)$ is a realization. 
+
+We will frequently use the term **time series** to denote both the model and the observed data.
 
 In this definition, the stochastic process can be seen as a set/sequence of random variables $Y(\omega,t)$ indexed by time $t$. The $T$ is an index set for time $t$. The randomness comes from $\omega$, which takes values from the sample space $\Omega$. For this course TSA, in most cases, we have the following setting:
 
@@ -107,7 +109,7 @@ where the last step is because $Y_s$ is independent of the terms $e_{s+1},\dots,
 * ACF: Using ACVF, $\rho_{s,t}= \frac{\gamma_{s,t}}{ \sqrt{\gamma_{s,s}\cdot \gamma_{t,t}}} = \frac{\min\{s,t\} \cdot \sigma_e^2}{\sqrt{s \sigma_e^2} \sqrt{t \sigma_e^2}} = \frac{\min\{s,t\}}{ \sqrt{st}}$. It can also be rewritten as $\rho_{s,t} = \min\{ \sqrt{\frac{s}{t}}, \sqrt{\frac{t}{s}}\}$. Example: $\rho_{1,2}= \sqrt{\frac{1}{2}}$, $\rho_{2,3}= \sqrt{\frac{2}{3}}$. Some further observations: $\rho_{t,t+1}= \sqrt{\frac{t}{t+1}} \to 1$ as $t\to\infty$; $\rho_{1,t}= \sqrt{\frac{1}{t}} \to 0$ as $t\to\infty$.
 
 ## Example 3: "Moving Average"
-Let $e_t\dots \sim IID(0,\sigma_e^2)$, and define $Y_t = \frac{1}{2} (e_t + e_{t-1})$. For this example,
+Let $(e_t) \sim IID(0,\sigma_e^2)$, and define $Y_t = \frac{1}{2} (e_t + e_{t-1})$. For this example,
 
 * Mean function: $\mu_t = \mathbb{E}[Y_t] = \frac{1}{2} \mathbb{E}[e_t + e_{t-1}] = 0.$ Note that this mean function does not depend on time $t$.
 * Variance function: $\gamma_{t,t} = Var(Y_t) = Var(\frac{1}{2} (e_t + e_{t-1})) = \frac{1}{4} (Var(e_t) + Var(e_{t-1}) + 2 Cov(e_t, e_{t-1})) = \frac{1}{2} \sigma_e^2$. Note that this variance function does not depend on time $t$.
