@@ -108,6 +108,48 @@ where the last step is because $Y_s$ is independent of the terms $e_{s+1},\dots,
 
 * ACF: Using ACVF, $\rho_{s,t}= \frac{\gamma_{s,t}}{ \sqrt{\gamma_{s,s}\cdot \gamma_{t,t}}} = \frac{\min\{s,t\} \cdot \sigma_e^2}{\sqrt{s \sigma_e^2} \sqrt{t \sigma_e^2}} = \frac{\min\{s,t\}}{ \sqrt{st}}$. It can also be rewritten as $\rho_{s,t} = \min\{ \sqrt{\frac{s}{t}}, \sqrt{\frac{t}{s}}\}$. Example: $\rho_{1,2}= \sqrt{\frac{1}{2}}$, $\rho_{2,3}= \sqrt{\frac{2}{3}}$. Some further observations: $\rho_{t,t+1}= \sqrt{\frac{t}{t+1}} \to 1$ as $t\to\infty$; $\rho_{1,t}= \sqrt{\frac{1}{t}} \to 0$ as $t\to\infty$.
 
+```{r,echo=FALSE, fig.cap="Two Sample Paths of a Random Walk", fig.width=8, fig.height=5}
+# Set seed for reproducibility
+set.seed(439)
+
+# Random walk parameters
+n <- 10  # number of steps
+Y0 <- 0
+
+# Simulate two sample paths
+e1 <- rnorm(n)
+e2 <- rnorm(n)
+Y1 <- cumsum(c(Y0, e1))
+Y2 <- cumsum(c(Y0, e2))
+
+# Create time axis
+t <- 0:n
+
+# Plot the first sample path
+plot(t, Y1, type = "o", pch = 4, col = "purple", lwd = 2,
+     ylim = range(c(Y1, Y2))*1.3, xlab = "t", ylab = expression(Y[t]),
+     main = "Two Sample Paths of a Random Walk")
+
+# Add second sample path
+lines(t, Y2, type = "o", col = "red", lwd = 2, pch = 4)
+
+# Add annotations
+text(5, Y1[6], "one realization\nsample path of a R.W.", col = "purple", pos = 3)
+text(5, Y2[6], "another realization\nsample path of a R.W.", col = "red", pos = 1)
+
+# Add arrows for increments (e.g., e_2 and e_3)
+arrows(1, Y1[1], 1, Y1[2], col = "darkgreen", length = 0.1)
+arrows(2, Y1[2], 2, Y1[3], col = "darkgreen", length = 0.1)
+arrows(3, Y1[3], 3, Y1[4], col = "darkgreen", length = 0.1)
+text(1.1, mean(Y1[1:2]), expression(e[1]), col = "darkgreen", pos = 2)
+text(2.1, mean(Y1[2:3]), expression(e[2]), col = "darkgreen", pos = 2)
+text(3.1, mean(Y1[3:4]), expression(e[3]), col = "darkgreen", pos = 2)
+# label first realization as Y(w1,t)
+text(5, Y1[6]-1.1, expression(Y(omega[1], t)), col = "purple", pos = 3)
+# label second realization as Y(w2,t)
+text(5, Y2[6]-1.1, expression(Y(omega[2], t)), col = "red", pos = 1)
+```
+
 ## Example 3: "Moving Average"
 Let $(e_t) \sim IID(0,\sigma_e^2)$, and define $Y_t = \frac{1}{2} (e_t + e_{t-1})$. For this example,
 
