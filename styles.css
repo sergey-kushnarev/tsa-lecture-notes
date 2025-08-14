@@ -1,6 +1,6 @@
 /* css styles */
-.navbar-nav {
+.navbar .navbar-nav {
   flex-wrap: nowrap;
   overflow-x: auto;
+  white-space: nowrap;
 }
-
