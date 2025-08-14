@@ -53,6 +53,7 @@ format:
       - brand
     css: styles.css
     toc: true
+    page-navigation: true
 
 
 
