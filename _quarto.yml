@@ -27,7 +27,7 @@ website:
       - href: TSA-Lecture08.qmd
         text: Lecture 8
       - href: TSA-Lecture08-regression-methods.qmd
-        text: Rnotebook: Regression 
+        text: Rnotebook: Regression
       - href: TSA-Lecture09.qmd
         text: Lecture 9
 
