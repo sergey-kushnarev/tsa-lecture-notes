@@ -224,7 +224,7 @@
     "href": "TSA-Lecture14-model-specification.html#detecting-nonstationarity-augmented-dickey-fuller-test",
     "title": "R notebook: Model Specification",
     "section": "1.6 Detecting nonstationarity: Augmented Dickey-Fuller test",
-    "text": "1.6 Detecting nonstationarity: Augmented Dickey-Fuller test\n\n\nCode\n# Augmented Dickey-Fuller test\n# Unit root test of the random walk and its first difference\nlibrary(tseries)\n\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\n\nCode\nadf.test(rw)\n\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  rw\nDickey-Fuller = -2.9621, Lag order = 3, p-value = 0.1859\nalternative hypothesis: stationary\n\n\nCode\nadf.test(diff(rw))\n\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  diff(rw)\nDickey-Fuller = -4.5858, Lag order = 3, p-value = 0.01\nalternative hypothesis: stationary",
+    "text": "1.6 Detecting nonstationarity: Augmented Dickey-Fuller test\n\n\nCode\n# Augmented Dickey-Fuller test\n# Unit root test of the random walk and its first difference\nlibrary(tseries)\n\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\n\nCode\nadf.test(rw)\n\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  rw\nDickey-Fuller = -1.324, Lag order = 3, p-value = 0.848\nalternative hypothesis: stationary\n\n\nCode\nadf.test(diff(rw))\n\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  diff(rw)\nDickey-Fuller = -4.2092, Lag order = 3, p-value = 0.01\nalternative hypothesis: stationary",
     "crumbs": [
       "Rnotebook: Model Specification"
     ]
@@ -614,7 +614,7 @@
     "href": "index.html",
     "title": "Time Series Analysis: Lecture Notes",
     "section": "",
-    "text": "These are the lecture notes for EN.553.439/639 Time Series Analysis, based on the Cryer and Chen textbook Time Series Analysis: With Applications in R and Time Series Lecture notes of Dr Torcaso.\nThe notes are typed by Yue Wu. The notes are authored and maintained by Sergey Kushnarev, and include:\n\nTopic summaries\nMathematical derivations\nR code examples\nFigures and simulation results\n\n\nThese notes are meant to supplement, not replace, in-class lectures and discussions. There are typos and errors in the notes. Please refer to the textbook and lecture materials for the most accurate information. Please email me (or consult TAs/me in the Office Hours) if you find any issues or have questions.",
+    "text": "These are the lecture notes for EN.553.439/639 Time Series Analysis, based on the Cryer and Chen textbook Time Series Analysis: With Applications in R and Time Series Lecture notes of Dr Torcaso.\nThe notes are typed by Yue Wu. The notes are authored and maintained by Sergey Kushnarev, and include:\n\nTopic summaries\nMathematical derivations\nR notebooks with code and data examples\nFigures and simulation results\n\n\nThink of these notes as a companion to our lectures and discussions, not a substitute. You’ll likely spot some typos and errors, so always double-check with the textbook and other course materials. If you catch an issue or have a question, please don’t hesitate to reach out to me via email or during office hours.",
     "crumbs": [
       "Home"
     ]
@@ -624,7 +624,7 @@
     "href": "index.html#welcome",
     "title": "Time Series Analysis: Lecture Notes",
     "section": "",
-    "text": "These are the lecture notes for EN.553.439/639 Time Series Analysis, based on the Cryer and Chen textbook Time Series Analysis: With Applications in R and Time Series Lecture notes of Dr Torcaso.\nThe notes are typed by Yue Wu. The notes are authored and maintained by Sergey Kushnarev, and include:\n\nTopic summaries\nMathematical derivations\nR code examples\nFigures and simulation results\n\n\nThese notes are meant to supplement, not replace, in-class lectures and discussions. There are typos and errors in the notes. Please refer to the textbook and lecture materials for the most accurate information. Please email me (or consult TAs/me in the Office Hours) if you find any issues or have questions.",
+    "text": "These are the lecture notes for EN.553.439/639 Time Series Analysis, based on the Cryer and Chen textbook Time Series Analysis: With Applications in R and Time Series Lecture notes of Dr Torcaso.\nThe notes are typed by Yue Wu. The notes are authored and maintained by Sergey Kushnarev, and include:\n\nTopic summaries\nMathematical derivations\nR notebooks with code and data examples\nFigures and simulation results\n\n\nThink of these notes as a companion to our lectures and discussions, not a substitute. You’ll likely spot some typos and errors, so always double-check with the textbook and other course materials. If you catch an issue or have a question, please don’t hesitate to reach out to me via email or during office hours.",
     "crumbs": [
       "Home"
     ]
