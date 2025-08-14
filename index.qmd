@@ -31,6 +31,7 @@ The notes are typed by Yue Wu. The notes are authored and maintained by [Sergey 
 - [Lecture 6: Recursive equations, ACVF for AR(2), AR(p), Invertibility](TSA-Lecture06.qmd)
 - [Lecture 7: ARMA(1,1), ARMA(p,q): GLP representation, YW method, ACVF. Visualizing Time Series](TSA-Lecture07.qmd)
 - [Lecture 8: Trends, Estimation of the mean Yt, Rnotebook: regression approach, residual analysis](TSA-Lecture08.qmd)
+  - [Rnotebook: Regression Methods in Time Series](TSA-Lecture08-regression-methods.qmd)
 - [Lecture 9: ](TSA-Lecture09.qmd)
 
 ---

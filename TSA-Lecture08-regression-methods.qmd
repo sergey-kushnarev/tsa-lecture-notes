@@ -1,0 +1,361 @@
+---
+title: "Regression Methods in Time Series Analysis"
+author: "Dr Sergey Kushnarev"
+#date: "March 3, 2023"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+# Data Examples
+
+1. Random Walk
+2. US Population: Quadratic Trend
+3. Seasonal Means
+4. Residual Analysis
+5. Assessing Normality
+6. The Sample Autocorrelation Function
+7. Quantile-Quantile Plot of Los Angeles Annual Rainfall Series
+
+
+# Regression Methods in Time Series Analysis
+
+Based on Chapter 3, Cryer and Chan
+
+Time series are often decomposed into components: 
+deterministic and stochastic. The decomposition is additive:
+$$
+Y_t = \mu_t + X_t
+$$
+where $Y_t$ is the observed value at time $t$, $\mu_t$ is the deterministic component, and $X_t$ is the stochastic component.
+
+
+```{r, message=FALSE, warning=FALSE}
+library(TSA)
+```
+
+
+## Linear and Quadratic Trends in Time Series
+
+### Random Walk: apparent linear trend
+
+We are going to fit a linear trend to a random walk
+
+```{r}
+# Set seed for reproducibility
+set.seed(439)
+# Generate a random walk
+rw <- cumsum(rnorm(60))
+# Fit a linear trend to the random walk
+model1 <- lm(rw ~ time(rw))
+# Print the summary of the model
+summary(model1)
+
+# Plot the random walk
+plot(rw,
+     type='o',
+     ylab='y',
+     xlab='Time',
+     main='Random Walk',
+     col='blue',
+     pch=20,
+     cex=0.5)
+abline(model1) # add the fitted least squares line from model1
+legend('topleft',
+       legend=c('Fitted Trend Line','Random Walk'),
+       col=c('black','blue'),
+       lty=1)
+```
+
+### US population: quadratic trend
+
+```{r}
+# Load the US population data
+data("uspop")
+# Fit a quadratic trend to the US population data
+model.pop <- lm(uspop~time(uspop)+I(time(uspop)^2)) 
+# Extract the coefficients
+coef <- model.pop$coefficients
+# Print the summary of the model
+summary(model.pop)
+# Plot the US population data
+plot(y=uspop,
+     x=as.vector(time(uspop)),
+     xlab='Time',
+     ylab='US population 1790-1970',
+     type='o',
+     col = 'blue',
+     main='US Population 1790-1970')
+# Add the fitted quadratic trend line
+lines(x=as.vector(time(uspop)),
+      y=coef[1]+coef[2]*as.vector(time(uspop))+coef[3]*as.vector(time(uspop))^2,
+      col='red')
+
+# Add the legend
+legend('topleft',
+       legend=c('Fitted Quadratic Trend Line','US Population'),
+       col=c('red','blue'),
+       lty=1)
+
+```
+
+
+### Seasonal (or Cyclical) Means
+
+$$
+Y_t = \mu_{t} + X_t
+$$
+Here, $\mu_{t}$ is the seasonal mean and $X_t$ is the seasonal deviation.
+
+$$
+\mu_1 = \text{mean for January}, \mu_2 = \text{mean for February}, \ldots, \mu_{12} = \text{mean for December}
+$$
+
+
+Dataset: Average monthly temperatures, Dubuque, Iowa.
+
+```{r}
+data("tempdub")
+plot(tempdub,
+     ylab='Temperature',
+     type='o',
+     xlab='Time',
+     main='Average Monthly Temperatures, Dubuque, Iowa')
+```
+
+### Fitting a seasonal means model (without intercept)
+
+```{r}
+month. <- season(tempdub) # period added to improve table display
+model2 <- lm(tempdub ~ month. + 0) # 0 removes the intercept term
+#model2 <- lm(tempdub ~ month. - 1) # -1 also removes the intercept term
+summary(model2)
+plot(tempdub,
+     ylab='Temperature',
+     type='o',
+     xlab='Time',
+     main='Average Monthly Temperatures, Dubuque, Iowa')
+points(time(tempdub),fitted(model2), col = "red", type='o')
+```
+
+Above, we have
+$$
+\mu_{t} = \beta_{t}
+$$
+
+### With the intercept term
+
+```{r}
+model3 <- lm(tempdub ~ month.) # January is dropped automatically
+summary(model3)
+```
+
+When we fit with the intercept term, we have
+$$
+\mu_1 = \beta_0,\qquad \mu_{t} = \beta_0 + \beta_{t}, \quad t=2,3,\ldots,12
+$$
+
+### Fitting a seasonal means model with a cosine trend
+
+```{r}
+# Fitting a cosine trend model
+har. <- harmonic(tempdub,1)
+model4 <- lm(tempdub ~ har.)
+summary(model4)
+
+# Plot the data and the fitted cosine trend
+plot(tempdub,
+     ylab='Temperature',
+     type='o',
+     xlab='Time',
+     main='Average Monthly Temperatures, Dubuque, Iowa')
+points(time(tempdub),fitted(model4),col='red', type='o')
+```
+
+## Residual Analysis
+
+After estimating the trend by $\hat\mu_t$, we can predict the unobserved values 
+of the stochastic component $X_t$ by $\hat{X}_t = Y_t - \hat{\mu}_t$.
+
+### Seasonal model without the intercept term
+
+```{r}
+plot(y=rstudent(model2),
+     x=as.vector(time(tempdub)),
+     xlab='Time',
+     ylab='Standardized Residuals',
+     type='o',
+     main = 'Residuals from Seasonal Means Model w/o Intercept')
+
+plot(y=rstudent(model3),
+     x=as.vector(time(tempdub)),
+     xlab='Time',
+     ylab='Standardized Residuals',
+     type='l',
+     main = 'Residuals from Seasonal Means Model')
+
+points(y=rstudent(model3),
+       x=as.vector(time(tempdub)),
+       pch=as.vector(season(tempdub)),
+       col = 1:4)
+```
+
+### Residuals versus Fitted Values from Seasonal Means Model
+
+```{r}
+plot(y=rstudent(model3),
+     x=as.vector(fitted(model3)),
+     xlab='Fitted Trend Values',
+     ylab='Standardized Residuals',type='n',
+     main='Residuals vs Fitted Values from Seasonal Means Model')
+     points(y=rstudent(model3),
+     x=as.vector(fitted(model3)),
+     pch=as.vector(season(tempdub)), 
+     col = 1:4)
+```
+
+
+```{r}
+plot(y=rstudent(model4),
+     x=as.vector(fitted(model4)),
+     xlab='Fitted Trend Values',
+     ylab='Standardized Residuals',type='n',
+     main='Residuals vs Fitted Values from Cosine Trends')
+     points(y=rstudent(model4),
+     x=as.vector(fitted(model4)),
+     pch=as.vector(season(tempdub)), 
+     col = 1:4)
+```
+
+
+### Assessing normality
+
+Histogram is a very rough tool to assess normality
+
+```{r}
+hist(rstudent(model3),
+     xlab='Standardized Residuals',
+     main='Histogram of Residuals from Seasonal Means Model')
+```
+
+QQ-plot is a much better tool:
+
+```{r}
+# Plotting the QQ-plot
+qqnorm(rstudent(model3),
+       main='QQ-plot of Residuals from Seasonal Means Model')
+qqline(rstudent(model3),col='red',lty=2)
+
+```
+
+QQ-plot is an excellent visual diagnostic. We can use a Shapiro-Wilk test to assess normality:
+
+```{r}
+# Shapiro-Wilk test for normality. H0: data is normally distributed
+shapiro.test(rstudent(model3))
+```
+
+Test for independence: runs test
+```{r}
+# Runs test for independence. H0: data is independent
+runs(rstudent(model3))
+```
+
+## The Sample Autocorrelation Function
+
+Another tool for assessing dependency is a **sample ACF**.
+
+Sample autocorrelation function, for $k=1, 2, 3,\ldots$:
+
+$$
+r_k=\dfrac{\sum_{t=k+1}^n(Y_t-\bar{Y})(Y_{t-k}-\bar{Y})}{\sum_{t=1}^n(Y_t-\bar{Y})^2}
+$$
+
+### Plot of Sample ACF of residuals for seasonal means model versus $k$ (*correlogram*)
+
+```{r}
+acf(rstudent(model3),
+    main='ACF of Residuals from Seasonal Means Model')
+```
+
+### Sample ACF for residuals of a linear fit to a random walk
+
+```{r}
+plot(y=rstudent(model1),
+     x=as.vector(time(rw)),
+     ylab='Standardized Residuals',
+     xlab='Time',
+     type='o',
+     main='Residuals from Straight Line Fit to Random Walk')
+
+```
+
+Residuals versus Fitted Values from Straight Line Fit: larger values of residuals correspond to larger fitted values.
+
+```{r}
+plot(y=rstudent(model1),
+     x=fitted(model1),
+     ylab='Standardized Residuals',
+     xlab='Fitted Trend Line Values',
+     type='p')
+```
+
+Sample Autocorrelation of Residuals from the Straight Line
+fit to the random walk
+
+```{r}
+acf(rstudent(model1),
+    main='ACF of Residuals from Straight Line Fit to Random Walk')
+```
+
+What if we try completely different approach to the random walk data. Let's difference the data instead and plot the sample ACF of the differenced data?
+
+$$
+\nabla Y_t = Y_t-Y_{t-1}
+$$
+
+```{r}
+acf(diff(rw),
+    main='ACF of Differenced Random Walk')
+```
+
+### Quantile-Quantile Plot of Los Angeles Annual Rainfall Series
+
+Turns out it's an iid noise: 
+
+```{r}
+data("larain")
+acf(larain,
+    main='ACF of Los Angeles Annual Rainfall Series')
+```
+
+Is it normal? Let's check the QQ-plot:
+
+
+```{r}
+qqnorm(larain,
+       main='QQ-plot of Los Angeles Annual Rainfall Series') 
+qqline(larain)
+```
+
+**Q: is it left-skewed or right-skewed?**
+
+```{r}
+# Shapiro Wilk test
+shapiro.test(larain)
+```
+
+If we log-transform the data, we can see that it becomes more symmetric:
+```{r}
+qqnorm(log(larain),
+       main='QQ-plot of log-transformed Los Angeles Annual Rainfall Series') 
+qqline(log(larain))
+```
+
+```{r}
+# Shapiro Wilk test
+shapiro.test(log(larain))
+```
+
