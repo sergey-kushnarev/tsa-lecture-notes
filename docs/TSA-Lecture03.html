@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>Time Series Analysis: Lecture Notes – tsa-lecture-notes</title>
+<title>25 Spring 439/639 TSA: Lecture 3 – tsa-lecture-notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,11 +68,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -89,7 +119,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -107,19 +137,44 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#q-dependent-clt" id="toc-q-dependent-clt" class="nav-link active" data-scroll-target="#q-dependent-clt"><span class="header-section-number">1</span> <span class="math inline">\(q\)</span>-dependent CLT</a>
+  <ul class="collapse">
+  <li><a href="#statement-of-the-theorem" id="toc-statement-of-the-theorem" class="nav-link" data-scroll-target="#statement-of-the-theorem"><span class="header-section-number">1.1</span> Statement of the theorem</a></li>
+  <li><a href="#sketch-of-the-proof" id="toc-sketch-of-the-proof" class="nav-link" data-scroll-target="#sketch-of-the-proof"><span class="header-section-number">1.2</span> Sketch of the proof</a></li>
+  </ul></li>
+  <li><a href="#maq" id="toc-maq" class="nav-link" data-scroll-target="#maq"><span class="header-section-number">2</span> MA(<span class="math inline">\(q\)</span>)</a></li>
+  <li><a href="#general-linear-process" id="toc-general-linear-process" class="nav-link" data-scroll-target="#general-linear-process"><span class="header-section-number">3</span> General Linear Process</a>
+  <ul class="collapse">
+  <li><a href="#backshift-operator" id="toc-backshift-operator" class="nav-link" data-scroll-target="#backshift-operator"><span class="header-section-number">3.1</span> Backshift operator</a></li>
+  <li><a href="#glp-is-stationary" id="toc-glp-is-stationary" class="nav-link" data-scroll-target="#glp-is-stationary"><span class="header-section-number">3.2</span> GLP is stationary</a></li>
+  </ul></li>
+  <li><a href="#ar1" id="toc-ar1" class="nav-link" data-scroll-target="#ar1"><span class="header-section-number">4</span> AR(<span class="math inline">\(1\)</span>)</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Time Series Analysis: Lecture Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 3</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -130,42 +185,145 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome" class="level2">
-<h2 class="anchored" data-anchor-id="welcome">Welcome!</h2>
-<p>These are the lecture notes for <strong>Time Series Analysis</strong>, based on the Cryer and Chen textbook “Time Series Analysis: With Applications in R” and Time Series Lecture notes of Dr Torcaso.</p>
-<p>The notes are typed by Yue Wu. The notes are authored and maintained by <a href="./about.html">Sergey Kushnarev</a>, and include:</p>
-<ul>
-<li>Topic summaries</li>
-<li>Mathematical derivations</li>
-<li>R code examples</li>
-<li>Figures and simulation results</li>
-</ul>
-<blockquote class="blockquote">
-<p>These notes are meant to supplement, not replace, in-class lectures and discussions. There are typos and errors in the notes. Please refer to the textbook and lecture materials for the most accurate information. Please email me (or consult TAs/me in the Office Hours) if you find any issues or have questions.</p>
-</blockquote>
-<hr>
+<section id="q-dependent-clt" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> <span class="math inline">\(q\)</span>-dependent CLT</h1>
+<p>Last time we defined <span class="math inline">\(q\)</span>-dependent and <span class="math inline">\(q\)</span>-correlated time series.</p>
+<section id="statement-of-the-theorem" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="statement-of-the-theorem"><span class="header-section-number">1.1</span> Statement of the theorem</h2>
+<p><strong><span class="math inline">\(q\)</span>-dependent CLT:</strong> Let <span class="math inline">\((Y_t)\)</span> be a <span class="math inline">\(q\)</span>-dependent (<span class="math inline">\(q \geq 0\)</span>) stationary time series with <span class="math inline">\(\mu = \mathbb{E}[Y_t]\)</span> and <span class="math inline">\(\sigma^2 = Var(Y_t)\)</span>. Then as long as <span class="math display">\[
+\sigma^2 + 2\operatorname{Cov}(Y_1, Y_2) + \cdots + 2\operatorname{Cov}(Y_1, Y_{q+1}) &gt; 0,
+\]</span></p>
+<p>then <span class="math display">\[
+\frac{\sum_{i=1}^n Y_i - n\mu}{\sqrt{\mathrm{Var}\left(\sum_{i=1}^n Y_i\right)}} \xrightarrow{D} N(0, 1), \quad \text{as } n\to \infty,
+\]</span> or equivalently, <span class="math display">\[
+\frac{\overline{Y} - \mu}{\sqrt{\mathrm{Var}(\overline{Y})}} \xrightarrow{D} N(0, 1), \quad \text{as } n \to \infty.
+\]</span></p>
+<p><em>Remark:</em> the last statement can be loosely thought of as <span class="math inline">\(\overline{Y} \approx N(\mu, \mathrm{Var}(\overline{Y}))\)</span>.</p>
 </section>
-<section id="lecture-notes" class="level2">
-<h2 class="anchored" data-anchor-id="lecture-notes">📚 Lecture Notes</h2>
-<ul>
-<li><a href="./TSA-Lecture01.html">Lecture 1: Introduction to Time Series Analysis</a></li>
-<li><a href="./TSA-Lecture02.html">Lecture 2: Stationarity</a></li>
-<li><a href="./TSA-Lecture03.html">Lecture 3: Q-dependent CLT. MA(q), General Linear Process. Causality</a></li>
-<li><a href="./TSA-Lecture04.html">Lecture 4: AR(1), Yule-Walker method, AR-polynomial</a></li>
-<li><a href="./TSA-Lecture05.html">Lecture 5: AR(p): causality, YW method, GLP representation,</a></li>
-<li><a href="./TSA-Lecture06.html">Lecture 6: Recursive equations, ACVF for AR(2), AR(p), Invertibility</a></li>
-<li><a href="./TSA-Lecture07.html">Lecture 7: ARMA(1,1), ARMA(p,q): GLP representation, YW method, ACVF. Visualizing Time Series</a></li>
-<li><a href="./TSA-Lecture08.html">Lecture 8: Trends, Estimation of the mean Yt, Rnotebook: regression approach, residual analysis</a></li>
-<li><a href="./TSA-Lecture09.html">Lecture 9:</a></li>
-</ul>
-<hr>
+<section id="sketch-of-the-proof" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sketch-of-the-proof"><span class="header-section-number">1.2</span> Sketch of the proof</h2>
+<p>Suppose <span class="math inline">\(n &gt; q\)</span>. Since <span class="math inline">\((Y_t)\)</span> is stationary, using ACVF we have <span class="math display">\[
+\begin{split}
+\operatorname{Var} \left( \sum_{i=1}^n Y_i \right) &amp;=
+    \sum_{i=1}^n \sum_{j=1}^n \operatorname{Cov}(Y_i, Y_j) = \sum_{i=1}^n \sum_{j=1}^n \gamma_{|i-j|} \\
+&amp;=n\gamma_0 + 2(n-1)\gamma_1 + 2(n-2)\gamma_2 + \cdots + 2\gamma_{n-1} \\
+&amp;= n\gamma_0 + 2\sum_{j=1}^q (n-j)\gamma_j
+\end{split}
+\]</span> where the last step is because <span class="math inline">\(\gamma_j = 0\)</span> for <span class="math inline">\(j &gt; q\)</span> (by <span class="math inline">\(q\)</span>-dependence). So <span class="math display">\[
+\mathrm{Var}(\overline{Y}) = \frac{1}{n^2} \mathrm{Var} \left( \sum_{i=1}^n Y_i \right)
+= \frac{1}{n} \gamma_0 + \frac{2}{n^2} \sum_{j=1}^{q} (n-j) \gamma_j .
+\]</span> As <span class="math inline">\(n \to \infty\)</span>, this variance <span class="math inline">\(\mathrm{Var}(\overline{Y}) \approx \frac{1}{n}(\sigma^2 + 2\operatorname{Cov}(Y_1, Y_2) + \cdots + 2\operatorname{Cov}(Y_1, Y_{q+1}))\)</span>, which goes to <span class="math inline">\(0\)</span> at the rate <span class="math inline">\(O(\frac{1}{n})\)</span>. This behavior looks similar to the standard CLT (with iid setting). Then, (following the idea of standard CLT) <span class="math display">\[
+\frac{\overline{Y} - \mu}{\sqrt{\mathrm{Var}(\overline{Y})}} \xrightarrow{D} N(0,1), \quad \text{as } n \to \infty.
+\]</span></p>
+<p><em>Remark:</em> the CLT can be even generalized to some time series that are not <span class="math inline">\(q\)</span>-dependent, as long as <span class="math inline">\(\gamma_k\)</span> decays to zero (as <span class="math inline">\(k\to \infty\)</span>) sufficiently fast.</p>
 </section>
-<section id="resources" class="level2">
-<h2 class="anchored" data-anchor-id="resources">🔗 Resources</h2>
+</section>
+<section id="maq" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> MA(<span class="math inline">\(q\)</span>)</h1>
+<p>MA(<span class="math inline">\(q\)</span>) stands for Moving Average of order <span class="math inline">\(q\)</span>.</p>
+<p><strong>MA(<span class="math inline">\(q\)</span>):</strong> An MA(<span class="math inline">\(q\)</span>) time series <span class="math inline">\((Y_t)\)</span> is defined as <span class="math display">\[
+Y_t = e_t - \theta_1 e_{t-1} - \theta_2 e_{t-2} - \cdots - \theta_q e_{t-q}
+\]</span> where <span class="math inline">\(e_t \sim IID(0, \sigma_e^2)\)</span>.</p>
+<p>Remarks:</p>
 <ul>
-<li>[Course Syllabus (PDF)] <strong>TBD</strong></li>
-<li><a href="https://posit.cloud/">RStudio Cloud Project</a></li>
+<li>The coefficient for <span class="math inline">\(e_t\)</span> is always <span class="math inline">\(1\)</span>, while <span class="math inline">\(\theta_1,\dots,\theta_{q}\)</span> are unrestricted.</li>
+<li>This notation is same as C&amp;C textbook. Pay attention to the notations since some books and R/Python may use different conventions <span class="math inline">\(Y_t = e_t + \theta_1 e_{t-1} + \cdots + \theta_q e_{t-q}\)</span>.</li>
+<li>MA(<span class="math inline">\(0\)</span>) can be seen as <span class="math inline">\(Y_t=e_t\)</span>, which is the IID noise.</li>
 </ul>
+<p>In homework, you will show the ACVF of MA(<span class="math inline">\(q\)</span>): <span class="math display">\[
+\gamma_k =
+\begin{cases}
+    0, &amp; \text{if } k &gt; q \\
+    \sigma_e^2 \sum_{j=0}^{q-k} \theta_j \theta_{j+k}, &amp; 0 \leq k \leq q
+\end{cases}
+\qquad (\theta_0 = -1)
+\]</span> This result shows that an MA(<span class="math inline">\(q\)</span>) process is always <span class="math inline">\(q\)</span>-dependent. The reverse is also true, in the following sense.</p>
+<p><strong>Theorem (without proof):</strong> If <span class="math inline">\((Y_t)\)</span> is a stationary <span class="math inline">\(q\)</span>-correlated time series with mean <span class="math inline">\(0\)</span>, then there exists an uncorrelated stationary sequence <span class="math inline">\((\widetilde{e}_t)\)</span> and <span class="math inline">\(q\)</span> constants <span class="math inline">\(\widetilde{\theta}_1,\dots,\widetilde{\theta}_q\)</span> such that, if <span class="math inline">\(X_t\)</span> is constructed as <span class="math display">\[
+X_t = \widetilde{e}_t - \widetilde{\theta}_1 \widetilde{e}_{t-1} - \cdots - \widetilde{\theta}_q \widetilde{e}_{t-q} ,
+\]</span> then <span class="math inline">\((X_t)\)</span> will have the same ACVF as <span class="math inline">\((Y_t)\)</span>.</p>
+</section>
+<section id="general-linear-process" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> General Linear Process</h1>
+<p><strong>GLP(General Linear Process)</strong>: Let <span class="math inline">\((e_t) \sim IID(0, \sigma_e^2)\)</span>. A process <span class="math inline">\((Y_t)\)</span> is called <strong>GLP</strong> (mean <span class="math inline">\(0\)</span>) if <span class="math display">\[
+Y_t = \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}
+\]</span> where <span class="math inline">\(\psi_j\)</span> are constants such that <span class="math inline">\(\sum_{j=-\infty}^{+\infty} |\psi_j| &lt; \infty\)</span>. Explicitly, <span class="math display">\[
+Y_t = \cdots + \psi_{-2} e_{t+2} + \psi_{-1} e_{t+1} + \psi_0 e_t + \psi_1 e_{t-1} + \cdots .
+\]</span> <strong>Causality:</strong> If <span class="math inline">\(\psi_j = 0\)</span> for all <span class="math inline">\(j &lt; 0\)</span> in the GLP representation, then <span class="math display">\[
+Y_t = \psi_0 e_t + \psi_1 e_{t-1} + \dots = \sum_{j=0}^{\infty} \psi_j e_{t-j} .
+\]</span> In this case, <span class="math inline">\((Y_t)\)</span> is called a <strong>causal / future-independent process</strong>. Otherwise, if there exist nonzero <span class="math inline">\(\psi_j\)</span> for some <span class="math inline">\(j&lt;0\)</span>, <span class="math inline">\((Y_t)\)</span> is <strong>non-causal / future-dependent</strong>.</p>
+<section id="backshift-operator" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="backshift-operator"><span class="header-section-number">3.1</span> Backshift operator</h2>
+<p><strong>Definition:</strong> For a sequence <span class="math inline">\((y_t)\)</span>, the <strong>backshift operator</strong> <span class="math inline">\(B\)</span> is defined by <span class="math inline">\(B Y_t = Y_{t-1}\)</span>.</p>
+<p>Example: <span class="math inline">\(B^2 Y_t = B(Y_{t-1}) = Y_{t-2}\)</span>, <span class="math inline">\(B^k Y_t = Y_{t-k}\)</span> for <span class="math inline">\(k \ge 0\)</span>.</p>
+<p>The inverse of <span class="math inline">\(B\)</span> is considered as <strong>forwardshift</strong>: <span class="math inline">\(B^{-1} Y_t = Y_{t+1}\)</span>, <span class="math inline">\(B^{-2} Y_t = Y_{t+2}\)</span>, etc.</p>
+<p><strong>Definition:</strong> A <strong>linear filter</strong> is an operator defined as <span class="math display">\[
+\Psi(B) = \sum_{j=-\infty}^{+\infty} \psi_j B^j.
+\]</span> By this definition, the GLP process <span class="math inline">\(Y_t = \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\)</span> can be written as <span class="math inline">\(Y_t = \Psi(B) e_t\)</span>, since <span class="math display">\[
+\left(\sum_{j=-\infty}^{+\infty} \psi_j B^j\right) e_t
+= \sum_{j=-\infty}^{+\infty} \psi_j B^j e_t
+= \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j} = Y_t .
+\]</span></p>
+</section>
+<section id="glp-is-stationary" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="glp-is-stationary"><span class="header-section-number">3.2</span> GLP is stationary</h2>
+<p>In this part, we will derive the mean function, variance function, ACVF, ACF of a GLP. Then we can see that a GLP is stationary.</p>
+<ul>
+<li><p>Mean function <span class="math display">\[
+\mu_t = \mathbb{E} [Y_t] = \mathbb{E}\left[\sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\right]
+= \sum_{j=-\infty}^{+\infty} \psi_j \mathbb{E}[e_{t-j}] = 0.
+\]</span></p></li>
+<li><p>Variance function <span class="math display">\[
+\begin{split}
+\operatorname{Var}(Y_t) &amp;= \operatorname{Var}\left(\sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\right)
+= \sum_{j=-\infty}^{+\infty} \psi_j^2 \operatorname{Var}(e_{t-j}) + \ 2 \sum_{i&lt;j} \psi_i \psi_j \operatorname{Cov}(e_{t-i}, e_{t-j}) = \sigma_e^2 \left( \sum_{j=-\infty}^{+\infty} \psi_j^2 \right)
+\end{split}
+\]</span> which is a finite constant (see the following exercise).</p></li>
+</ul>
+<p><strong>Exercise:</strong> Show that <span class="math inline">\(\sum_{j=-\infty}^{+\infty} |\psi_j| &lt; \infty\)</span> implies <span class="math inline">\(\sum_{j=-\infty}^{+\infty} \psi_j^2 &lt; \infty\)</span> (i.e., absolute summability implies square summability/convergence).</p>
+<ul>
+<li><p>ACVF <span class="math display">\[
+\begin{split}
+\operatorname{Cov}(Y_t, Y_{t+k}) &amp;= \mathbb{E}\left[Y_t Y_{t+k}\right] - \left(\mathbb{E} Y_t\right)\left(\mathbb{E} Y_{t+k}\right) = \mathbb{E}\left[Y_t Y_{t+k}\right]
+= \mathbb{E}\left[
+  \left( \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j} \right)
+  \left( \sum_{i=-\infty}^{+\infty} \psi_i e_{t+k-i} \right)
+\right] \\
+&amp; = \sum_{i=-\infty}^{+\infty} \sum_{j=-\infty}^{+\infty} \psi_i \psi_j \mathbb{E}[e_{t-j} e_{t+k-i}] .
+\end{split}
+\]</span> Note that <span class="math inline">\(\mathbb{E}[e_{t-j} e_{t+k-i}] = \mathbb{E}[e_{t-j}] \cdot \mathbb{E}[e_{t+k-i}] = 0\)</span> if <span class="math inline">\(i \neq j+k\)</span>, and <span class="math inline">\(\mathbb{E}[e_{t-j} e_{t+k-i}] = \sigma_e^2\)</span> if <span class="math inline">\(i=j+k\)</span>. So the ACVF depends only on the lag <span class="math inline">\(k\)</span>: <span class="math display">\[
+\gamma_k = \sum_{j=-\infty}^{+\infty} \psi_{k+j}\psi_j \sigma_e^2 .
+\]</span></p></li>
+<li><p>ACF <span class="math display">\[
+\rho_k = \frac{\gamma_k}{\gamma_0}
+= \frac{ \displaystyle\sum_{j=-\infty}^{+\infty} \psi_{k+j} \psi_j }
+      { \displaystyle\sum_{j=-\infty}^{+\infty} \psi_j^2 } .
+\]</span></p></li>
+</ul>
+<p><em>Remark:</em> If we want a GLP (<span class="math inline">\(Y_t\)</span>) with mean <span class="math inline">\(\mu\)</span>, then just add <span class="math inline">\(\mu\)</span>. Let <span class="math inline">\(Y_t = \mu + \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\)</span>. ACVF, ACF remain the same.</p>
+</section>
+</section>
+<section id="ar1" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> AR(<span class="math inline">\(1\)</span>)</h1>
+<p>AR(<span class="math inline">\(1\)</span>) stands for Autoregressive time series of order <span class="math inline">\(1\)</span>.</p>
+<p><strong>Definition of AR(<span class="math inline">\(1\)</span>):</strong> Let <span class="math inline">\(\phi \in \mathbb{R}\)</span>, <span class="math inline">\(|\phi| &lt; 1\)</span>, and <span class="math inline">\((e_t) \sim \text{iid}(0, \sigma_e^2)\)</span>. Define <span class="math inline">\((Y_t)\)</span> as a stationary solution to: <span class="math display">\[
+Y_t = \phi Y_{t-1} + e_t.
+\]</span> <em>Remark:</em> (1) This looks like linear regression <span class="math inline">\(Y_t = \beta_0 + \beta_1 Y_{t-1} + e_t\)</span> with <span class="math inline">\(\beta_0 = 0\)</span>. (2) AR(<span class="math inline">\(1\)</span>) can be rewritten as <span class="math inline">\(Y_t - \phi Y_{t-1} = e_t\)</span>. In comparison, MA(<span class="math inline">\(1\)</span>) is <span class="math inline">\(Y_t = e_t - \theta e_{t-1}\)</span>.</p>
+<p>Assume <span class="math inline">\(Y_s\)</span> is independent of the future <span class="math inline">\(e_t\)</span> terms (for any <span class="math inline">\(t&gt;s\)</span>). We can write AR(<span class="math inline">\(1\)</span>) in a GLP.</p>
+<p>From the definition: <span class="math display">\[
+\begin{split}
+Y_t &amp;= \phi Y_{t-1} + e_t = \phi \left( \phi Y_{t-2} + e_{t-1} \right) + e_t \\
+    &amp;= \phi^2 Y_{t-2} + \phi e_{t-1} + e_t \\
+    &amp;= \phi^3 Y_{t-3} + \phi^2 e_{t-2} + \phi e_{t-1} + e_t \\
+    &amp;= \cdots \\
+    &amp;= \sum_{j=0}^n \phi^j e_{t-j} + \phi^{n+1} Y_{t-n-1} .
+\end{split}
+\]</span> So <span class="math inline">\(Y_t - \sum_{j=0}^n \phi^j e_{t-j} = \phi^{n+1} Y_{t-n-1}\)</span>. Taking the variance gives <span class="math display">\[
+\mathrm{Var} \left( Y_t - \sum_{j=0}^n \phi^j e_{t-j} \right) = \phi^{2n+2} \mathrm{Var} (Y_{t-n-1}) .
+\]</span> By stationarity of <span class="math inline">\((Y_t)\)</span> and the assumption <span class="math inline">\(|\phi|&lt;1\)</span>, the term <span class="math inline">\(\phi^{2n+2} \mathrm{Var} (Y_{t-n-1}) = \phi^{2n+2} \gamma_0 \to 0\)</span> as <span class="math inline">\(n\to +\infty\)</span>. So <span class="math inline">\(\mathrm{Var} \left( Y_t - \sum_{j=0}^n \phi^j e_{t-j} \right)\)</span> also converges to <span class="math inline">\(0\)</span> as <span class="math inline">\(n\to \infty\)</span>. Then we have <span class="math display">\[
+Y_t = \lim_{n \to \infty} \sum_{j=0}^n \phi^j e_{t-j} = \sum_{j=0}^{\infty} \phi^j e_{t-j}
+\]</span> which is a GLP.</p>
+<p><em>Remark:</em> From our earlier discussion, this GLP is causal. It is not <span class="math inline">\(q\)</span>-dependent for any finite <span class="math inline">\(q\)</span> (for generic <span class="math inline">\(\phi\)</span>), this is called <span class="math inline">\(\infty\)</span>-dependent. Moreover, this GLP can be seen as an MA(<span class="math inline">\(\infty\)</span>).</p>
+<p>In summary, a stationary solution to AR(<span class="math inline">\(1\)</span>) with <span class="math inline">\(|\phi|&lt;1\)</span> is a causal GLP, and can be seen as an MA(<span class="math inline">\(\infty\)</span>).</p>
 
 
 </section>

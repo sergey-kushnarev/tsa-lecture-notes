@@ -1,0 +1,166 @@
+---
+title: "25 Spring 439/639 TSA: Lecture 2"
+author: "Dr Sergey Kushnarev"
+#date: "March 30, 2023"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+# Stationarity
+
+## Strict stationarity
+Lecture 1: A time series is strictly stationary if all finite dimensional joint distributions are time invariant, i.e., 
+$$
+F_{Y_{t_1}, \dots, Y_{t_n}} = F_{Y_{t_1 -k}, \dots, Y_{t_n -k}}, \quad \forall n, \forall t_1,\dots,t_n, \forall k.
+$$
+
+## Properties of strict stationarity
+Suppose $(Y_t)$ is a strictly stationary time series.
+
+* $Y_t \overset{D}{=} Y_0$ for all $t$, i.e., all $Y_t$ are identically distributed. Proof: take $n=1$ in the definition.
+* If the distribution (of $Y_t$) has finite 2nd moment (which implies finite first moment by $(\mathbb{E}[Y])^2 \le \mathbb{E}[Y^2] < \infty$), then for any $t$,
+    * $\mu_t = \mathbb{E}[Y_t] = \mathbb{E}[Y_0]$ does not depend on $t$.
+    * $\sigma_t^2 = Var(Y_t) = Var(Y_0)$ does not depend on $t$.
+* Let $n=2$ in the definition, we have $(Y_s,Y_t) \overset{D}{=} (Y_{s-k},Y_{t-k}) \overset{D}{=} (Y_0, Y_{t-s})$. Consider the covariance, $Cov(Y_s,Y_t) = Cov(Y_0, Y_{t-s})$, i.e., $\gamma_{s,t} = \gamma_{0, t-s}$ which only depends on the lag $t-s$. So for strictly stationary time series, we can simplify the notation by the following definition
+
+$$
+\gamma_{t-s} := \gamma_{0, t-s} = \gamma_{s,t}.
+$$
+By the symmetry of ACVF, $\gamma_{s-t} = \gamma_{t,s} = \gamma_{s,t} = \gamma_{t-s}$, so $\gamma_k$ is an even function of $k$ in the sense that $\gamma_{s-t} = \gamma_{t-s} = \gamma_{|t-s|}$. Example: for a strictly stationary time series, $\gamma_5 = \gamma_{-5}= Cov(Y_0,Y_5)= Cov(Y_1,Y_6) = Cov(Y_t,Y_{t+5}), \forall t$.
+
+In summary, for a strictly stationary time series with finite 2nd moment,
+
+* **Mean Function**: $\mu_t=\mu$, $\forall t\in \mathbb{Z}$.
+* **Variance Function**: $Var(Y_t) = \gamma_{t,t}= \gamma_0 = \sigma^2$, $\forall t\in \mathbb{Z}$.
+* **ACVF**: $\gamma_k = Cov(Y_t,Y_{t-k}) = Cov(Y_{t-k},Y_t) = \gamma_{-k}$, $\forall k,t\in \mathbb{Z}$.
+* **ACF**: $\rho_k = \frac{\gamma_k}{\gamma_0}$ (assuming $\gamma_0 \neq 0$).
+
+## Weak stationarity
+**Definition:** A time series $(Y_t)$, $t\in \mathbb{Z}$, satisfying the following three conditions, 
+
+* $\mu_t=\mu$ for some (finite) constant $\mu$, $\forall t\in \mathbb{Z}$,
+* $Var(Y_t) =\sigma^2$ for some (finite) constant $\sigma^2$, $\forall t\in \mathbb{Z}$,
+* $Cov(Y_t,Y_{t-k}) = \gamma_k$ for some function $\gamma_k$ that only depends on the lag $k$ and does not depend on the time $t$,
+
+is called weakly stationary/ stationary / second order stationary / covariance stationary.
+
+# Some examples
+In the examples below, example 1 is both strictly stationary and weakly stationary, example 2 is weakly stationary but not strictly stationary.
+
+**Exercise:** Give an example of strictly stationary time series that is not weakly stationary.
+
+## Example 1
+Consider the time series $(e_t)$ where $e_t \sim IID(0,\sigma_e^2)$.
+
+* Show the joint cdf of $(e_{t_1},\cdots,e_{t_n})$ and $(e_{t_1-k},\cdots,e_{t_n-k})$ are the same:
+
+$$
+\begin{split}
+F_{e_{t_1},\cdots,e_{t_n}}(a_1,\cdots,a_n) &= \mathbb{P}(e_{t_1}\le a_1, \cdots, e_{t_n}\le a_n) \\
+&= \mathbb{P}(e_{t_1}\le a_1) \mathbb{P}(e_{t_2}\le a_2) \cdots \mathbb{P}(e_{t_n}\le a_n) \\
+&= \mathbb{P}(e_{t_1-k}\le a_1) \mathbb{P}(e_{t_2-k}\le a_2) \cdots \mathbb{P}(e_{t_n-k}\le a_n) \\
+&= \mathbb{P}(e_{t_1-k}\le a_1, \cdots, e_{t_n-k}\le a_n) = F_{e_{t_1-k},\cdots,e_{t_n-k}}(a_1,\cdots,a_n)
+\end{split}
+$$
+By definition, $(e_t)$ is strictly stationary.
+
+* It is also weakly stationary, since
+   * $\mu_t = 0$, does not depend on $t$,
+   * $Var(e_t) = \sigma_e^2$, does not depend on $t$,
+   * The ACVF only depends on the lag $k$ as follows
+   
+   $$
+   Cov(e_t, e_{t-k}) = \begin{cases}
+   0, & k\neq 0\\
+   \sigma_e^2, & k=0.
+   \end{cases}
+   $$
+   
+## Example 2
+Let $U_t \overset{iid}{\sim} N(0,1)$. Define $X_t$ as follows
+$$
+X_t = \begin{cases}
+U_t, & t \text{ is even}\\
+\frac{1}{\sqrt{2}}(U_t^2 - 1), & t \text{ is odd}.
+\end{cases}
+$$
+It is weakly stationary since
+
+* For even $t$, $\mu_t= \mathbb{E}[U_t] = 0$. For odd $t$, $\mu_t= \mathbb{E}[\frac{1}{\sqrt{2}}(U_t^2 - 1)] = \frac{1}{\sqrt{2}}(\mathbb{E}[U_t^2]-1) = 0$. So $\mu_t=0$ for all $t$.
+* For even $t$, $Var(X_t) = Var(U_t)=1$. For odd $t$, $Var(X_t) = Var(\frac{1}{\sqrt{2}}(U_t^2 - 1)) = \frac{1}{2} Var(U_t^2) = \frac{1}{2} (\mathbb{E}[U_t^4] - (\mathbb{E}[U_t^2])^2 ) = \frac{1}{2}(3-1) = 1$. So $Var(X_t) = 1$ for all $t$.
+* 
+
+$$
+Cov(Y_t,Y_{t-k}) = \begin{cases}
+0, \quad k\neq 0 \\
+1, \quad k=0.
+\end{cases}
+$$
+**Exercise:** show that $Cov(Y_t,Y_{t-k}) = 0$ for $k\neq 0$.
+
+For this example $(X_t)$, we can show that it is not strictly stationary by proving $X_1$ and $X_2$ are not identically distributed.
+
+**Exercise:** prove the claim above. (*Hint:* find some real number $a$ such that $\mathbb{P}(\frac{1}{\sqrt{2}}(U_1^2 - 1) \le a) \neq \mathbb{P}(U_2 \le a)$.)
+
+## Clarification on some notations and concepts
+* **IID noise**: In the previous Example 1, $e_t \sim IID(0,\sigma_e^2)$. **In this course (TSA)**, we call a time series $(e_t)$ **iid noise**, denoted by $e_t \sim IID(0,\sigma_e^2)$, if it satisfies: mean $0$, variance $\sigma_e^2$, all $e_t$ are iid (independently identically distributed).
+* **White noise**: In this course, we call a time series $(e_t)$ **white noise**, denoted by $e_t \sim WN(0,\sigma_e^2)$, if it satisfies: mean $0$, variance $\sigma_e^2$, all $e_t$ are uncorrelated (pairwise uncorrelated).
+* In general, iid noise implies white noise, and the inverse is not true. Under the assumption of normality, they are equivalent. (Note: here normality refers to the assumption that the time series $(e_t)$ is a Gaussian process.)
+
+$$
+\begin{split}
+\text{iid noise} \quad & \Rightarrow \quad \text{white noise}, \\
+\text{iid noise} \quad & \not\Leftarrow \quad \text{white noise}, \\
+\text{iid Normal(Gaussian) noise} \quad & \Leftrightarrow \quad \text{Normal(Gaussian) white noise}.
+\end{split}
+$$
+
+* **Warning:** in Cryer and Chan, they often use iid noise and white noise interchangeably.
+
+## More examples (details omitted)
+* "Linear regression" example from lecture 1, where $Y_t = a+bt+e_t$, and $e_t \sim WN(0,\sigma_e^2)$. This is not stationary since $\mu_t = a+bt$ (whenever $b\neq 0$).
+* "Random walk" example from lecture 1. For positive integer $t$, $Y_t = \sum_{i}^t e_i$, where $e_t \sim WN(0,\sigma_e^2)$. We have $\mu_t=0$, $Var(Y_t) = t \sigma_e^2$. This $(Y_t)$ is not stationary.
+* "Moving average" example from lecture 1, where $Y_t = \frac{e_t+ e_{t-1}}{2}$, and $e_t \sim WN(0,\sigma_e^2)$. In lecture 1, we already calculated its mean function, variance function and ACVF. This $(Y_t)$ is stationary.
+
+## Example 3
+Let $A,B$ be two iid random variables, with $\mathbb{E}[A]=\mathbb{E}[B]=0$ and $Var(A)= Var(B) = \sigma^2$. Let $w\in \mathbb{R}$ be a fixed real number. For each $t\in \mathbb{Z}$, define $Y_t = A \cos(wt) + B \sin(wt)$. *Remark:* note that $A,B$ are random, but they are "same" for all $t$.
+
+* $\mu_t = \mathbb{E}[Y_t] = \mathbb{E}[A \cos(wt) + B \sin(wt)] = \cos(wt)\mathbb{E}[A] + \sin(wt) \mathbb{E}[B] =0$.
+* $Var(Y_t)= Var(A \cos(wt) + B \sin(wt)) = \cos^2(wt)Var(A) + \sin^2(wt)Var(B) + 0 = \sigma^2$.
+* The ACVF only depends on the lag $k$ as follows
+
+$$
+\begin{split}
+Cov(Y_t,Y_{t-k}) &= Cov(A \cos(wt) + B \sin(wt), A \cos(w(t-k)) + B \sin(w(t-k))) \\
+&= \cos(wt)\cos(w(t-k)) Var(A) + \sin(wt)\sin(w(t-k)) Var(B) + 0 + 0 \\
+&= \sigma^2 (\cos(wt)\cos(w(t-k)) + \sin(wt)\sin(w(t-k))) \\
+&= \sigma^2 \cos(wt - w(t-k)) = \sigma^2 \cos(wk)
+\end{split}
+$$
+So $(Y_t)$ is weakly stationary. In general (for generic choice of $w$, generic distribution of $A,B$, etc.), $(Y_t)$ is not strictly stationary.
+
+**Exercise:** show that $Y_0$ and $Y_1$ are not identically distributed in general.
+
+# $q$-dependent CLT
+
+**Motivation:** Assume $(Y_t)$ is a stationary time series with $\mu_t=\mu$, $Var(Y_t)=\sigma^2$, $Cov(Y_t, Y_{t-k})= \gamma_k$. Suppose we observe $Y_1,\dots,Y_n$, can we make any estimation/inference on $\mu$? The sample mean $\overline{Y}= \frac{1}{n} \sum_{t=1}^n Y_t$ may have nice properties under some strong assumptions. For example, if $Y_t$ are iid, then the Central Limit Theorem (CLT) provides the limiting distribution of $\overline{Y}$. But for a general time series $(Y_t)$ without iid condition, the behavior of $\overline{Y}$ can be tricky.
+
+**Example:** Let $Z\sim N(0,1)$, $U_t \overset{iid}{\sim}\text{Unif}[0,1]$, and assume $Z$ is independent of all $(U_t)$. Let $Y_t = Z+ U_t$. Under this setting, $\mu= \mathbb{E}[Y_t]= \mathbb{E}[Z]+ \mathbb{E}[U_t] = \frac{1}{2}$. The classic CLT cannot be directly applied to $\frac{1}{n} \sum_{t=1}^n Y_t$ since $Y_t$ are not iid. But we can still manage to obtain the limiting distribution of $\overline{Y}$. Note that
+$$
+\overline{Y} = \frac{1}{n} \sum_{t=1}^n (Z+U_t) = Z+ \overline{U}.
+$$
+The classic CLT can be applied to $\overline{U} = \frac{1}{n} \sum_{t=1}^n U_t$, which gives $\overline{U} \to N(\frac{1}{2}, \frac{1}{12n})$. Also recall that $Z\sim N(0,1)$ and it is independent with $\overline{U}$. So $\overline{Y} = Z+ \overline{U} \to N(\frac{1}{2}, 1+ \frac{1}{12n})$. This result looks quite different from the classic CLT in the following sense: the classic limiting distribution looks like $\overline{Y} \to N(\mu_Y, \frac{\sigma_Y^2}{n})$. Consider the large-sample variance: as $n\to \infty$, the classic result $\frac{\sigma_Y^2}{n}$ shrinks to $0$, while the actual variance in this example $1+ \frac{1}{12n}$ converges to $1$!
+
+From the example above, we can see that the classic CLT do not work (the iid condition fails and consequently the limiting behavior also looks different). *Question:* can we still get something similar to CLT? The answer is Yes. A similar version of CLT works if there is some but "not much" dependence between the $Y_t$. This idea leads to the concept **$q$-dependent**.
+
+**Definition:** For a time series $(Y_t)$,
+
+* If $Y_s$ and $Y_{s+k}$ are independent for any $s$ and any $k>q$, then $(Y_t)$ is **$q$-dependent**.
+* If $Y_s$ and $Y_{s+k}$ are uncorrelated for any $s$ and any $k>q$, then $(Y_t)$ is **$q$-correlated**.
+
+So "$q$-dependent" means "dependent only up to lag $q$". The concept "$q$-correlated" is defined in a similar fashion where the only difference is we care about the covariance instead of the dependence.
+
+In the previous example, $\gamma_0 = Var(Y_t) = Var(Z+U_t) = Var(Z)+Var(U_t) = \frac{13}{12}$. For lag $k>0$, $\gamma_k = Cov(Y_t, Y_{t-k}) = Cov(Z+U_t, Z+U_{t-k}) = Var(Z) = 1$. Since $\gamma_k=1\neq 0$ for any $k>0$, the $(Y_t)$ in this example is not $q$-dependent (for any $q$).

@@ -1,0 +1,228 @@
+---
+title: "25 Spring 439/639 TSA: Lecture 4"
+author: "Dr Sergey Kushnarev"
+#date: "March 30, 2023"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+# More on AR($1$)
+
+Last time, we defined AR($1$), autoregressive of order $1$, as
+$$
+Y_t = \phi Y_{t-1} + e_t, \quad e_t \sim \text{iid}(0, \sigma_e^2)
+$$
+and we derived the GLP representaion of AR(1)
+$$
+Y_t = \sum_{i=0}^{\infty} \phi^i e_{t-i}.
+$$
+
+## Applying the GLP results on AR($1$)
+
+Assume $|\phi|<1$. Using GLP results, we can get the mean function, variance function, ACVF, ACF of AR(1).
+
+- Mean function: $\mu_t = \mathbb{E}[Y_t] = 0$.
+
+- Variance function: 
+$$
+\sigma_t^2 = \operatorname{Var}(Y_t) = \sigma_e^2 \sum_{j=0}^{\infty} \psi_j^2 
+= \sigma_e^2 \sum_{j=0}^{\infty} \phi^{2j} = \frac{\sigma_e^2}{1 - \phi^2}.
+$$
+- ACVF:
+$$
+\gamma_k = \operatorname{Cov}(Y_t, Y_{t-k}) 
+= \sigma_e^2 \sum_{j=0}^{\infty} \psi_j \psi_{j+k}
+= \sigma_e^2 \sum_{j=0}^{\infty} \phi^j \phi^{j+k}
+= \sigma_e^2 \phi^k \sum_{j=0}^{\infty} \phi^{2j}
+= \frac{\sigma_e^2 \phi^k}{1 - \phi^2} .
+$$
+
+- ACF: $\rho_k = \frac{\gamma_k}{\gamma_0} = \phi^k$.
+
+*Remark:* $\rho_k \to 0$ geometrically as $k \to \infty$. And we can see AR($1$) is not $q$-dependent for any finite $q$, since $\rho_k \ne 0$ for any $k$ (consider generic $\phi \neq 0$).
+
+*Further Remark:* All AR($p$) have this type of behavior, $\gamma_k$ and $\rho_k$ decays geometrically.
+
+## Another method: using the operator
+
+Using the backshift operator $B$ from last lecture, for AR($1$), we have
+$$
+\begin{split}
+Y_t = \phi Y_{t-1} + e_t &\implies e_t = Y_t - \phi B Y_t = (1-\phi B) Y_t \\
+& \implies Y_t = (1-\phi B)^{-1} e_t .
+\end{split}
+$$
+Note that the basic operation $(1-x)^{-1} = \frac{1}{1-x} = 1+x+x^2+\cdots$ for $|x|<1$. For $|\phi|<1$, we can do a similar expansion for $(1-\phi B)^{-1}$ here:
+$$
+\begin{split}
+Y_t &= (1-\phi B)^{-1} e_t 
+= \left(1 + \phi B + (\phi B)^2 + (\phi B)^3 + \cdots \right) e_t \\
+& = \left(1 + \phi B + \phi^2 B^2 + \phi^3 B^3 + \cdots \right) e_t \\
+& = e_t + \phi (B e_t) + \phi^2 (B^2 e_t) + \cdots \\
+& = e_t + \phi e_{t-1} + \phi^2 e_{t-2} + \cdots \\
+& = \sum_{j=0}^{\infty} \phi^j e_{t-j}
+\end{split}
+$$
+which gives the same GLP we derived before.
+
+## A brief discussion on the case $|\phi|>1$
+In the previous derivation, we assumed $|\phi|<1$. What happens if $|\phi|>1$ for AR($1$)? In this case, we cannot directly expand the term $(1-\phi B)^{-1}$ since it will not converge. In comparison to $(1-x)^{-1} = 1+x+x^2+\cdots$ for $|x|<1$, we have the following convergent reformulation for the $|x|>1$ case:
+$$
+\begin{split}
+\frac{1}{1-x}
+& = \frac{1}{x} \cdot \frac{1}{\frac{1}{x} - 1}
+= -\frac{1}{x} \cdot \frac{1}{1 - \frac{1}{x}} \\
+& = -\frac{1}{x} -\frac{1}{x^2} -\frac{1}{x^3} -\frac{1}{x^4} - \cdots \\
+& = -\sum_{j=1}^{\infty} x^{-j} .
+\end{split}
+$$
+Then we can apply this idea to $Y_t = (1-\phi B)^{-1} e_t$:
+$$
+Y_t = (1-\phi B)^{-1} e_t
+= -\sum_{j=1}^{\infty}(\phi B)^{-j} e_t
+= -\sum_{j=1}^{\infty} \phi^{-j} \left(B^{-j} e_t\right)
+= -\sum_{j=1}^{\infty} \phi^{-j} e_{t+j},
+$$
+which is still a GLP, but it is a \textbf{non-causal GLP}.
+
+*Remark:* to see this is still a GLP, $Y_t = -\sum_{j=1}^{\infty} \phi^{-j} e_{t+j}$ can be written in the form $Y_t = \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}$ and it satisfy $\sum_{j=-\infty}^{+\infty} |\psi_j| < \infty$.
+
+In summary, considering the parameter $\phi$ in AR($1$), we have:
+
+- If $|\phi|<1$: it can be represented as a causal GLP, and it is stationary.
+- If $|\phi|>1$: it can be represented as a non-causal GLP, and it is stationary.
+- If $|\phi|=1$: it can be shown that this process is not stationary.
+
+# Wold's decomposition theorem
+**Wold's decomposition theorem:** Any stationary time series can be represented as a sum of a general linear process and a deterministic component.
+
+# Yule-Walker method
+Yule-Walker method is useful for finding the ACVF/ACF of a time series from its definition equation. It is particularly useful for AR($p$). We take AR($1$) (with $|\phi|<1$) as an example to show how Y-W method works.
+
+*Note: in general cases, to apply Y-W method, we need this time series to be mean zero, stationary, and causal. We will highlight these underlying assumptions in the following example.*
+
+## Y-W method applied on causal AR($1$)
+
+First write down the AR($1$) equation
+$$
+Y_t - \phi Y_{t-1} = e_t .
+$$
+Step 1: multiply by $Y_{t-k}$ (for some $k\ge 0$)
+$$
+Y_t Y_{t-k} - \phi Y_{t-1} Y_{t-k} = e_t Y_{t-k} .
+$$
+Step 2: take expectation, and we call the following \textbf{``the $k$-th YW equation''}
+$$
+\mathbb{E}[Y_t Y_{t-k}] - \phi \mathbb{E}[Y_{t-1} Y_{t-k}] = \mathbb{E}[e_t Y_{t-k}] .
+$$
+Note that the AR($1$) process $(Y_t)$ we considered here is *mean zero and stationary*, we have $\mathbb{E}[Y_t Y_{t-k}] = \gamma_k$ and $\mathbb{E}[Y_{t-1} Y_{t-k}] = \gamma_{k-1}$. So the $k$-th YW equation become
+$$
+\gamma_k - \phi \gamma_{k-1} = \mathbb{E}[e_t Y_{t-k}].
+$$
+It remains to deal with the term $\mathbb{E}[e_t Y_{t-k}]$ in the equation above. For $k=0$, (the $0$-th YW equation)
+$$
+\mathbb{E}[e_t Y_t] 
+    = \mathbb{E} \left[ e_t \sum_{j=0}^{\infty} \phi^j e_{t-j} \right] = \mathbb{E} \left[ e_t^2 + \phi e_t e_{t-1} + \phi^2 e_t e_{t-2} + \cdots \right] = \mathbb{E}[e_t^2] = \sigma_e^2 .
+$$
+For $k\ge 1$, note that *$(Y_t)$ is causal*,
+$$
+\mathbb{E}[e_t Y_{t-k}] = \mathbb{E}\left[ e_t \left( e_{t-k} + \phi e_{t-k-1} + \cdots \right) \right] = 0.
+$$
+So the Y-W equations are: (also note $\gamma_{-1} = \gamma_1$ in the $0$-th YW equation)
+$$
+\begin{cases}
+\gamma_{0} - \phi \gamma_{1} = \sigma_e^2 ,\quad &\text{($0$th YW eq)}\\
+\gamma_{1} - \phi \gamma_{0} = 0 ,\quad &\text{($1$st YW eq)}\\
+\gamma_{2} - \phi \gamma_{1} = 0 ,\quad &\text{($2$nd YW eq)}\\
+\gamma_{3} - \phi \gamma_{2} = 0 ,\quad &\text{($3$rd YW eq)}\\
+\cdots &
+\end{cases}
+$$
+Then we can solve the $\gamma_k$ from this system.
+$$
+\begin{cases}
+\gamma_{0} - \phi \gamma_{1} = \sigma_e^2 \\
+\gamma_{1} - \phi \gamma_{0} = 0
+\end{cases}
+\implies
+\gamma_{0} = \frac{\sigma_e^2}{1-\phi^2} .
+$$
+The remaining equations give the recursive result: $\gamma_{k} = \phi^{k} \frac{\sigma_e^2}{1-\phi^2}$ for any $k\ge 0$.
+
+*Remark:* for YW method to work, the process should be causal, as we highlighted above. *Question: what would go wrong if causality do not hold?*
+
+# AR(1) with mean $\mu$
+
+If we want $Y_t \sim \mathrm{AR}(1)$ with mean $\mu$, then $(Y_t - \mu)$ is mean zero. We can let $(Y_t - \mu)$ be a mean zero AR($1$) process
+$$
+Y_t - \mu = \phi (Y_{t-1} - \mu) + e_t .
+$$
+So $(Y_t)$ satisfies
+$$
+Y_t = (\mu - \phi \mu) + \phi Y_{t-1} + e_t .
+$$
+It can be written as $Y_t = c + \phi Y_{t-1} + e_t$ where $c = \mu (1-\phi)$.
+
+# AR($p$) process
+
+**Definition:** $Y_t \sim \mathrm{AR}(p)$ with mean zero is a stationary solution to the following equation
+$$
+Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \cdots + \phi_p Y_{t-p} + e_t, \quad 
+e_t \sim \mathrm{iid}(0, \sigma_e^2).
+$$
+*Attention:* we use $+\phi_i$ notation here. Some books/libraries may use $-\phi_i$.
+
+## AR polynomial
+
+Note that the AR($p$) equation is $Y_t - \phi_1 Y_{t-1} - \phi_2 Y_{t-2} - \cdots - \phi_p Y_{t-p} = e_t$, we define the following useful tool.
+
+**Definition:** the AR polynomial (for the AR($p$) above) is defined as the following $p$-th order polynomial (i.e., polynomial with order/degree $p$)
+$$
+\Phi(x) = 1 - \phi_1 x^1 - \phi_2 x^2 - \cdots - \phi_p x^p .
+$$
+
+Using this notation and the backshift operator, the AR($p$) equation can be reformulated as 
+$$
+e_t = Y_t - \phi_1 B Y_t - \cdots - \phi_p B^p Y_t = \left(1 - \phi_1 B - \phi_2 B^2 - \cdots - \phi_p B^p \right) Y_t = \Phi(B) Y_t
+$$
+so we reach the simple form $\Phi(B) Y_t = e_t$.
+
+## Causality condition for an AR($p$) process
+
+The sufficient and necessary condition for an AR($p$) process to be causal is:
+
+*Causality condition: All (complex) roots of the AR polynomial $\Phi(x)$, are strictly greater than $1$ in absolute value (the modulus of complex number).*
+
+Explanation: $\Phi(x)$ is a real polynomial of degree $p$, so it has $p$ complex roots, namely $z_1,...,z_p \in \mathbb{C}$. Then the conditions says $|z_i| >1$ for all $i=1,...,p$. This also means all the $p$ roots are outside the unit disk in $\mathbb{C}$.
+
+Example: consider $p=1$. The AR polynomial AR($1$) is $\Phi(x) = 1-\phi x$. This $\Phi(x)$ only has one root $z_1 = \frac{1}{\phi}$. The causality condition above reduces to $|z_1|>1$, i.e., $|\frac{1}{\phi}| > 1$, which is equivalent to $|\phi| <1$. This is same as our earlier discussion in this lecture (see the ``$|\phi|<1, |\phi|>1, |\phi|=1$ part").
+
+Let's look at the causality condition above. Assume $\phi_p \neq 0$, so the AR polynomial is of order $p$. Consider the AR polynomial with $p$ roots $z_1,...,z_p \in \mathbb{C}$. Then we have 
+$$
+\Phi(x) = 1 - \phi_1 x^1 - \phi_2 x^2 - \cdots - \phi_p x^p = - \phi_p (x-z_1) (x-z_2) \cdots (x-z_p) .
+$$
+Note that $1 = \Phi(0) = - \phi_p (0-z_1) (0-z_2) \cdots (0-z_p) = (-1)^{p+1} \phi_p z_1\cdots z_p$, which also implies $z_1,...,z_p \neq 0$. So 
+$$
+\begin{split}
+\Phi(x) &= - \phi_p (x-z_1) (x-z_2) \cdots (x-z_p) \\
+&= -\phi_p (-z_1) \cdots (-z_p) \left(1-\frac{x}{z_1}\right) \cdots \left(1-\frac{x}{z_p}\right) \\
+&= \left(1-\frac{x}{z_1}\right) \cdots \left(1-\frac{x}{z_p}\right) .
+\end{split}
+$$
+So $\Phi(x) = \left(1-\frac{x}{z_1}\right) \cdots \left(1-\frac{x}{z_p}\right)$, and the AR($p$) equation becomes
+$$
+e_t = \phi(B) Y_t = \left(1-\frac{B}{z_1}\right) \cdots \left(1-\frac{B}{z_p}\right) Y_t .
+$$
+Since the causality condition requires $|z_i|>1$, so $|\frac{1}{z_i}|<1$, and each $\left(1-\frac{B}{z_i}\right)$ is invertible in the same way as before, $\left(1-\frac{B}{z_i}\right) ^{-1} = 1+ \frac{B}{z_i} + (\frac{B}{z_i})^2 + \cdots$. The main idea here is, we can invert each $\left(1-\frac{B}{z_i}\right)$, then multiplying them together gives a GLP form of $Y_t$:
+$$
+\begin{split}
+Y_t &= \left(1-\frac{B}{z_1}\right)^{-1} \cdots \left(1-\frac{B}{z_p}\right)^{-1} e_t \\
+&= \left(\sum_{j=0}^\infty \frac{B^j}{z_1^j} \right) \cdots \left(\sum_{j=0}^\infty \frac{B^j}{z_p^j} \right) e_t \\
+&= \sum_{j=0}^\infty \psi_j e_{t-j} .
+\end{split}
+$$
+We will discuss more on this next time.
+

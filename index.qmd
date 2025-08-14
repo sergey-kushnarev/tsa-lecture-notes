@@ -13,7 +13,7 @@ The notes are typed by Yue Wu. The notes are authored and maintained by [Sergey 
 
 - Topic summaries
 - Mathematical derivations
-- R/Python code examples
+- R code examples
 - Figures and simulation results
 
 > These notes are meant to supplement, not replace, in-class lectures and discussions.
@@ -24,7 +24,14 @@ The notes are typed by Yue Wu. The notes are authored and maintained by [Sergey 
 ## 📚 Lecture Notes
 
 - [Lecture 1: Introduction to Time Series Analysis](TSA-Lecture01.qmd)
-- *More lectures coming soon...*
+- [Lecture 2: Stationarity](TSA-Lecture02.qmd)
+- [Lecture 3: Q-dependent CLT. MA(q), General Linear Process. Causality](TSA-Lecture03.qmd)
+- [Lecture 4: AR(1), Yule-Walker method, AR-polynomial](TSA-Lecture04.qmd)
+- [Lecture 5: AR(p): causality, YW method, GLP representation, ](TSA-Lecture05.qmd)
+- [Lecture 6: Recursive equations, ACVF for AR(2), AR(p), Invertibility](TSA-Lecture06.qmd)
+- [Lecture 7: ARMA(1,1), ARMA(p,q): GLP representation, YW method, ACVF. Visualizing Time Series](TSA-Lecture07.qmd)
+- [Lecture 8: Trends, Estimation of the mean Yt, Rnotebook: regression approach, residual analysis](TSA-Lecture08.qmd)
+- [Lecture 9: ](TSA-Lecture09.qmd)
 
 ---
 

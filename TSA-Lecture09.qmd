@@ -1,0 +1,165 @@
+---
+title: "25 Spring 439/639 TSA: Lecture 9"
+author: "Dr Sergey Kushnarev"
+#date: "March 30, 2023"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+# More on regression
+
+Recall that we use regression method to deal with the additive model
+$$
+\underbrace{Y_t}_{observed} = \underbrace{\mu_t}_{deterministic} + \underbrace{X_t}_{stochastic} .
+$$
+$\mu_t$ is estimated (via regression) as $\widehat{\mu}_t$. Then we fit some time series model for $\widehat{X}_t = Y_t - \widehat{\mu}_t$.
+
+Logically, there is an issue here. In regression, errors $\varepsilon_t$ are assumed iid and normal in the models $Y_t = \mu_t + \varepsilon_t$. Typically, we have
+$$
+\varepsilon_t \overset{iid}\sim N(0,\sigma) \implies \vec\varepsilon \sim MN(0, \sigma^2 I) \implies \operatorname{Var}(\widehat{\beta}) = \sigma^2 (X^\top X)^{-1}.
+$$
+But for time series model, the $(X_t)$ are not modeled as iid, (so the covariance matrix $V$ of the error vector in regression step is no longer diagonal)
+$$
+\vec\varepsilon \sim MN(0, V)
+\implies \operatorname{Var}(\widehat{\beta}) = (X^\top X)^{-1} (X^\top V X) (X^\top X)^{-1} .
+$$
+So the (co)variance and standard errors of estimates $\widehat{\beta}$ are not reliable (in the sense that they are not correctly reported by regression software since regression model has different assumptions).
+
+Despite this issue, we still have the following result.
+
+**Claim:** If the trend is polynomial, trigonometric, trigonometric polynomial, seasonal means, or a linear combination of the above, then for a stationary stochastic component $(X_t)$: The least square estimate of the trend has the same variance as the Best linear Unbiased Estimator for large sample sizes.
+
+# Sample ACF
+
+Idea: after we get the predicted stochastic component $\widehat{X}_t = Y_t - \widehat{\mu}_t$, we want to study the sample ACF of $(\widehat{X}_t)$ to find a suitable model for it.
+
+*Remark:* for specific models, we have already seen the true/theoretical ACF $\rho_k$.
+
+Now we define the sample ACF. To ease the notation, we still use $(Y_1,...,Y_n)$ as the observed time series that we want to compute sample ACF. Suppose we observed $(Y_1,...,Y_n)$, the **sample ACF** is defined as
+$$
+r_k = \frac{
+  \displaystyle\sum_{t = k+1}^{n} \left( Y_t - \overline{Y} \right) \left( Y_{t-k} - \overline{Y} \right)
+}{
+  \displaystyle\sum_{t=1}^{n} \left( Y_t - \overline{Y} \right)^2
+}
+=
+\frac{
+  \displaystyle\frac{1}{n-1} \sum_{t = k+1}^{n} \left( Y_t - \overline{Y} \right) \left( Y_{t-k} - \overline{Y} \right)
+}{
+  \displaystyle\frac{1}{n-1} \sum_{t=1}^{n} \left( Y_t - \overline{Y} \right)^2
+}
+\approx
+\frac{
+  \widehat{Cov}\left(Y_t, Y_{t-k}\right)
+}{
+  \widehat{Var}\left(Y_t\right)
+} .
+$$
+For the last approximation step, we assume $n$ is large (much larger than $k$), so $\frac{1}{n-1} \approx \frac{1}{n-k}$, and we also think the mean for $(Y_t)_{t = k+1}^{n}$ and $(Y_{t-k})_{t = k+1}^{n}$ are both approximately equal to $\overline{Y}$.
+
+*Remark:* this construction of $\{r_k\}$ makes the ``sample ACF matrix" (will be useful in future lectures) invertible.
+
+*Fact:* If $Y_t \sim iid(0, \sigma^2)$, then for large sample size $n$, $r_k \approx N \left( 0, \frac{1}{n} \right)$. (This can be shown by the Bartlett's Theorem later in this course.)
+
+# A model for nonstationary time series: ARIMA($p,d,q$)
+
+## Differencing operators
+
+Define the **differencing operator** $\nabla$ (pronounced as nabla) as
+$$
+\nabla Y_t = (1 - B) Y_t = Y_t - Y_{t-1}.
+$$
+Example: we can take difference twice:
+$$
+\begin{split}
+\nabla^2 Y_t &= \nabla \left( Y_t - Y_{t-1} \right) = \left( Y_t - Y_{t-1} \right) - \left( Y_{t-1} - Y_{t-2} \right) \\
+             &= Y_t - 2Y_{t-1} + Y_{t-2} \\
+             &= \left(1 - 2B + B^2\right) Y_t = (1 - B)^2 Y_t .
+\end{split}
+$$
+Another different but related operation is **lag $d$ differencing** (which is useful in seasonal models), defined as
+$$
+\nabla_d Y_t = Y_t - Y_{t-d} = \left( 1 - B^d \right) Y_t.
+$$
+This is different from taking difference $d$ times:
+$$
+\nabla^d Y_t = (1 - B)^d Y_t.
+$$
+As a combined example, in a seasonal model, we may take lag $s$ differencing $d$ times:
+$$
+\nabla_s^d Y_t = (1 - B^s)^d Y_t.
+$$
+
+## More examples of using differencing operators
+
+**Example 1:** consider a trend + stationary model, where the trend is linear in $t$.
+$$
+Y_t = \beta_0 + \beta_1 t + X_t.
+$$
+Suppose $(X_t)$ is stationary, then $(Y_t)$ is not stationary.
+
+*Exercise:* Why is $(Y_t)$ not stationary?
+
+If we take the difference:
+$$
+\nabla Y_t = \left( \beta_0 + \beta_1 t + X_t \right) - \left( \beta_0 + \beta_1 (t-1) + X_{t-1} \right) = \beta_1 + \left( X_t - X_{t-1} \right).
+$$
+We can show $\nabla X_t = X_t - X_{t-1}$ is stationary from the stationarity of $(X_t)$. So in this example, $\nabla Y_t$ is staionary although $(Y_t)$ is not stationary.
+
+**Example 2:** consider a random walk model
+$$
+Y_1=e_1, \quad Y_t = Y_{t-1} + e_t, \quad e_t \sim \mathrm{iid}(0,\sigma_e^2).
+$$
+As we have seen many times in the course, $(Y_t)$ is not stationary. If we take the difference,
+$$
+\nabla Y_t= Y_t -Y_{t-1} = e_t
+$$
+$\nabla Y_t$ is stationary in this example.
+
+## ARIMA($p,d,q$)
+
+In Example 2 (random walk) above, we had $\nabla Y_t= e_t$. Note that $(e_t)$ can be seen as an AR($0$) or MA($0$) or ARMA($0,0$) model.
+
+Also observe that (suppose $W_t = \nabla Y_t$)
+$$
+\begin{split}
+Y_t &= Y_{t-1} + W_t = Y_{t-2} + W_{t-1} + W_t \\
+&= \cdots \\
+&= 
+\begin{cases}
+\sum_{i=1}^{t} W_i, & \text{as a special case, in random walk, } Y_0 = 0\\
+\sum_{i=-m}^{t} W_i, & \text{more generally, start at } (-m)
+\end{cases}
+\end{split}
+$$
+which looks like a integrated sum of $(W_i)$. So the idea here is: $Y_t$ is ``integrated" $W_t$. In the random walk example above, $W_t = e_t$ is ARMA($0,0$) (or AR($0$) or MA($0$)), so we say the random walk $(Y_t)$ is ARIMA($0,1,0$) (or ARI($0,1$) or IMA($1,0$)). The letter I stands for integrated. In general, we have the following definition.
+
+**Definition:** If $\nabla^d Y_t$ is an ARMA($p,q$), then $Y_t$ is ARIMA($p,d,q$).
+
+Let's look at another example. Consider the random walk + noise model
+$$
+Y_t = X_t + \eta_t = \sum_{j=1}^t e_j + \eta_t, \quad \eta_t \sim \mathrm{iid}(0,\sigma_\eta^2),\quad e_t \sim \mathrm{iid}(0,\sigma_e^2)
+$$
+where $(X_t)$ is a random walk defined as usual, $(\eta_t)$ is another sequence of noise and $(\eta_t)$ is independent of $(e_t)$.
+
+**Exercise:** show $(Y_t)$ is not stationary. (Hint: show $Var(Y_t) = t\sigma_e^2 + \sigma_\eta^2$.)
+
+By taking the difference,
+$$
+\begin{split}
+W_t = \nabla Y_t 
+    &= (X_t + \eta_t) - (X_{t-1} + \eta_{t-1}) \\
+    &= (X_t - X_{t-1}) + \eta_t - \eta_{t-1} \\
+    &= e_t + \eta_t - \eta_{t-1}.
+\end{split}
+$$
+We can see that the ACVF of $(W_t)$ satisfies $\gamma_k = 0$ for $k\ge 2$. This structure look like the ACVF of an MA($1$) process. 
+
+In fact $(W_t)$ is indeed an MA($1$) process: The ACVF of $(W_t)$ are all zero for lag $k\ge 2$, so $(W_t)$ is $1$-correlated. Recall an earlier theorem (see lecture 3 when we first defined MA($q$)), there exist an uncorrelated stationary process $(\widetilde{\epsilon}_t)$ and a constant $\widetilde{\theta}$ such that the time series $Z_t = \widetilde{\epsilon}_t - \widetilde{\theta} \widetilde{\epsilon}_{t-1}$ will have the same ACVF as $W_t$.
+
+So $W_t \sim \mathrm{MA}(1)$, which implies $Y_t \sim \mathrm{ARIMA}(0,1,1)$ (or IMA($1,1$)).
+
+

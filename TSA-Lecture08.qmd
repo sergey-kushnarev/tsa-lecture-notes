@@ -1,0 +1,215 @@
+---
+title: "25 Spring 439/639 TSA: Lecture 8"
+author: "Dr Sergey Kushnarev"
+#date: "March 30, 2023"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+# Trends
+
+So far, we considered models for stationary time series AR($p$), MA($q$), ARMA($p,q$). These models can be used for the (stationary) stochastic component in observed time series.
+
+(Assume the underlying distribution of $(Y_t)$ is stationary. See Wold’s decomposition theorem from earlier lectures.) For an observed time series $(Y_t)$, it can be represented as a sum of two parts:
+$$
+\underbrace{Y_t}_{observed} = \underbrace{\mu_t}_{deterministic} + \underbrace{X_t}_{stochastic} .
+$$
+
+- $\{X_t\}$ is a stationary stochastic component. We may fit a model (like AR($p$), MA($q$), ARMA($p,q$)) for it.
+- $\{\mu_t\}$ is a deterministic component. And it is often non-stationary (which reduces to non-constant, since it is deterministic). It may reflect the trend, or trend combined with seasonality.
+
+The idea to deal with $(Y_t)$: first estimate $\mu_t$ with $\widehat{\mu}_t$, then extract $X_t$ by $X_t = Y_t - \widehat{\mu}_t$.
+
+# Estimate the sample mean of a time series
+
+The simplest case of a trend is constant $\{\mu_t\}$, i.e. $\mu_t = \mu$ for all $t$. Under this setting, we can estimate $\mu$ by the sample mean (of observed ${Y_t}_{t=1}^n$) $\overline{Y} = \frac{1}{n} \sum_{t=1}^n Y_t$.
+
+Under some nice conditions, we have the CLT type of limiting distribution
+$$
+\overline{Y} \xrightarrow{D} \mathcal{N}\left(\mu, \operatorname{Var}(\overline{Y})\right)
+$$
+*Note:* Be careful this only holds under certain nice conditions. The classic CLT requires $Y_t$ are iid. We also showed the $q$-dependent CLT in earlier lectures. And the conditions in $q$-dependent CLT can also be relaxed to $\sum_{t=-\infty}^{+\infty} \rho_t < \infty$
+
+In homework, you already showed the variance formula for $\overline{Y}$ (**for stationary $(Y_t)$**):
+$$
+\operatorname{Var}(\overline{Y}) = \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \rho_k \right] .
+$$
+If $(Y_t)$ is iid: $\rho_k=0$ for all $k\ne 0$, so it recovers the result $\operatorname{Var}(\overline{Y}) = \frac{1}{n}\operatorname{Var}(Y_t) = \frac{\gamma_0}{n}$.
+
+If $(Y_t)$ is $q$-dependent: $\rho_k=0$ for all $k>q$, so $\operatorname{Var}(\overline{Y}) = \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^q \left( 1 - \frac{k}{n} \right) \rho_k \right]$.
+
+If $\sum_{k=-\infty}^{+\infty} \rho_k < \infty$: then for large $n$, we have the approximation result
+$$
+\operatorname{Var}(\overline{Y}) = \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \rho_k \right] \approx \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^{+\infty} \rho_k \right] = \frac{\gamma_0}{n} \left( \sum_{k=-\infty}^{+\infty} \rho_k \right) .
+$$
+
+## Example: MA($1$)
+
+MA($1$) time series are all $q$-dependent with $q=1$. Consider an MA($1$) with $\theta= \frac{1}{2}$:
+$$
+Y_t = e_t - \frac{1}{2} e_{t-1}.
+$$
+We have
+$$
+\rho_1 = \frac{-\theta}{1 + \theta^2}
+= \frac{-\frac{1}{2}}{1 + \frac{1}{4}}
+= -\frac{2}{5}, \quad \rho_k=0 \text{ for } k\ge 2.
+$$
+Then
+$$
+\begin{split}
+\operatorname{Var}(\overline{Y}) &= \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \rho_k \right] = \frac{\gamma_0}{n} \left( 1+ 2\left( 1-\frac{1}{n}\right)\rho_1 \right) \\
+&= \frac{\gamma_0}{n} \left( 1+ 2\left( 1-\frac{1}{n}\right)(-0.4) \right) \\
+&\approx \frac{\gamma_0}{n}(1-2\cdot 0.4) = \frac{\gamma_0}{5n} \quad (\text{for large }n)
+\end{split}
+$$
+So for large $n$, $\operatorname{Var}(\overline{Y})$ is approximately $5$ times smaller than the variance of the iid case.
+
+(*Note:* this is a mean-reverting time series.)
+
+Since $(Y_t)$ is $q$-dependent (with $q=1$), the $q$-dependent CLT works. So we know $\overline{Y}$ is approximately normally distributed for large $n$. Then we can construct confidence interval for $\mu$:
+$$
+\mu\in \left[\overline{Y} \pm 2\sqrt{\operatorname{Var}(\overline{Y})} \right] = \left[\overline{Y} \pm 2\sqrt{\frac{\gamma_0}{5n}} \right], \text{ with prob } 95\% .
+$$
+
+## Example: AR($1$)
+
+Consider a causal AR($1$) (with $|\phi|<1$):
+$$
+Y_t - \phi Y_{t-1} = e_t .
+$$
+For causal AR($1$), we have $\rho_k = \phi^k$ (for $k\ge 0$). So
+$$
+\operatorname{Var}(\overline{Y}) = \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \rho_k \right] = \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \phi^k \right].
+$$
+For large $n$, we have the following approximation
+$$
+\operatorname{Var}(\overline{Y}) = \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \phi^k \right] \approx \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^\infty \phi^k \right] = \frac{\gamma_0}{n} \frac{1+\phi}{1-\phi}.
+$$
+**Exercise:** verify the last step $1 + 2 \sum_{k=1}^\infty \phi^k = \frac{1+\phi}{1-\phi}$.
+
+For example, if $\phi=0.9$, then $\frac{1+\phi}{1-\phi}=19 \approx 20$, so for large $n$, $\operatorname{Var}(\overline{Y}) \approx \frac{20 \gamma_0}{n}$ which is approximately $20$ times larger than the variance of the iid case.
+
+*Remark:* This example is a ``mean-avoiding" time series. We can compare it with the previous MA($1$) with $\theta=0.5$ example which we remarked as a mean-reverting time series, and we got $\operatorname{Var}(\overline{Y}) \approx 0.2\cdot \frac{\gamma_0}{n}$. If we look at the formula for $\operatorname{Var}(\overline{Y})$, the main difference is from the ACFs. In last example, $\rho_1= -0.4$ is negative and $\rho_k=0$ for $k\ge2$, which made $\left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \phi^k \right] \approx 0.2$. In this example, $\rho_k =0.9^k$ gives $\left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \phi^k \right] \approx 20$.
+
+## Example: random walk
+
+Consider the random walk model
+$$
+Y_1=e_1, \quad Y_t = Y_{t-1} + e_t, \quad e_t \sim \mathrm{iid}(0,\sigma_e^2).
+$$
+Suppose we still want to look at the sample mean $\overline{Y}$. Note that the random walk $(Y_t)$ is not stationary, the earlier formula for $\operatorname{Var}(\overline{Y})$ cannot be applied here. We can directly calculate the variance. Note that $Y_1 = e_1$, $Y_2 = e_1+e_2$,...
+$$
+\begin{split}
+\operatorname{Var}(\overline{Y}) &= \frac{1}{n^2} \operatorname{Var}\left( \sum_{t=1}^n Y_t \right)
+= \frac{1}{n^2} \operatorname{Var}\left( \sum_{t=1}^n \sum_{j=1}^t e_j \right) \\
+&= \frac{1}{n^2} \operatorname{Var} \left( \sum_{t=1}^n (n-t+1) e_t \right) = \frac{1}{n^2} \sum_{t=1}^n (n-t+1)^2 \sigma_e^2 \\
+&= \frac{\sigma_e^2}{n^2} \sum_{j=1}^n j^2 = \sigma_e^2\cdot \frac{n (n+1)(2n+1)}{6 n^2} \to \infty, \text{ as } n\to\infty
+\end{split}
+$$
+So as the sample size increases, we are less and less certain about the mean of a random walk.
+
+# Different models of trend and stochastic components
+
+Here are some examples of different models.
+
+- Additive model (deterministic + stochastic component)
+$$
+Y_t = \mu_t+X_t.
+$$
+- Additive model (trend + seasonality + stochastic component)
+$$
+Y_t = T_t + S_t + X_t.
+$$
+- Multiplicative model
+$$
+Y_t = \mu_t X_t, \text{ or } Y_t = T_t S_t X_t.
+$$
+By taking the logarithm, it can be transformed into additive model $\log Y_t = \log \mu_t+ \log X_t$ or $\log Y_t = \log T_t + \log S_t + \log X_t$
+- Mixture of additive and multiplicative model
+$$
+Y_t = T_t S_t + X_t, \text{ or } Y_t = (T_t + S_t) X_t.
+$$
+
+# Regression methods
+
+Idea: Suppose $Y_t = \mu_t+X_t$. Fit a regression model for $\mu_t$ and estimate $\widehat{\mu}_t$ using the observed time series $(Y_t)$ via regression methods. Extract $\widehat{X}_t = Y_t - \widehat{\mu}_t$, which can be seen as the prediction of unobserved stochastic component $(X_t)$. Then we can model $(\widehat{X}_t)$ by a stationary time series model.
+
+## Linear trend
+
+Consider the linear regression model. Assume
+$$
+\mu_t = \beta_0 + \beta_1 t.
+$$
+$\left( Y_t \right)_{t=1}^n$ are observed data. To estimate $\mu_t$ via linear regression, we can minimize the objective function
+$$
+Q(\beta_0, \beta_1) = \sum_{t=1}^n \left( Y_t - \beta_0 - \beta_1 t \right)^2.
+$$
+Solve the equations
+$$
+\begin{cases}
+0= \frac{\partial Q}{\partial \beta_0}
+= -2 \sum_{t=1}^n \left( Y_t - \beta_0 - \beta_1 t \right)  \\
+0=\frac{\partial Q}{\partial \beta_1}
+= -2 \sum_{t=1}^n \left( Y_t - \beta_0 - \beta_1 t \right) t 
+\end{cases}
+$$
+we get the minimizer $(\widehat{\beta}_0,\, \widehat{\beta}_1) = \underset{\beta_0,\beta_1}{\arg\min} Q(\beta_0, \beta_1)$ is
+$$
+\widehat{\beta}_1 = \frac{\sum_{t=1}^n (Y_t - \overline{Y}) (t - \overline{t})}{\sum_{t=1}^n (t - \overline{t})^2},
+\quad
+\widehat{\beta}_0 = \overline{Y} - \widehat{\beta}_1 \overline{t}.
+$$
+Then the estimated linear trend is
+$$
+\widehat{\mu}_t = \widehat{\beta}_0 + \widehat{\beta}_1 t.
+$$
+
+## Some other regression models
+
+- Quadratic trend: Assume
+
+$$
+\mu_t = \beta_0 + \beta_1 t + \beta_2 t^2 
+= \begin{bmatrix} 1 & t & t^2 \end{bmatrix}
+  \begin{bmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \end{bmatrix}
+$$
+This is a special case of polynomial trends. Any polynomial trend can be estimated via linear regression.
+
+- Cosine trend: Assume
+
+$$
+\mu_t = \beta_0 + \beta_1 \cos \left( \frac{2\pi}{f} t \right)
++ \beta_2 \sin \left( \frac{2\pi}{f} t \right)
+$$
+where $f$ is frequency.
+
+- Seasonal/Cyclical trend: Assume $\mu_t$ is periodic. For example, suppose $t$ denotes the month, and we assume ``the means are the same for the same months", i.e., 
+$$
+\begin{split}
+&\mu_1 = \mu_{13} = \mu_{25} = \mu_{1+12k} \quad (\text{Jan}) \\
+&\mu_2 = \mu_{14} = \mu_{2+12k} \quad (\text{Feb}) \\
+&\cdots \\
+&\mu_{12} = \mu_{24}= \mu_{12k} \quad (\text{Dec})
+\end{split}
+$$
+To estimate $(\mu_1,...,\mu_{12})$, we can fit the following linear regression using the observed $(Y_t)$
+$$
+Y_t = \beta_1 X_{\mathrm{Jan}} + \beta_2 X_{\mathrm{Feb}} + \cdots + \beta_{12} X_{\mathrm{Dec}} + \varepsilon_t
+$$
+where the indicator/dummy variables $X_{\mathrm{month}}$ are defined as
+$$
+X_{\mathrm{Jan}} = 
+\begin{cases}
+1,& \text{if } t \text{ is January}\\
+0,& \text{otherwise}
+\end{cases}
+$$
+After solving this linear regression, we get estimates $(\widehat{\beta}_1,...,\widehat{\beta}_{12})$. Then we let $(\widehat{\mu}_1,...,\widehat{\mu}_{12}) = (\widehat{\beta}_1,...,\widehat{\beta}_{12})$.
+
+
+
+

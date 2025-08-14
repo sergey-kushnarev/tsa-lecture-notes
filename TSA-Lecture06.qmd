@@ -1,0 +1,229 @@
+---
+title: "25 Spring 439/639 TSA: Lecture 6"
+author: "Dr Sergey Kushnarev"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+# More on ACVFs
+
+## ACVF for AR($p$)
+
+Last time we claimed that: Suppose $z_1,...,z_p$ are roots of the AR polynomial $\Phi(x) = 1 - \phi_1 x^1 - \phi_2 x^2 - \cdots - \phi_p x^p$, and assume these roots are **distinct**. Then there exist complex numbers $A_1,...,A_p$, such that the solution to
+$$
+\begin{cases}
+\text{initial conditions for } (\gamma_0,\gamma_1, \dots, \gamma_p)\\
+\text{recursion equation: } \gamma_k = \phi_1 \gamma_{k-1} + \phi_2 \gamma_{k-2} + \cdots + \phi_p \gamma_{k-p}, \quad \forall k\ge p
+\end{cases}
+$$
+is given by
+$$
+\gamma_k = A_1 z_1^{-k} + A_2 z_2^{-k} + \cdots + A_p z_p^{-k}, \quad \forall k \ge 0 .
+$$
+
+*Here we prove part of this claim.* We can verify $\gamma_k = A_1 z_1^{-k} + A_2 z_2^{-k} + \cdots + A_p z_p^{-k}$ ($\forall k \ge 0$) indeed satisfy the recursion, by plugging it into the recursion equations. Suppose $\gamma_k = A_1 z_1^{-k} + A_2 z_2^{-k} + \cdots + A_p z_p^{-k}$ for some $A_1,...,A_p$. Then for any $k\ge p$, 
+$$
+\begin{split}
+& \gamma_k - \phi_1 \gamma_{k-1} - \phi_2 \gamma_{k-2} - \cdots - \phi_p \gamma_{k-p} \\
+=& \left(A_1 z_1^{-k} + \cdots + A_p z_p^{-k} \right) - \phi_1 \left(A_1 z_1^{-k+1} + \cdots + A_p z_p^{-k+1} \right) - \phi_2 \left(A_1 z_1^{-k+2} + \cdots + A_p z_p^{-k+2} \right) \\
+&- \cdots - \phi_p \left(A_1 z_1^{-k+p} + \cdots + A_p z_p^{-k+p} \right) \\
+=& A_1 z_1^{-k} (1 - \phi_1 z_1^1 - \phi_2 z_1^2 - \cdots - \phi_p z_1^p) + \cdots + A_p z_p^{-k} (1 - \phi_1 z_p^1 - \phi_2 z_p^2 - \cdots - \phi_p z_p^p) \\
+=& A_1 z_1^{-k} \Phi(z_1) + \cdots + A_p z_p^{-k} \Phi(z_p) = 0.
+\end{split}
+$$
+So the constructed $\{\gamma_k\}$ satisfy the recursion equations.
+
+To determine the $(A_1,...,A_p)$, we use the initial conditions for $(\gamma_0,\gamma_1, \dots, \gamma_p)$ (solved from the first $p+1$ YW equations) to solve $(A_1,...,A_p)$.
+
+## ACVF for AR($2$)
+
+Assume $\phi_1,\phi_2 \in \mathbb{R}$ and $\phi_2 \neq 0$. Consider the AR($2$) equation:
+$$
+Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + e_t .
+$$
+The AR polynomial is $\Phi(x) = 1 - \phi_1 x - \phi_2 x^2$, which has two roots
+$$
+z_{1,2} = \frac{-\phi_1 \pm \sqrt{\phi_1^2 + 4\phi_2}}{2\phi_2} .
+$$
+There are 3 cases for the roots $z_1,z_2$:
+
+- (a) two distinct real roots.
+- (b) two repeated real roots. (*Note:* we can show that if $z_1=z_2$, then they must be real.)
+- (c) two distinct (non-real) complex roots.
+
+**Case (a):** $z_1, z_2\in \mathbb{R}$ and $z_1 \neq z_2$. By the claim above, 
+$$
+\gamma_k = A_1 z_1^{-k} + A_2 z_2^{-k}, \quad \forall k \ge 0 .
+$$
+We can use $\gamma_0,\gamma_1$ to determine $(A_1,A_2)$.
+
+**Case (b):** $z_1= z_2\in \mathbb{R}$. We claim without proof that, in this case, there exist complex numbers $(A_1,A_2)$ such that
+$$
+\gamma_k = (A_1 + A_2 k) z_1^{-k} , \quad \forall k \ge 0 .
+$$
+*Exercise:* verify that $\gamma_k = (A_1 + A_2 k) z_1^{-k}$ satisfy the recursion equation $\gamma_k = \phi_1 \gamma_{k-1} + \phi_2 \gamma_{k-2}$.
+
+In this case, we still have $\gamma_k \to 0$ as $k\to \infty$ (assuming $|z_1|>1$, i.e., the causality condition holds) and it decays exponentially.
+
+We can also derive the following result:
+$$
+\rho_k = \frac{\gamma_k}{\gamma_0} = \left(1+ \frac{1+\phi_2}{1-\phi_2} k \right) \left(\frac{\phi_1}{2} \right)^k,
+$$
+and we also have $\rho_k \to 0$ exponentially as $k\to \infty$ under the causality condition.
+
+**Case (c):** $z_1 \neq z_2$ and $z_1,z_2 \notin \mathbb{R}$. In this case, $z_1,z_2 \in \mathbb{C}$, and $z_2 = \overline{z_1}$ since $\phi_1,\phi_2 \in \mathbb{R}$. By the earlier claim, there exist $A_1,A_2 \in \mathbb{C}$ such that 
+$$
+\gamma_k = A_1 z_1^{-k} + A_2 z_2^{-k}, \quad \forall k \ge 0 .
+$$
+We can show that $A_2 = \overline{A_1}$ using the fact that all the ACVFs $\gamma_k$ are real.
+
+We can also derive the following result:
+$$
+\rho_k = \frac{\gamma_k}{\gamma_0} = R^k \cdot \frac{\sin(k\Theta + \Phi)}{\sin(\Phi)} ,
+$$
+where the *amplitude* term $R = \sqrt{-\phi_2}$, the *frequency* term $\Theta$ satisfies $\cos \Theta = \frac{\phi_1}{2}/ \sqrt{-\phi_2}$, and the *phase* term $\Phi$ satisfies $\tan \Phi = \frac{\sqrt{-\phi_1^2 - 4\phi_2}}{\phi_1} \cdot \frac{1-\phi_2}{1+\phi_2}$.
+
+From this result, we can see that under the causality condition, $\{\gamma_k\}$ and $\{\rho_k\}$ both converge to $0$ exponentially as $k\to \infty$, since $|R|<1$ (see the exercise below) and $\sin(k\Theta + \Phi)$ is bounded.
+
+*Note:* A small issue here is $\Theta$ and $\Phi$ are not uniquely determined (modulo $2\pi$) by $\cos \Theta$ and $\tan \Phi$. To make them well defined, they should also satisfy $\sin \Theta = \frac{\sqrt{-\phi_1^2 - 4\phi_2} }{2} \Big/ \sqrt{-\phi_2}$ (or $\tan \Theta = \frac{\sqrt{-\phi_1^2 - 4\phi_2} }{2} \Big/ \frac{\phi_1}{2}$) and $\sin \Phi = \frac{\sqrt{-\phi_1^2 - 4\phi_2} }{2} \Big/ \sqrt{\frac{\phi_2 (\phi_1^2 - (1-\phi_2)^2)}{(1-\phi_2)^2}}$ (or $\cos \Phi = \frac{\phi_1(1+\phi_2)}{2(1-\phi_2)} \Big/ \sqrt{\frac{\phi_2 (\phi_1^2 - (1-\phi_2)^2)}{(1-\phi_2)^2}}$).
+
+*Note:* Our results are similar to the textbook (page 73 of Cryan and Chan) with slight difference in $\tan \Phi$.
+
+**Exercise:** Why $-\phi_2 >0$? Why $|R|<1$ under the causality condition? (A harder exercise: try to derive the results above.)
+
+## Some other remarks on ACVFs
+
+- For AR($p$), if the AR polynomial has one root $z_1$ with multiplicity $r$ (i.e. this root repeated $r$ times, $z_1 = \cdots = z_r$) and all the other roots are distinct ($z_1, z_{r+1}, z_{r+2},\dots,z_p$ are distinct), then the ACVFs are in the following form:
+$$
+\gamma_k = (A_1 + A_2 k + \cdots + A_r k^{r-1}) z_1^{-k} + A_{r+1} z_{r+1}^{-k} + \cdots + A_{p} z_{p}^{-k}, \quad \forall k \ge 0 .
+$$
+which is analogous to a combination of the repeated roots case (see case (b)) and the distinct roots case (the claim at the beginning, or cases (a)(c)).
+
+- For a generic AR($p$), the AR polynomial may have different roots with various multiplicities (the previous case is a special example where the multiplicities of all distinct roots are $(r,1,\dots,1)$). Then the form of ACVF is a linear combination of cases (a)(b)(c) in a more general way.
+
+- For MA($q$) process, we always have
+$$
+\gamma_k = 0, \text{ for all } k\ge q+1.
+$$
+
+# Invertibility
+
+**Definition:** A general linear process $(Y_t)$ is **invertible** if there exist coefficients $\pi_j$ such that $\sum_{j=0}^{\infty} |\pi_j| < \infty$ and
+$$
+e_t = \sum_{j=0}^{\infty} \pi_j Y_{t-j}
+= \pi_0 Y_t + \pi_1 Y_{t-1} + \pi_2 Y_{t-2} + \cdots .
+$$
+The form above looks an AR($\infty$).
+
+It also looks similar to *Causal GLP*, where $Y_t = \sum_{j=0}^{\infty} \psi_j e_{t-j}$, and a causal GLP can be seen as an MA($\infty$).
+
+**Exercise:** Show that AR($p$) is always invertible.
+
+Next, we consider the question, when is MA($q$) invertible? Note that the MA($q$) equation can be written as
+$$
+\begin{split}
+Y_t &= e_t - \theta_1 e_{t-1} - \cdots - \theta_q e_{t-q} \\
+&= (1 - \theta_1 B - \theta_2 B^2 - \cdots - \theta_q B^q) e_t \\
+&= \Theta(B) e_t
+\end{split}
+$$
+where $\Theta(x) = 1 - \theta_1 x - \theta_2 x^2 - \cdots - \theta_q x^q$ is the **MA polynomial**. We can invert it to get $e_t = \Theta(B)^{-1} Y_t$. So we hope
+$$
+\Theta(B)^{-1} Y_t = \sum_{j=0}^{\infty} \pi_j Y_{t-j} .
+$$
+Then the question becomes, what should be the condition on $\Theta(x)$? for this to happen? We claim the following result.
+
+**Invertibility condition for MA($q$)**: all the roots of the MA polynomial $\Theta(x)$ should be outside of the unit disk (in $\mathbb{C}$).
+
+This looks like the causality condition for AR($p$) from earlier lectures, and the idea is similar. (Assume $\theta_q \ne 0$, so $\Theta(x)$ has degree $q$.) Suppose the $q$ roots of the MA polynomial $\Theta(x)$ are $\xi_1,...,\xi_q$, then we can show that
+$$
+\Theta(x) = 1 - \theta_1 x - \theta_2 x^2 - \cdots - \theta_q x^q
+= (1 - x/\xi_1) (1 - x/\xi_2) \cdots (1 - x/\xi_q) ,
+$$
+so
+$$
+e_t = \Theta(B)^{-1} Y_t
+= (1 - B/\xi_1)^{-1} (1 - B/\xi_2)^{-1} \cdots (1 - B/\xi_q)^{-1} Y_t .
+$$
+If all the roots are outside the unit disk in $\mathbb{C}$ (i.e., $|\xi_i|>1$ for all $i$), then each $(1 - B/\xi_i)$ is invertible with $(1 - B/\xi_i)^{-1} = \sum_{j=0}^\infty \xi_i^{-j} B^{j}$. So
+$$
+e_t = \left( \sum_{j_1=0}^\infty \xi_1^{-j_1} B^{j_1} \right)
+  \left( \sum_{j_2=0}^\infty \xi_2^{-j_2} B^{j_2} \right)
+  \cdots
+  \left( \sum_{j_q=0}^\infty \xi_q^{-j_q} B^{j_q} \right)
+  Y_t .
+$$
+Finally, multiplying them together gives $e_t= \sum_{j=0}^{\infty} \pi_j Y_{t-j}$. *(This whole idea is very similar to what we did with causal AR($p$).)*
+
+# Mixed models ARMA($p,q$)
+
+We say $Y_t \sim \text{ARMA}(p,q)$ if
+$$
+\underbrace{Y_t - \phi_1 Y_{t-1} - \ldots - \phi_p Y_{t-p}}_{\text{AR part}}
+=
+\underbrace{e_t - \theta_1 e_{t-1} - \ldots - \theta_q e_{t-q}}_{\text{MA part}} .
+$$
+Using backshift operator, it can be simplified to
+$$
+\underbrace{\Phi(B)}_{\text{AR poly}} \, Y_t = \underbrace{\Theta(B)}_{\text{MA poly}} \, e_t
+$$
+where the AR polynomial $\Phi(x)$ and MA polynomial $\Theta(x)$ are same as before.
+
+Note that if $p$ (or $q$) is zero, then it reduce to an MA (or AR) model:
+$$
+\text{ARMA}(p, 0) = \text{AR}(p), \quad
+\text{ARMA}(0, q) = \text{MA}(q)
+$$
+For ARMA model, we still have
+
+- Causality condition: roots of the AR polynomial $\Phi(x)$ are all outside of the unit disk (in $\mathbb{C}$).
+- Invertibility condition: roots of the MA polynomial $\Theta(x)$ are all outside of the unit disk (in $\mathbb{C}$).
+
+## A simple example: ARMA($1,1$)
+
+Consider the ARMA($1,1$) model
+$$
+Y_t - \phi Y_{t-1} = e_t - \theta e_{t-1}.
+$$
+Assume $\phi \ne \theta$.
+
+*Question:* what happens if $\phi = \theta$? (Answer: the ARMA equation $(1-\phi B)Y_t = (1-\phi B)e_t$ reduces to $Y_t=e_t$, which is the white noise model.)
+
+When is this process $(Y_t)$ causal? By the causality condition above, we need to look at the AR polynomial $\Phi(x) = 1-\phi x$. It has a single root $z= \frac{1}{\phi}$. So the process is causal if and only if $|\phi|<1$.
+
+Hereafter, we only consider $|\phi|<1$, which makes the process causal. Let's derive the causal GLP representation of $(Y_t)$. Suppose $Y_t = \sum_{j=0}^{\infty} \psi_j e_{t-j}$. In last lecture, there were two methods to find $\{\psi_j\}$, (i) inverting the operator, or (ii) plugging into the equation. Here we can simply plug the desired GLP form into the ARMA equation $Y_t - \phi Y_{t-1} = e_t - \theta e_{t-1}$:
+$$
+\left( \psi_0 e_t + \psi_1 e_{t-1} + \psi_2 e_{t-2} + \cdots \right)
+- \phi \left( \psi_0 e_{t-1} + \psi_1 e_{t-2} + \psi_2 e_{t-3} + \cdots \right)
+= e_t - \theta e_{t-1} ,
+$$
+$$
+\psi_0 e_t
++ (\psi_1 - \phi \psi_0) e_{t-1}
++ (\psi_2 - \phi \psi_1) e_{t-2}
++ (\psi_3 - \phi \psi_2) e_{t-3} + \cdots
+= e_t - \theta e_{t-1} .
+$$
+So we get
+$$
+\begin{cases}
+\psi_0 = 1 \\
+\psi_1 - \phi \psi_0 = -\theta \quad \implies \quad \psi_1 = \phi - \theta \\
+\psi_{k} - \phi \psi_{k-1} = 0,\ k \geq 2
+\quad \implies \quad
+\psi_{k} = \phi^{k-1} (\phi - \theta) \text{ for } k \geq 2 .
+\end{cases}
+$$
+So the GLP representation of ARMA($1,1$) is
+$$
+Y_t = e_t + \sum_{k=1}^{\infty} \phi^{k-1} (\phi - \theta) e_{t-k}.
+$$
+
+**Exercise:** verify that $\sum_{j=0}^{\infty} |\psi_j| < \infty$.
+
+*Note:* if $\theta=0$, then the GLP above becomes $Y_t = \sum_{k=0}^{\infty} \phi^k e_{t-k}$, which recovers the same result of AR($1$).
+
+

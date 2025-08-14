@@ -1,0 +1,231 @@
+---
+title: "25 Spring 439/639 TSA: Lecture 5"
+author: "Dr Sergey Kushnarev"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+# Causality condition for an AR($p$) process
+
+## Derive the GLP form
+
+Recall last time, from the AR($p$)
+$$
+Y_t - \phi_1 Y_{t-1} - \phi_2 Y_{t-2} - \cdots - \phi_p Y_{t-p} = e_t, \quad 
+e_t \sim \mathrm{iid}(0, \sigma_e^2),
+$$
+we got the reformulated form $\Phi(B) Y_t = e_t$, where the AR polynomial is $\Phi(x) = 1 - \phi_1 x^1 - \phi_2 x^2 - \cdots - \phi_p x^p$. If all the $p$ complex roots of the AR polynomial satisfy $|z_i| >1$ for all $i=1,...,p$, i.e., all the $p$ roots are outside the unit disc in $\mathbb{C}$, then we showed that the AR($p$) equation became
+$$
+e_t = \left(1-\frac{B}{z_1}\right) \cdots \left(1-\frac{B}{z_p}\right) Y_t .
+$$
+Since each $|\frac{1}{z_i}|<1$, we have $\left(1-\frac{B}{z_i}\right) ^{-1} = \sum_{j=0}^\infty z_i^{-j} B^j$. Then
+$$
+\begin{split}
+Y_t &= \left(1-\frac{B}{z_1}\right)^{-1} \cdots \left(1-\frac{B}{z_p}\right)^{-1} e_t \\
+&= \left(\sum_{j=0}^\infty z_1^{-j} B^j \right) \cdots \left(\sum_{j=0}^\infty z_p^{-j} B^j \right) e_t .
+\end{split}
+$$
+As we mentioned last time, this product can be written as a GLP. To see this, we first consider the simple case $p=2$. Suppose $a_j = z_1^{-j}$ and $b_j = z_2^{-j}$. Then
+$$
+\begin{split}
+& \left(\sum_{j=0}^\infty z_1^{-j} B^j \right) \left(\sum_{j=0}^\infty z_2^{-j} B^j \right) = \left(\sum_{j=0}^\infty a_j B^j \right) \left(\sum_{j=0}^\infty b_j B^j \right) \\
+&= \left(a_0 + a_1 B^1 + a_2 B^2 + \cdots \right) \left(b_0 + b_1 B^1 + b_2 B^2 + \cdots \right) \\
+&= a_0 b_0 + (a_0 b_1 + a_1 b_0) B^1 + (a_0 b_2 + a_1 b_1 + a_2 b_0) B^2 + (a_0 b_3 + a_1 b_2 + a_2 b_1 + a_3 b_0) B^3 + \cdots \\
+&= \sum_{n=0}^\infty \underbrace{\left( \sum_{j_1+j_2 = n} a_{j_1} b_{j_2} \right)}_{c_n} B^n .
+\end{split}
+$$
+For general $p$, we have the similar result
+$$
+\left(\sum_{j=0}^\infty a_{1,j} B^j \right) \left(\sum_{j=0}^\infty a_{2,j} B^j \right) \cdots \left(\sum_{j=0}^\infty a_{p,j} B^j \right) = \sum_{n=0}^\infty c_n B^n
+$$
+where $c_n = \sum_{j_1+j_2+\cdots + j_p = n} a_{1,j_1} a_{2,j_2} \cdots a_{p,j_p}$. *Note: this can be seen as a $p$-fold convolution.* Using this result,
+$$
+\begin{split}
+& \Phi(B)^{-1}
+= \left(\sum_{j=0}^\infty z_1^{-j} B^j \right) \cdots \left(\sum_{j=0}^\infty z_p^{-j} B^j \right) = \sum_{n=0}^\infty \psi_n B^n ,\\
+& \text{ where}\quad \psi_n = \sum_{j_1+j_2+\cdots + j_p = n} z_1^{-j_i} z_2^{-j_2} \cdots z_p^{-j_p} .
+\end{split}
+$$
+So the AR($p$) can be written as
+$$
+\begin{split}
+Y_t
+&= \left(\sum_{j=0}^\infty z_1^{-j} B^j \right) \cdots \left(\sum_{j=0}^\infty z_p^{-j} B^j \right) e_t = \left(\sum_{n=0}^\infty \psi_n B^n \right) e_t = \sum_{n=0}^\infty \psi_n e_{t-n}
+\end{split}
+$$
+which looks like a GLP, with the $\{\psi_n\}$ specified above. To ensure this is a GLP, we still need to verify $\sum_{n=0}^\infty |\psi_n| < \infty$ (see the definition of GLP).
+
+## Sketch of the remaining proof
+
+The sketch of the proof for $\sum_{n=0}^\infty |\psi_n| < \infty$:
+$$
+\begin{split}
+\sum_{n=0}^\infty |\psi_n| &= \sum_{n=0}^\infty \left| \sum_{j_1+j_2+\cdots + j_p = n} z_1^{-j_i} z_2^{-j_2} \cdots z_p^{-j_p} \right| \le \sum_{n=0}^\infty \sum_{j_1+j_2+\cdots + j_p = n} |z_1|^{-j_i} |z_2|^{-j_2} \cdots |z_p|^{-j_p} \\
+&\le \sum_{n=0}^\infty \sum_{j_1+j_2+\cdots + j_p = n} |z^*|^{-j_1-j_2-\cdots - j_p}
+\le \sum_{n=0}^\infty c(p) n^p |z^*|^{-n} < \infty .
+\end{split}
+$$
+*Notes on the missing details (without proof):* 
+
+- Let $z^*$ be the root among $\{z_1,\dots, z_p\}$ with the smallest modulus, so $1<|z^*| \le \min\{ |z_1|,\dots, |z_p| \}$.
+- The number of terms in the summation $\sum_{j_1+j_2+\cdots + j_p = n}$ can be upper bounded by $c(p) n^p$ where $c(p)$ is a constant that only depends on $p$. (Since ${n+p-1\choose p-1} = \frac{(n+p-1)(n+p-2) \cdots (n+1)}{ (p-1)!}$ is a polynomial of $n$ with degree less than $p$ and coefficients only depend on $p$.)
+- The last step is because $\sum_{n=0}^\infty n^p |z^*|^{-n}$ converges for $|z^*| >1$.
+
+So we just showed $\sum_{n=0}^\infty |\psi_n| < \infty$, which finishes the proof that $Y_t = \Phi(B)^{-1} e_t$ is a GLP (as long as all roots of $\Phi(x)$ are outside the unit disc in $\mathbb{C}$).
+
+## Discussion on other cases (without proof)
+
+In summary, for AR($p$) process, we have the following results. (Look similar to the three cases for AR($1$) from last lecture.)
+
+- If all roots of the AR polynomial are outside the unit disc ($|z_i| > 1$ for all $i$), then $(Y_t)$ is causal and stationary.
+- If at least one of the roots is inside the unit disc ($|z_i| < 1$ for one $z_i$), and none of the roots is on the unit circle ($|z_i| \neq 1$ for all $i$), then $(Y_t)$ is non-causal (future-dependent) and stationary.
+- If at least one root is a unit root (i.e. $|z_i| = 1$ for one $z_i$), then $(Y_t)$ is not stationary.
+
+## Example: AR($2$)
+We start with a concrete AR($2$) example. Suppose the AR($2$) equation is 
+$$
+Y_t = Y_{t-1} + Y_{t-2} + e_t .
+$$
+We can use the previous results to find whether this process is causal or stationary. The AR polynomial for this example is $\Phi(x) = 1 - x - x^2$. Solving $\Phi(x)=0$, we get two roots
+$$
+z_{1,2} = \frac{-1 \pm \sqrt{1 + 4}}{2} = \frac{-1 \pm \sqrt{5}}{2} .
+$$
+Since $\left| \frac{-1 - \sqrt{5}}{2} \right| >1$ and $\left| \frac{-1 + \sqrt{5}}{2} \right| <1$, this process is stationary but non-causal. *Note:* in this example $z_{1,2}$ are both real, so the modulus $|z|$ reduces to the absolute value of real number.
+
+In general, for a generic AR($2$) equation
+$$
+Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + e_t ,
+$$
+the AR polynomial is $\Phi(x) = 1 - \phi_1 x - \phi_2 x^2$, which has two roots
+$$
+z_{1,2} = \frac{-\phi_1 \pm \sqrt{\phi_1^2 + 4\phi_2}}{2\phi_2} .
+$$
+The causality condition can be explicitly characterized by
+$$
+|z_{1,2}| > 1 \iff 
+\begin{cases}
+\phi_1 + \phi_2 < 1 \\
+\phi_2 - \phi_1 < 1 \\
+|\phi_2| < 1
+\end{cases}
+$$
+
+# Remark on different definitions with the textbook
+
+In the textbook (Cryan and Chan), the definition of GLP is $Y_t = \sum_{j=0}^{\infty} \psi_j\, e_{t-j}$. So their *stationary GLP* means **causal and stationary GLP** in our notations.
+
+In this course TSA, we defined GLP as $Y_t = \sum_{j=-\infty}^{\infty} \psi_j\, e_{t-j}$. And a stationary GLP can be either **causal** or **non-causal** in our setting.
+
+# Finding the coefficients $\psi$ in the GLP representation of AR($p$)
+
+## Method 1: using convolution
+
+We can use the formula $\psi_n = \sum_{j_1+j_2+\cdots + j_p = n} z_1^{-j_i} z_2^{-j_2} \cdots z_p^{-j_p}$ from the first part of this lecture.
+
+Example: consider the AR($2$) equation $Y_t = \frac{1}{6} Y_{t-1} + \frac{1}{6} Y_{t-2} + e_t$.
+
+**Exercise:** verify this AR($2$) process is causal, and the roots of the AR polynomial are $\{-3, 2\}$.
+
+Then we can use the formula above to calculate $\psi_n$:
+$$
+\begin{split}
+\psi_0 &= z_1^0 z_2^0 = 1 \\
+\psi_1 &= z_1^0 z_2^{-1} + z_1^{-1} z_2^0 = 1 \times \frac{1}{2} + \frac{1}{-3} \times 1 = \frac{1}{2} + \left(-\frac{1}{3}\right) = \frac{1}{6} \\
+\psi_2 &= z_1^0 z_2^{-2} + z_1^{-1} z_2^{-1} + z_1^{-2} z_2^0 = \frac{1}{4} + \frac{1}{-3} \cdot \frac{1}{2} + \frac{1}{9} = \frac{7}{36} \\
+\cdots
+\end{split}
+$$
+
+## Method 2: using AR($p$) equation
+
+We can use the AR($p$) equation and directly solve a system for $\{\psi_n\}$. Consider the same example 
+$$
+Y_t = \frac{1}{6} Y_{t-1} + \frac{1}{6} Y_{t-2} + e_t .
+$$
+Since we want to get the GLP form $Y_t = \psi_0 e_t + \psi_1 e_{t-1} + \psi_2 e_{t-2} + \cdots$, we can plug it into the equation above:
+$$
+\psi_0 e_t + \psi_1 e_{t-1} + \psi_2 e_{t-2} + \cdots = \frac{1}{6} (\psi_0 e_{t-1} + \psi_1 e_{t-2} + \psi_2 e_{t-3} + \cdots) + \frac{1}{6} (\psi_0 e_{t-2} + \psi_1 e_{t-3} + \psi_2 e_{t-4} + \cdots) + e_t .
+$$
+For this to hold, the coefficients for each $e_{t-n}$ term ($n=0,1,\dots$) on both sides should match. So we get the following system of equations
+$$
+\begin{split}
+\psi_0 &= 1 \\
+\psi_1 &= \frac{1}{6} \psi_0 \\
+\psi_n &= \frac{1}{6} \psi_{n-1} + \frac{1}{6} \psi_{n-2} \quad\text{for } n\ge 2
+\end{split}
+$$
+So $\psi_0 = 1$, $\psi_1 = \frac{1}{6} \psi_0 = \frac{1}{6}$, $\psi_2 = \frac{1}{6} \psi_1 + \frac{1}{6} \psi_0 = \frac{1}{36} + \frac{1}{6} = \frac{7}{36}$. These results are same as the earlier convolution method.
+
+# Yule-Walker method for AR($p$)
+The general idea is similar to the AR($2$) example from the last lecture. For YW method to work, we still need to require the process $(Y_t)$ is *mean zero, stationary, and causal*.
+
+The AR($p$) equation is
+$$
+Y_t - \phi_1 Y_{t-1} - \cdots - \phi_p Y_{t-p} = e_t .
+$$
+Step 1: multiply by $Y_{t-k}$ (for some $k\ge 0$)
+$$
+Y_t Y_{t-k} - \phi_1 Y_{t-1} Y_{t-k} - \cdots - \phi_p Y_{t-p} Y_{t-k} = e_t Y_{t-k}.
+$$
+Step 2: take expectation, and we call the following ``the $k$-th YW equation"
+$$
+\mathbb{E}[Y_t Y_{t-k}] - \phi_1 \mathbb{E}[Y_{t-1} Y_{t-k}] - \cdots - \phi_p \mathbb{E}[Y_{t-p} Y_{t-k}] = \mathbb{E}[e_t Y_{t-k}] .
+$$
+Since $(Y_t)$ is mean zero and stationary, the terms $\mathbb{E}[Y_{t-i} Y_{t-k}] = \gamma_{k-i}$. By causality, $\mathbb{E}[e_t Y_{t-k}] = \sigma_e^2$ if $k=0$, and $\mathbb{E}[e_t Y_{t-k}] = 0$ if $k>0$. So the $k$-th YW equation is
+$$
+\gamma_k - \phi_1 \gamma_{k-1} - \cdots - \phi_p \gamma_{k-p} =
+\begin{cases}
+\sigma_e^2, & k = 0 \\
+0,          & k \geq 1
+\end{cases}
+$$
+**Exercise:** verify the statement above about $\mathbb{E}[e_t Y_{t-k}]$.
+
+Note that $\gamma_{k-p} = \gamma_{p-k}$, so the first ($p$+1) YW equations can be written together as a system for $\gamma_0,\gamma_1, \dots, \gamma_p$:
+$$
+\begin{cases}
+\gamma_0 - \phi_1 \gamma_1 - \phi_2 \gamma_2 - \cdots - \phi_p \gamma_p = \sigma_e^2 ,\quad &\text{0th YW eq}\\
+\gamma_1 - \phi_1 \gamma_0 - \phi_2 \gamma_1 - \cdots - \phi_p \gamma_{p-1} = 0 ,\quad &\text{1st YW eq}\\
+\cdots \\
+\gamma_p - \phi_1 \gamma_{p-1} - \phi_2 \gamma_{p-2} - \cdots - \phi_p \gamma_0 = 0 ,\quad & p\text{-th YW eq}
+\end{cases}
+$$
+So we can solve $(\gamma_0,\gamma_1, \dots, \gamma_p)$ from this system ($p+1$ equations and $p+1$ unknown variables). This can be seen as the initial conditions for the following recursion.
+
+For $k\ge p$, the $k$-th YW equation is simply
+$$
+\gamma_k = \phi_1 \gamma_{k-1} + \phi_2 \gamma_{k-2} + \cdots + \phi_p \gamma_{k-p} .
+$$
+Then we can use this to calculate $\gamma_{p+1}, \gamma_{p+2}, \dots$ recursively.
+
+## A property of the recursion part
+If $k$ is large, solving $\gamma_k$ recursively from $(\gamma_0,\gamma_1, \dots, \gamma_p)$ may be hard. We have the following useful property.
+
+**Claim:** If the roots of the AR polynomial $\Phi(x)$ are **distinct**, then there exist (complex) numbers $A_1, \dots, A_p$, such that the solution to
+$$
+\begin{cases}
+\text{initial conditions for } (\gamma_0,\gamma_1, \dots, \gamma_p)\\
+\text{recursion equation: } \gamma_k = \phi_1 \gamma_{k-1} + \phi_2 \gamma_{k-2} + \cdots + \phi_p \gamma_{k-p}, \quad \forall k\ge p
+\end{cases}
+$$
+is given by
+$$
+\gamma_k = A_1 z_1^{-k} + A_2 z_2^{-k} + \cdots + A_p z_p^{-k}, \quad \forall k \ge 0 .
+$$
+
+This gives another idea to calculate $\gamma_k$ in the final step of the YW method (useful when we are targeting for a large $k$): after getting the values of $(\gamma_0,\gamma_1, \dots, \gamma_p)$, we can solve $(A_1,...,A_p)$ such that $A_1 z_1^{-k} + A_2 z_2^{-k} + \cdots + A_p z_p^{-k} = \gamma_k$ hold for all $0\le k\le p-1$. Then for this solution $(A_1,...,A_p)$, the formula $\gamma_k = A_1 z_1^{-k} + A_2 z_2^{-k} + \cdots + A_p z_p^{-k}$ (for $k\ge 0$) gives the ACVF we wanted.
+
+## A related observation
+
+For causal AR($p$) process, the ACVF has the following asymptotic rate (*up to some constant factor*)
+$$
+\gamma_k \approx \Bigl[ \min \left\{ |z_1|, \ldots, |z_p| \right\} \Bigr]^{-k}, \text{ as } k\to \infty.
+$$
+It decays exponentially, and never *stays* at zero for a ``long time".
+
+Example: if the AR polynomial for an AR($3$) has roots $\{z_1 = 2, z_2=3, z_3=10\}$, then $\gamma_k \approx 2^{-k}$ for large $k$.
+
+*Note:* should be $\gamma_k \approx c \cdot \left[ \min \left\{ |z_1|, \ldots, |z_p| \right\} \right]^{-k}$.

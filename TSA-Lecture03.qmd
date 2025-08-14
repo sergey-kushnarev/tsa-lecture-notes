@@ -1,0 +1,209 @@
+---
+title: "25 Spring 439/639 TSA: Lecture 3"
+author: "Dr Sergey Kushnarev"
+#date: "March 30, 2023"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+# $q$-dependent CLT
+Last time we defined $q$-dependent and $q$-correlated time series.
+
+## Statement of the theorem
+**$q$-dependent CLT:**
+Let $(Y_t)$ be a $q$-dependent ($q \geq 0$) stationary time series with $\mu = \mathbb{E}[Y_t]$ and $\sigma^2 = Var(Y_t)$.
+Then as long as
+$$
+\sigma^2 + 2\operatorname{Cov}(Y_1, Y_2) + \cdots + 2\operatorname{Cov}(Y_1, Y_{q+1}) > 0,
+$$
+
+then
+$$
+\frac{\sum_{i=1}^n Y_i - n\mu}{\sqrt{\mathrm{Var}\left(\sum_{i=1}^n Y_i\right)}} \xrightarrow{D} N(0, 1), \quad \text{as } n\to \infty,
+$$
+or equivalently,
+$$
+\frac{\overline{Y} - \mu}{\sqrt{\mathrm{Var}(\overline{Y})}} \xrightarrow{D} N(0, 1), \quad \text{as } n \to \infty.
+$$
+
+*Remark:* the last statement can be loosely thought of as $\overline{Y} \approx N(\mu, \mathrm{Var}(\overline{Y}))$.
+
+## Sketch of the proof
+Suppose $n > q$. Since $(Y_t)$ is stationary, using ACVF we have
+$$
+\begin{split}
+\operatorname{Var} \left( \sum_{i=1}^n Y_i \right) &= 
+    \sum_{i=1}^n \sum_{j=1}^n \operatorname{Cov}(Y_i, Y_j) = \sum_{i=1}^n \sum_{j=1}^n \gamma_{|i-j|} \\
+&=n\gamma_0 + 2(n-1)\gamma_1 + 2(n-2)\gamma_2 + \cdots + 2\gamma_{n-1} \\
+&= n\gamma_0 + 2\sum_{j=1}^q (n-j)\gamma_j
+\end{split}
+$$
+where the last step is because $\gamma_j = 0$ for $j > q$ (by $q$-dependence). So
+$$
+\mathrm{Var}(\overline{Y}) = \frac{1}{n^2} \mathrm{Var} \left( \sum_{i=1}^n Y_i \right)
+= \frac{1}{n} \gamma_0 + \frac{2}{n^2} \sum_{j=1}^{q} (n-j) \gamma_j .
+$$
+As $n \to \infty$, this variance $\mathrm{Var}(\overline{Y}) \approx \frac{1}{n}(\sigma^2 + 2\operatorname{Cov}(Y_1, Y_2) + \cdots + 2\operatorname{Cov}(Y_1, Y_{q+1}))$, which goes to $0$ at the rate $O(\frac{1}{n})$. This behavior looks similar to the standard CLT (with iid setting). Then, (following the idea of standard CLT)
+$$
+\frac{\overline{Y} - \mu}{\sqrt{\mathrm{Var}(\overline{Y})}} \xrightarrow{D} N(0,1), \quad \text{as } n \to \infty.
+$$
+
+*Remark:* the CLT can be even generalized to some time series that are not $q$-dependent, as long as $\gamma_k$ decays to zero (as $k\to \infty$) sufficiently fast.
+
+# MA($q$)
+
+MA($q$) stands for Moving Average of order $q$.
+
+**MA($q$):** An MA($q$) time series $(Y_t)$ is defined as
+$$
+Y_t = e_t - \theta_1 e_{t-1} - \theta_2 e_{t-2} - \cdots - \theta_q e_{t-q}
+$$
+where $e_t \sim IID(0, \sigma_e^2)$. 
+
+Remarks:
+
+- The coefficient for $e_t$ is always $1$, while $\theta_1,\dots,\theta_{q}$ are unrestricted.
+- This notation is same as C&C textbook. Pay attention to the notations since some books and R/Python may use different conventions $Y_t = e_t + \theta_1 e_{t-1} + \cdots + \theta_q e_{t-q}$.
+- MA($0$) can be seen as $Y_t=e_t$, which is the IID noise.
+
+In homework, you will show the ACVF of MA($q$):
+$$
+\gamma_k = 
+\begin{cases}
+    0, & \text{if } k > q \\
+    \sigma_e^2 \sum_{j=0}^{q-k} \theta_j \theta_{j+k}, & 0 \leq k \leq q
+\end{cases}
+\qquad (\theta_0 = -1)
+$$
+This result shows that an MA($q$) process is always $q$-dependent. The reverse is also true, in the following sense.
+
+**Theorem (without proof):**
+If $(Y_t)$ is a stationary $q$-correlated time series with mean $0$, then there exists an uncorrelated stationary sequence $(\widetilde{e}_t)$ and $q$ constants $\widetilde{\theta}_1,\dots,\widetilde{\theta}_q$ such that, if $X_t$ is constructed as
+$$
+X_t = \widetilde{e}_t - \widetilde{\theta}_1 \widetilde{e}_{t-1} - \cdots - \widetilde{\theta}_q \widetilde{e}_{t-q} ,
+$$
+then $(X_t)$ will have the same ACVF as $(Y_t)$.
+
+# General Linear Process
+
+**GLP(General Linear Process)**: Let $(e_t) \sim IID(0, \sigma_e^2)$. A process $(Y_t)$ is called **GLP** (mean $0$) if
+$$
+Y_t = \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}
+$$
+where $\psi_j$ are constants such that $\sum_{j=-\infty}^{+\infty} |\psi_j| < \infty$. Explicitly,
+$$
+Y_t = \cdots + \psi_{-2} e_{t+2} + \psi_{-1} e_{t+1} + \psi_0 e_t + \psi_1 e_{t-1} + \cdots .
+$$
+**Causality:** If $\psi_j = 0$ for all $j < 0$ in the GLP representation, then
+$$
+Y_t = \psi_0 e_t + \psi_1 e_{t-1} + \dots = \sum_{j=0}^{\infty} \psi_j e_{t-j} .
+$$
+In this case, $(Y_t)$ is called a **causal / future-independent process**. 
+Otherwise, if there exist nonzero $\psi_j$ for some $j<0$, $(Y_t)$ is **non-causal / future-dependent**.
+
+## Backshift operator
+
+**Definition:** For a sequence $(y_t)$, the **backshift operator** $B$ is defined by $B Y_t = Y_{t-1}$.
+
+Example: $B^2 Y_t = B(Y_{t-1}) = Y_{t-2}$, $B^k Y_t = Y_{t-k}$ for $k \ge 0$.
+
+The inverse of $B$ is considered as **forwardshift**:
+$B^{-1} Y_t = Y_{t+1}$, $B^{-2} Y_t = Y_{t+2}$, etc.
+
+**Definition:** A **linear filter** is an operator defined as
+$$
+\Psi(B) = \sum_{j=-\infty}^{+\infty} \psi_j B^j.
+$$
+By this definition, the GLP process $Y_t = \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}$ can be written as
+$Y_t = \Psi(B) e_t$,
+since
+$$
+\left(\sum_{j=-\infty}^{+\infty} \psi_j B^j\right) e_t
+= \sum_{j=-\infty}^{+\infty} \psi_j B^j e_t
+= \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j} = Y_t .
+$$
+
+## GLP is stationary
+In this part, we will derive the mean function, variance function, ACVF, ACF of a GLP. Then we can see that a GLP is stationary.
+
+- Mean function
+$$
+\mu_t = \mathbb{E} [Y_t] = \mathbb{E}\left[\sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\right]
+= \sum_{j=-\infty}^{+\infty} \psi_j \mathbb{E}[e_{t-j}] = 0.
+$$
+
+- Variance function
+$$
+\begin{split}
+\operatorname{Var}(Y_t) &= \operatorname{Var}\left(\sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\right)
+= \sum_{j=-\infty}^{+\infty} \psi_j^2 \operatorname{Var}(e_{t-j}) + \ 2 \sum_{i<j} \psi_i \psi_j \operatorname{Cov}(e_{t-i}, e_{t-j}) = \sigma_e^2 \left( \sum_{j=-\infty}^{+\infty} \psi_j^2 \right)
+\end{split}
+$$
+which is a finite constant (see the following exercise).
+
+**Exercise:** Show that $\sum_{j=-\infty}^{+\infty} |\psi_j| < \infty$ implies $\sum_{j=-\infty}^{+\infty} \psi_j^2 < \infty$ (i.e., absolute summability implies square summability/convergence).
+
+- ACVF
+$$
+\begin{split}
+\operatorname{Cov}(Y_t, Y_{t+k}) &= \mathbb{E}\left[Y_t Y_{t+k}\right] - \left(\mathbb{E} Y_t\right)\left(\mathbb{E} Y_{t+k}\right) = \mathbb{E}\left[Y_t Y_{t+k}\right]
+= \mathbb{E}\left[
+    \left( \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j} \right)
+    \left( \sum_{i=-\infty}^{+\infty} \psi_i e_{t+k-i} \right)
+\right] \\
+& = \sum_{i=-\infty}^{+\infty} \sum_{j=-\infty}^{+\infty} \psi_i \psi_j \mathbb{E}[e_{t-j} e_{t+k-i}] .
+\end{split}
+$$
+Note that $\mathbb{E}[e_{t-j} e_{t+k-i}] = \mathbb{E}[e_{t-j}] \cdot \mathbb{E}[e_{t+k-i}] = 0$ if $i \neq j+k$, and $\mathbb{E}[e_{t-j} e_{t+k-i}] = \sigma_e^2$ if $i=j+k$. So the ACVF depends only on the lag $k$:
+$$
+\gamma_k = \sum_{j=-\infty}^{+\infty} \psi_{k+j}\psi_j \sigma_e^2 .
+$$
+
+- ACF
+$$
+\rho_k = \frac{\gamma_k}{\gamma_0}
+= \frac{ \displaystyle\sum_{j=-\infty}^{+\infty} \psi_{k+j} \psi_j }
+        { \displaystyle\sum_{j=-\infty}^{+\infty} \psi_j^2 } .
+$$
+
+*Remark:* If we want a GLP ($Y_t$) with mean $\mu$, then just add $\mu$. Let $Y_t = \mu + \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}$. ACVF, ACF remain the same.
+
+# AR($1$)
+
+AR($1$) stands for Autoregressive time series of order $1$.
+
+**Definition of AR($1$):** Let $\phi \in \mathbb{R}$, $|\phi| < 1$, and $(e_t) \sim \text{iid}(0, \sigma_e^2)$. Define $(Y_t)$ as a stationary solution to:
+$$
+Y_t = \phi Y_{t-1} + e_t.
+$$
+*Remark:* (1) This looks like linear regression $Y_t = \beta_0 + \beta_1 Y_{t-1} + e_t$ with $\beta_0 = 0$. (2) AR($1$) can be rewritten as $Y_t - \phi Y_{t-1} = e_t$. In comparison, MA($1$) is $Y_t = e_t - \theta e_{t-1}$.
+
+Assume $Y_s$ is independent of the future $e_t$ terms (for any $t>s$). We can write AR($1$) in a GLP. 
+
+From the definition:
+$$
+\begin{split}
+Y_t &= \phi Y_{t-1} + e_t = \phi \left( \phi Y_{t-2} + e_{t-1} \right) + e_t \\
+    &= \phi^2 Y_{t-2} + \phi e_{t-1} + e_t \\
+    &= \phi^3 Y_{t-3} + \phi^2 e_{t-2} + \phi e_{t-1} + e_t \\
+    &= \cdots \\
+    &= \sum_{j=0}^n \phi^j e_{t-j} + \phi^{n+1} Y_{t-n-1} .
+\end{split}
+$$
+So $Y_t - \sum_{j=0}^n \phi^j e_{t-j} = \phi^{n+1} Y_{t-n-1}$. Taking the variance gives 
+$$
+\mathrm{Var} \left( Y_t - \sum_{j=0}^n \phi^j e_{t-j} \right) = \phi^{2n+2} \mathrm{Var} (Y_{t-n-1}) .
+$$
+By stationarity of $(Y_t)$ and the assumption $|\phi|<1$, the term $\phi^{2n+2} \mathrm{Var} (Y_{t-n-1}) = \phi^{2n+2} \gamma_0 \to 0$ as $n\to +\infty$. So $\mathrm{Var} \left( Y_t - \sum_{j=0}^n \phi^j e_{t-j} \right)$ also converges to $0$ as $n\to \infty$. Then we have
+$$
+Y_t = \lim_{n \to \infty} \sum_{j=0}^n \phi^j e_{t-j} = \sum_{j=0}^{\infty} \phi^j e_{t-j}
+$$
+which is a GLP.
+
+*Remark:* From our earlier discussion, this GLP is causal. It is not $q$-dependent for any finite $q$ (for generic $\phi$), this is called $\infty$-dependent. Moreover, this GLP can be seen as an MA($\infty$). 
+
+In summary, a stationary solution to AR($1$) with $|\phi|<1$ is a causal GLP, and can be seen as an MA($\infty$).
+

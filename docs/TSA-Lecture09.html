@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>Time Series Analysis: Lecture Notes – tsa-lecture-notes</title>
+<title>25 Spring 439/639 TSA: Lecture 9 – tsa-lecture-notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,11 +68,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -89,7 +119,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -107,19 +137,40 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#more-on-regression" id="toc-more-on-regression" class="nav-link active" data-scroll-target="#more-on-regression"><span class="header-section-number">1</span> More on regression</a></li>
+  <li><a href="#sample-acf" id="toc-sample-acf" class="nav-link" data-scroll-target="#sample-acf"><span class="header-section-number">2</span> Sample ACF</a></li>
+  <li><a href="#a-model-for-nonstationary-time-series-arimapdq" id="toc-a-model-for-nonstationary-time-series-arimapdq" class="nav-link" data-scroll-target="#a-model-for-nonstationary-time-series-arimapdq"><span class="header-section-number">3</span> A model for nonstationary time series: ARIMA(<span class="math inline">\(p,d,q\)</span>)</a>
+  <ul class="collapse">
+  <li><a href="#differencing-operators" id="toc-differencing-operators" class="nav-link" data-scroll-target="#differencing-operators"><span class="header-section-number">3.1</span> Differencing operators</a></li>
+  <li><a href="#more-examples-of-using-differencing-operators" id="toc-more-examples-of-using-differencing-operators" class="nav-link" data-scroll-target="#more-examples-of-using-differencing-operators"><span class="header-section-number">3.2</span> More examples of using differencing operators</a></li>
+  <li><a href="#arimapdq" id="toc-arimapdq" class="nav-link" data-scroll-target="#arimapdq"><span class="header-section-number">3.3</span> ARIMA(<span class="math inline">\(p,d,q\)</span>)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Time Series Analysis: Lecture Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 9</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -130,44 +181,113 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome" class="level2">
-<h2 class="anchored" data-anchor-id="welcome">Welcome!</h2>
-<p>These are the lecture notes for <strong>Time Series Analysis</strong>, based on the Cryer and Chen textbook “Time Series Analysis: With Applications in R” and Time Series Lecture notes of Dr Torcaso.</p>
-<p>The notes are typed by Yue Wu. The notes are authored and maintained by <a href="./about.html">Sergey Kushnarev</a>, and include:</p>
-<ul>
-<li>Topic summaries</li>
-<li>Mathematical derivations</li>
-<li>R code examples</li>
-<li>Figures and simulation results</li>
-</ul>
-<blockquote class="blockquote">
-<p>These notes are meant to supplement, not replace, in-class lectures and discussions. There are typos and errors in the notes. Please refer to the textbook and lecture materials for the most accurate information. Please email me (or consult TAs/me in the Office Hours) if you find any issues or have questions.</p>
-</blockquote>
-<hr>
+<section id="more-on-regression" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> More on regression</h1>
+<p>Recall that we use regression method to deal with the additive model <span class="math display">\[
+\underbrace{Y_t}_{observed} = \underbrace{\mu_t}_{deterministic} + \underbrace{X_t}_{stochastic} .
+\]</span> <span class="math inline">\(\mu_t\)</span> is estimated (via regression) as <span class="math inline">\(\widehat{\mu}_t\)</span>. Then we fit some time series model for <span class="math inline">\(\widehat{X}_t = Y_t - \widehat{\mu}_t\)</span>.</p>
+<p>Logically, there is an issue here. In regression, errors <span class="math inline">\(\varepsilon_t\)</span> are assumed iid and normal in the models <span class="math inline">\(Y_t = \mu_t + \varepsilon_t\)</span>. Typically, we have <span class="math display">\[
+\varepsilon_t \overset{iid}\sim N(0,\sigma) \implies \vec\varepsilon \sim MN(0, \sigma^2 I) \implies \operatorname{Var}(\widehat{\beta}) = \sigma^2 (X^\top X)^{-1}.
+\]</span> But for time series model, the <span class="math inline">\((X_t)\)</span> are not modeled as iid, (so the covariance matrix <span class="math inline">\(V\)</span> of the error vector in regression step is no longer diagonal) <span class="math display">\[
+\vec\varepsilon \sim MN(0, V)
+\implies \operatorname{Var}(\widehat{\beta}) = (X^\top X)^{-1} (X^\top V X) (X^\top X)^{-1} .
+\]</span> So the (co)variance and standard errors of estimates <span class="math inline">\(\widehat{\beta}\)</span> are not reliable (in the sense that they are not correctly reported by regression software since regression model has different assumptions).</p>
+<p>Despite this issue, we still have the following result.</p>
+<p><strong>Claim:</strong> If the trend is polynomial, trigonometric, trigonometric polynomial, seasonal means, or a linear combination of the above, then for a stationary stochastic component <span class="math inline">\((X_t)\)</span>: The least square estimate of the trend has the same variance as the Best linear Unbiased Estimator for large sample sizes.</p>
 </section>
-<section id="lecture-notes" class="level2">
-<h2 class="anchored" data-anchor-id="lecture-notes">📚 Lecture Notes</h2>
-<ul>
-<li><a href="./TSA-Lecture01.html">Lecture 1: Introduction to Time Series Analysis</a></li>
-<li><a href="./TSA-Lecture02.html">Lecture 2: Stationarity</a></li>
-<li><a href="./TSA-Lecture03.html">Lecture 3: Q-dependent CLT. MA(q), General Linear Process. Causality</a></li>
-<li><a href="./TSA-Lecture04.html">Lecture 4: AR(1), Yule-Walker method, AR-polynomial</a></li>
-<li><a href="./TSA-Lecture05.html">Lecture 5: AR(p): causality, YW method, GLP representation,</a></li>
-<li><a href="./TSA-Lecture06.html">Lecture 6: Recursive equations, ACVF for AR(2), AR(p), Invertibility</a></li>
-<li><a href="./TSA-Lecture07.html">Lecture 7: ARMA(1,1), ARMA(p,q): GLP representation, YW method, ACVF. Visualizing Time Series</a></li>
-<li><a href="./TSA-Lecture08.html">Lecture 8: Trends, Estimation of the mean Yt, Rnotebook: regression approach, residual analysis</a></li>
-<li><a href="./TSA-Lecture09.html">Lecture 9:</a></li>
-</ul>
-<hr>
+<section id="sample-acf" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Sample ACF</h1>
+<p>Idea: after we get the predicted stochastic component <span class="math inline">\(\widehat{X}_t = Y_t - \widehat{\mu}_t\)</span>, we want to study the sample ACF of <span class="math inline">\((\widehat{X}_t)\)</span> to find a suitable model for it.</p>
+<p><em>Remark:</em> for specific models, we have already seen the true/theoretical ACF <span class="math inline">\(\rho_k\)</span>.</p>
+<p>Now we define the sample ACF. To ease the notation, we still use <span class="math inline">\((Y_1,...,Y_n)\)</span> as the observed time series that we want to compute sample ACF. Suppose we observed <span class="math inline">\((Y_1,...,Y_n)\)</span>, the <strong>sample ACF</strong> is defined as <span class="math display">\[
+r_k = \frac{
+  \displaystyle\sum_{t = k+1}^{n} \left( Y_t - \overline{Y} \right) \left( Y_{t-k} - \overline{Y} \right)
+}{
+  \displaystyle\sum_{t=1}^{n} \left( Y_t - \overline{Y} \right)^2
+}
+=
+\frac{
+  \displaystyle\frac{1}{n-1} \sum_{t = k+1}^{n} \left( Y_t - \overline{Y} \right) \left( Y_{t-k} - \overline{Y} \right)
+}{
+  \displaystyle\frac{1}{n-1} \sum_{t=1}^{n} \left( Y_t - \overline{Y} \right)^2
+}
+\approx
+\frac{
+  \widehat{Cov}\left(Y_t, Y_{t-k}\right)
+}{
+  \widehat{Var}\left(Y_t\right)
+} .
+\]</span> For the last approximation step, we assume <span class="math inline">\(n\)</span> is large (much larger than <span class="math inline">\(k\)</span>), so <span class="math inline">\(\frac{1}{n-1} \approx \frac{1}{n-k}\)</span>, and we also think the mean for <span class="math inline">\((Y_t)_{t = k+1}^{n}\)</span> and <span class="math inline">\((Y_{t-k})_{t = k+1}^{n}\)</span> are both approximately equal to <span class="math inline">\(\overline{Y}\)</span>.</p>
+<p><em>Remark:</em> this construction of <span class="math inline">\(\{r_k\}\)</span> makes the ``sample ACF matrix” (will be useful in future lectures) invertible.</p>
+<p><em>Fact:</em> If <span class="math inline">\(Y_t \sim iid(0, \sigma^2)\)</span>, then for large sample size <span class="math inline">\(n\)</span>, <span class="math inline">\(r_k \approx N \left( 0, \frac{1}{n} \right)\)</span>. (This can be shown by the Bartlett’s Theorem later in this course.)</p>
 </section>
-<section id="resources" class="level2">
-<h2 class="anchored" data-anchor-id="resources">🔗 Resources</h2>
-<ul>
-<li>[Course Syllabus (PDF)] <strong>TBD</strong></li>
-<li><a href="https://posit.cloud/">RStudio Cloud Project</a></li>
-</ul>
+<section id="a-model-for-nonstationary-time-series-arimapdq" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> A model for nonstationary time series: ARIMA(<span class="math inline">\(p,d,q\)</span>)</h1>
+<section id="differencing-operators" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="differencing-operators"><span class="header-section-number">3.1</span> Differencing operators</h2>
+<p>Define the <strong>differencing operator</strong> <span class="math inline">\(\nabla\)</span> (pronounced as nabla) as <span class="math display">\[
+\nabla Y_t = (1 - B) Y_t = Y_t - Y_{t-1}.
+\]</span> Example: we can take difference twice: <span class="math display">\[
+\begin{split}
+\nabla^2 Y_t &amp;= \nabla \left( Y_t - Y_{t-1} \right) = \left( Y_t - Y_{t-1} \right) - \left( Y_{t-1} - Y_{t-2} \right) \\
+             &amp;= Y_t - 2Y_{t-1} + Y_{t-2} \\
+             &amp;= \left(1 - 2B + B^2\right) Y_t = (1 - B)^2 Y_t .
+\end{split}
+\]</span> Another different but related operation is <strong>lag <span class="math inline">\(d\)</span> differencing</strong> (which is useful in seasonal models), defined as <span class="math display">\[
+\nabla_d Y_t = Y_t - Y_{t-d} = \left( 1 - B^d \right) Y_t.
+\]</span> This is different from taking difference <span class="math inline">\(d\)</span> times: <span class="math display">\[
+\nabla^d Y_t = (1 - B)^d Y_t.
+\]</span> As a combined example, in a seasonal model, we may take lag <span class="math inline">\(s\)</span> differencing <span class="math inline">\(d\)</span> times: <span class="math display">\[
+\nabla_s^d Y_t = (1 - B^s)^d Y_t.
+\]</span></p>
+</section>
+<section id="more-examples-of-using-differencing-operators" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="more-examples-of-using-differencing-operators"><span class="header-section-number">3.2</span> More examples of using differencing operators</h2>
+<p><strong>Example 1:</strong> consider a trend + stationary model, where the trend is linear in <span class="math inline">\(t\)</span>. <span class="math display">\[
+Y_t = \beta_0 + \beta_1 t + X_t.
+\]</span> Suppose <span class="math inline">\((X_t)\)</span> is stationary, then <span class="math inline">\((Y_t)\)</span> is not stationary.</p>
+<p><em>Exercise:</em> Why is <span class="math inline">\((Y_t)\)</span> not stationary?</p>
+<p>If we take the difference: <span class="math display">\[
+\nabla Y_t = \left( \beta_0 + \beta_1 t + X_t \right) - \left( \beta_0 + \beta_1 (t-1) + X_{t-1} \right) = \beta_1 + \left( X_t - X_{t-1} \right).
+\]</span> We can show <span class="math inline">\(\nabla X_t = X_t - X_{t-1}\)</span> is stationary from the stationarity of <span class="math inline">\((X_t)\)</span>. So in this example, <span class="math inline">\(\nabla Y_t\)</span> is staionary although <span class="math inline">\((Y_t)\)</span> is not stationary.</p>
+<p><strong>Example 2:</strong> consider a random walk model <span class="math display">\[
+Y_1=e_1, \quad Y_t = Y_{t-1} + e_t, \quad e_t \sim \mathrm{iid}(0,\sigma_e^2).
+\]</span> As we have seen many times in the course, <span class="math inline">\((Y_t)\)</span> is not stationary. If we take the difference, <span class="math display">\[
+\nabla Y_t= Y_t -Y_{t-1} = e_t
+\]</span> <span class="math inline">\(\nabla Y_t\)</span> is stationary in this example.</p>
+</section>
+<section id="arimapdq" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="arimapdq"><span class="header-section-number">3.3</span> ARIMA(<span class="math inline">\(p,d,q\)</span>)</h2>
+<p>In Example 2 (random walk) above, we had <span class="math inline">\(\nabla Y_t= e_t\)</span>. Note that <span class="math inline">\((e_t)\)</span> can be seen as an AR(<span class="math inline">\(0\)</span>) or MA(<span class="math inline">\(0\)</span>) or ARMA(<span class="math inline">\(0,0\)</span>) model.</p>
+<p>Also observe that (suppose <span class="math inline">\(W_t = \nabla Y_t\)</span>) <span class="math display">\[
+\begin{split}
+Y_t &amp;= Y_{t-1} + W_t = Y_{t-2} + W_{t-1} + W_t \\
+&amp;= \cdots \\
+&amp;=
+\begin{cases}
+\sum_{i=1}^{t} W_i, &amp; \text{as a special case, in random walk, } Y_0 = 0\\
+\sum_{i=-m}^{t} W_i, &amp; \text{more generally, start at } (-m)
+\end{cases}
+\end{split}
+\]</span> which looks like a integrated sum of <span class="math inline">\((W_i)\)</span>. So the idea here is: <span class="math inline">\(Y_t\)</span> is ``integrated” <span class="math inline">\(W_t\)</span>. In the random walk example above, <span class="math inline">\(W_t = e_t\)</span> is ARMA(<span class="math inline">\(0,0\)</span>) (or AR(<span class="math inline">\(0\)</span>) or MA(<span class="math inline">\(0\)</span>)), so we say the random walk <span class="math inline">\((Y_t)\)</span> is ARIMA(<span class="math inline">\(0,1,0\)</span>) (or ARI(<span class="math inline">\(0,1\)</span>) or IMA(<span class="math inline">\(1,0\)</span>)). The letter I stands for integrated. In general, we have the following definition.</p>
+<p><strong>Definition:</strong> If <span class="math inline">\(\nabla^d Y_t\)</span> is an ARMA(<span class="math inline">\(p,q\)</span>), then <span class="math inline">\(Y_t\)</span> is ARIMA(<span class="math inline">\(p,d,q\)</span>).</p>
+<p>Let’s look at another example. Consider the random walk + noise model <span class="math display">\[
+Y_t = X_t + \eta_t = \sum_{j=1}^t e_j + \eta_t, \quad \eta_t \sim \mathrm{iid}(0,\sigma_\eta^2),\quad e_t \sim \mathrm{iid}(0,\sigma_e^2)
+\]</span> where <span class="math inline">\((X_t)\)</span> is a random walk defined as usual, <span class="math inline">\((\eta_t)\)</span> is another sequence of noise and <span class="math inline">\((\eta_t)\)</span> is independent of <span class="math inline">\((e_t)\)</span>.</p>
+<p><strong>Exercise:</strong> show <span class="math inline">\((Y_t)\)</span> is not stationary. (Hint: show <span class="math inline">\(Var(Y_t) = t\sigma_e^2 + \sigma_\eta^2\)</span>.)</p>
+<p>By taking the difference, <span class="math display">\[
+\begin{split}
+W_t = \nabla Y_t
+    &amp;= (X_t + \eta_t) - (X_{t-1} + \eta_{t-1}) \\
+    &amp;= (X_t - X_{t-1}) + \eta_t - \eta_{t-1} \\
+    &amp;= e_t + \eta_t - \eta_{t-1}.
+\end{split}
+\]</span> We can see that the ACVF of <span class="math inline">\((W_t)\)</span> satisfies <span class="math inline">\(\gamma_k = 0\)</span> for <span class="math inline">\(k\ge 2\)</span>. This structure look like the ACVF of an MA(<span class="math inline">\(1\)</span>) process.</p>
+<p>In fact <span class="math inline">\((W_t)\)</span> is indeed an MA(<span class="math inline">\(1\)</span>) process: The ACVF of <span class="math inline">\((W_t)\)</span> are all zero for lag <span class="math inline">\(k\ge 2\)</span>, so <span class="math inline">\((W_t)\)</span> is <span class="math inline">\(1\)</span>-correlated. Recall an earlier theorem (see lecture 3 when we first defined MA(<span class="math inline">\(q\)</span>)), there exist an uncorrelated stationary process <span class="math inline">\((\widetilde{\epsilon}_t)\)</span> and a constant <span class="math inline">\(\widetilde{\theta}\)</span> such that the time series <span class="math inline">\(Z_t = \widetilde{\epsilon}_t - \widetilde{\theta} \widetilde{\epsilon}_{t-1}\)</span> will have the same ACVF as <span class="math inline">\(W_t\)</span>.</p>
+<p>So <span class="math inline">\(W_t \sim \mathrm{MA}(1)\)</span>, which implies <span class="math inline">\(Y_t \sim \mathrm{ARIMA}(0,1,1)\)</span> (or IMA(<span class="math inline">\(1,1\)</span>)).</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>Time Series Analysis: Lecture Notes – tsa-lecture-notes</title>
+<title>25 Spring 439/639 TSA: Lecture 7 – tsa-lecture-notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,11 +68,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -89,7 +119,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -107,19 +137,43 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#more-on-arma11" id="toc-more-on-arma11" class="nav-link active" data-scroll-target="#more-on-arma11"><span class="header-section-number">1</span> More on ARMA(<span class="math inline">\(1,1\)</span>)</a>
+  <ul class="collapse">
+  <li><a href="#acvf-of-arma11" id="toc-acvf-of-arma11" class="nav-link" data-scroll-target="#acvf-of-arma11"><span class="header-section-number">1.1</span> ACVF of ARMA(<span class="math inline">\(1,1\)</span>)</a></li>
+  <li><a href="#invertible-representation-for-arma11" id="toc-invertible-representation-for-arma11" class="nav-link" data-scroll-target="#invertible-representation-for-arma11"><span class="header-section-number">1.2</span> Invertible representation for ARMA(<span class="math inline">\(1,1\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#general-armapq" id="toc-general-armapq" class="nav-link" data-scroll-target="#general-armapq"><span class="header-section-number">2</span> General ARMA(<span class="math inline">\(p,q\)</span>)</a>
+  <ul class="collapse">
+  <li><a href="#find-the-causal-glp-representation" id="toc-find-the-causal-glp-representation" class="nav-link" data-scroll-target="#find-the-causal-glp-representation"><span class="header-section-number">2.1</span> Find the causal GLP representation</a></li>
+  <li><a href="#yw-approach-for-acvf" id="toc-yw-approach-for-acvf" class="nav-link" data-scroll-target="#yw-approach-for-acvf"><span class="header-section-number">2.2</span> YW approach for ACVF</a></li>
+  </ul></li>
+  <li><a href="#a-brief-summary-so-far" id="toc-a-brief-summary-so-far" class="nav-link" data-scroll-target="#a-brief-summary-so-far"><span class="header-section-number">3</span> A brief summary so far</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Time Series Analysis: Lecture Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 7</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -130,42 +184,175 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome" class="level2">
-<h2 class="anchored" data-anchor-id="welcome">Welcome!</h2>
-<p>These are the lecture notes for <strong>Time Series Analysis</strong>, based on the Cryer and Chen textbook “Time Series Analysis: With Applications in R” and Time Series Lecture notes of Dr Torcaso.</p>
-<p>The notes are typed by Yue Wu. The notes are authored and maintained by <a href="./about.html">Sergey Kushnarev</a>, and include:</p>
-<ul>
-<li>Topic summaries</li>
-<li>Mathematical derivations</li>
-<li>R code examples</li>
-<li>Figures and simulation results</li>
-</ul>
-<blockquote class="blockquote">
-<p>These notes are meant to supplement, not replace, in-class lectures and discussions. There are typos and errors in the notes. Please refer to the textbook and lecture materials for the most accurate information. Please email me (or consult TAs/me in the Office Hours) if you find any issues or have questions.</p>
-</blockquote>
-<hr>
+<section id="more-on-arma11" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> More on ARMA(<span class="math inline">\(1,1\)</span>)</h1>
+<section id="acvf-of-arma11" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="acvf-of-arma11"><span class="header-section-number">1.1</span> ACVF of ARMA(<span class="math inline">\(1,1\)</span>)</h2>
+<p>Recall last time, for the ARMA(<span class="math inline">\(1,1\)</span>) <span class="math display">\[
+Y_t - \phi Y_{t-1} = e_t - \theta e_{t-1},
+\]</span> we derived a causal GLP (also an MA(<span class="math inline">\(\infty\)</span>)) representation for <span class="math inline">\((Y_t)\)</span> <span class="math display">\[
+Y_t = e_t + \sum_{k=1}^{\infty} \phi^{k-1} (\phi - \theta) e_{t-k}
+\]</span> whenever the ARMA(<span class="math inline">\(1,1\)</span>) is causal (only if <span class="math inline">\(|\phi|&lt;1\)</span>). We will use the GLP representation above to find the ACVFs for <span class="math inline">\((Y_t)\)</span> through the Yule-Walker method.</p>
+<p>For <span class="math inline">\(k\ge 0\)</span>, multiply <span class="math inline">\(Y_{t-k}\)</span> on both sides and take the expectations. <span class="math display">\[
+\begin{split}
+Y_t - \phi Y_{t-1} &amp;= e_t - \theta e_{t-1},\\
+Y_t Y_{t-k} - \phi Y_{t-1} Y_{t-k} &amp;= e_t Y_{t-k} - \theta e_{t-1} Y_{t-k}, \\
+\mathbb{E}[Y_t Y_{t-k}] - \phi \mathbb{E}[Y_{t-1} Y_{t-k}] &amp;= \mathbb{E}[e_t Y_{t-k}] - \theta \mathbb{E}[e_{t-1} Y_{t-k}] .
+\end{split}
+\]</span> As before, since <span class="math inline">\((Y_n)\)</span> is mean zero and stationary, <span class="math inline">\(\mathbb{E}[Y_{t} Y_{t-k}] = \gamma_{k}\)</span> and <span class="math inline">\(\mathbb{E}[Y_{t-1} Y_{t-k}] = \gamma_{k-1}\)</span>. So the <span class="math inline">\(k\)</span>-th YW equation is <span class="math display">\[
+\gamma_{k} - \phi \gamma_{k-1}= \mathbb{E}[e_t Y_{t-k}] - \theta \mathbb{E}[e_{t-1} Y_{t-k}].
+\]</span> Assuming causality, we can use the previous causal GLP, then <span class="math display">\[
+\gamma_{k} - \phi \gamma_{k-1}= \mathbb{E}[e_t (e_{t-k}+ \psi_1 e_{t-k-1 + \cdots})] - \theta \mathbb{E}[e_{t-1} (e_{t-k}+ \psi_1 e_{t-k-1 + \cdots})].
+\]</span> Consider all possible <span class="math inline">\(k\ge 0\)</span>: <span class="math display">\[
+\begin{cases}
+\gamma_{0} - \phi \gamma_{1} = \sigma_e^2 - \theta \psi_1 \sigma_e^2, &amp;0\text{th YW eq}\\
+\gamma_{1} - \phi \gamma_{0} = 0 - \theta \sigma_e^2, &amp;1\text{st YW eq}\\
+\gamma_{k} - \phi \gamma_{k-1}= 0 - \theta 0 = 0, &amp;k\text{-th YW eq, for } k\ge 2
+\end{cases}
+\]</span> Recall that <span class="math inline">\(\psi_1 = \phi-\theta\)</span>, from the first 2 YW equations we have <span class="math display">\[
+\begin{cases}
+\gamma_{0} - \phi \gamma_{1} = \sigma_e^2 - \theta (\phi-\theta) \sigma_e^2 \quad &amp;(\text{YW}0)\\
+\gamma_{1} - \phi \gamma_{0} = - \theta \sigma_e^2 &amp;(\text{YW}1)
+\end{cases}
+\]</span> <span class="math inline">\((\text{YW}0) + \phi(\text{YW}1)\)</span>: <span class="math display">\[
+(1 - \phi^2)\gamma_0 = (1 - 2\theta\phi + \theta^2)\sigma_e^2
+\implies \gamma_0 = \frac{1 - 2\theta\phi + \theta^2}{1 - \phi^2}\sigma_e^2 .
+\]</span> Then plug it into <span class="math inline">\((\text{YW}1)\)</span>: <span class="math display">\[
+\begin{split}
+\gamma_1 &amp;= \phi\gamma_0 - \theta\sigma_e^2
+= \sigma_e^2 \left( \frac{\phi(1-2\theta\phi+\theta^2)}{1-\phi^2}
+  - \frac{\theta (1-\phi^2)}{1-\phi^2} \right) \\
+&amp;= \sigma_e^2 \left( \frac{\phi - 2\theta\phi^2 + \phi\theta^2 - \theta + \theta\phi^2}
+       {1-\phi^2} \right) \\
+&amp;= \sigma_e^2 \frac{\phi - \theta + \theta\phi(\theta-\phi)}{1-\phi^2}
+= \sigma_e^2 \frac{(\phi-\theta)(1-\theta\phi)}{1-\phi^2} .
+\end{split}
+\]</span> Use the <span class="math inline">\(k\)</span>-th YW equations (for <span class="math inline">\(k\ge 2\)</span>) recursively: <span class="math display">\[
+\gamma_k = \phi^{k-1} \frac{(\phi - \theta)(1 - \theta\phi)}{1 - \phi^2} \sigma_e^2, \quad \forall k\ge 1.
+\]</span> We can observe that, <span class="math inline">\(\gamma_k \to 0\)</span> exponentially as <span class="math inline">\(k\to \infty\)</span> (since <span class="math inline">\(|\phi|&lt;1\)</span> under causality condition).</p>
 </section>
-<section id="lecture-notes" class="level2">
-<h2 class="anchored" data-anchor-id="lecture-notes">📚 Lecture Notes</h2>
-<ul>
-<li><a href="./TSA-Lecture01.html">Lecture 1: Introduction to Time Series Analysis</a></li>
-<li><a href="./TSA-Lecture02.html">Lecture 2: Stationarity</a></li>
-<li><a href="./TSA-Lecture03.html">Lecture 3: Q-dependent CLT. MA(q), General Linear Process. Causality</a></li>
-<li><a href="./TSA-Lecture04.html">Lecture 4: AR(1), Yule-Walker method, AR-polynomial</a></li>
-<li><a href="./TSA-Lecture05.html">Lecture 5: AR(p): causality, YW method, GLP representation,</a></li>
-<li><a href="./TSA-Lecture06.html">Lecture 6: Recursive equations, ACVF for AR(2), AR(p), Invertibility</a></li>
-<li><a href="./TSA-Lecture07.html">Lecture 7: ARMA(1,1), ARMA(p,q): GLP representation, YW method, ACVF. Visualizing Time Series</a></li>
-<li><a href="./TSA-Lecture08.html">Lecture 8: Trends, Estimation of the mean Yt, Rnotebook: regression approach, residual analysis</a></li>
-<li><a href="./TSA-Lecture09.html">Lecture 9:</a></li>
-</ul>
-<hr>
+<section id="invertible-representation-for-arma11" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="invertible-representation-for-arma11"><span class="header-section-number">1.2</span> Invertible representation for ARMA(<span class="math inline">\(1,1\)</span>)</h2>
+<p>By the invertiblity condition (see last lecture), we need all the roots of MA polynomial are outside the unit disk, which reduces to <span class="math inline">\(|\theta| &lt;1\)</span> for ARMA(<span class="math inline">\(1,1\)</span>). When invertibility holds, we have the following invertible representation (also an AR(<span class="math inline">\(\infty\)</span>)) for ARMA(<span class="math inline">\(1,1\)</span>): <span class="math display">\[
+e_t = Y_t + \sum_{j=1}^{\infty} \theta^{j-1} (\theta - \phi) Y_{t-j} .
+\]</span> <strong>Exercise:</strong> derive the formula above, and verify <span class="math inline">\(\sum_{j=0}^{\infty} |\pi_j| &lt; \infty\)</span> in this invertible representation.</p>
 </section>
-<section id="resources" class="level2">
-<h2 class="anchored" data-anchor-id="resources">🔗 Resources</h2>
+</section>
+<section id="general-armapq" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> General ARMA(<span class="math inline">\(p,q\)</span>)</h1>
+<section id="find-the-causal-glp-representation" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="find-the-causal-glp-representation"><span class="header-section-number">2.1</span> Find the causal GLP representation</h2>
+<p>Consider the ARMA(<span class="math inline">\(p,q\)</span>) <span class="math display">\[
+Y_t - \phi_1 Y_{t-1} - \cdots - \phi_p Y_{t-p} = e_t - \theta_1 e_{t-1} - \cdots - \theta_q e_{t-q} .
+\]</span> Assume the causality condition holds, i.e., assume all the roots of the AR polynomial are outside of the unit disk. So there exists a causal GLP representation <span class="math inline">\(Y_t = \sum_{j=0}^{\infty} \psi_j e_{t-j}\)</span>. Our goal is to find <span class="math inline">\(\{\psi_j\}\)</span>.</p>
+<p>We can simply plug it into the ARMA(<span class="math inline">\(p,q\)</span>) equation <span class="math display">\[
+\begin{split}
+&amp;\left( \psi_0 e_t + \psi_1 e_{t-1} + \psi_2 e_{t-2} + \cdots \right)
+  - \phi_1 \left( \psi_0 e_{t-1} + \psi_1 e_{t-2} + \psi_2 e_{t-3} + \cdots \right) - \cdots - \phi_p \left( \psi_0 e_{t-p} + \psi_1 e_{t-p-1} + \psi_2 e_{t-p-2} + \cdots \right) \\
+&amp;= e_t - \theta_1 e_{t-1} - \theta_2 e_{t-2} - \cdots - \theta_q e_{t-q} .
+\end{split}
+\]</span> Then compare the coefficients for <span class="math inline">\(e_{t-k}\)</span> on both sides: <span class="math display">\[
+\begin{cases}
+\psi_0 = 1 \\
+\psi_1 - \phi_1 \psi_0 = -\theta_1 \\
+\psi_2 - \phi_1 \psi_1 - \phi_2 \psi_0 = -\theta_2 \\
+\psi_3 - \phi_1 \psi_2 - \phi_2 \psi_1 - \phi_3 \psi_0 = -\theta_3 \\
+\quad \cdots \\
+\psi_j - \phi_1 \psi_{j-1} - \phi_2 \psi_{j-2} - \cdots - \phi_p \psi_{j-p} = 0, \text{ for large } j \text{ such that } j\ge p \text{ and } j&gt;q
+\end{cases}
+\]</span> So we get <span class="math display">\[
+\begin{cases}
+\psi_0 = 1 \\
+\psi_1 = \phi_1 - \theta_1 \\
+\psi_2 = \phi_1 \psi_1 + \phi_2 - \theta_2 \\
+\psi_3 = \phi_1 \psi_2 + \phi_2 \psi_1 + \phi_3 - \theta_3 \\
+\quad\cdots \\
+\psi_j = \phi_1 \psi_{j-1} + \phi_2 \psi_{j-2} + \cdots + \phi_p \psi_{j-p}, \text{ for large } j \text{ such that } j\ge p \text{ and } j&gt;q
+\end{cases}
+\]</span> which can be seen as recursive equations for <span class="math inline">\(\{\psi_j\}\)</span>.</p>
+</section>
+<section id="yw-approach-for-acvf" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="yw-approach-for-acvf"><span class="header-section-number">2.2</span> YW approach for ACVF</h2>
+<p>The basic idea of YW method is same as before, assume causality and stationarity. For any <span class="math inline">\(k&gt;q\)</span>, the <span class="math inline">\(k\)</span>-th YW equations is <span class="math display">\[
+\begin{split}
+\mathbb{E}[Y_t Y_{t-k}] - \phi_1 \mathbb{E}[Y_{t-1} Y_{t-k}] - \cdots - \phi_p \mathbb{E}[Y_{t-p} Y_{t-k}] &amp;= \mathbb{E}[e_t Y_{t-k}] - \theta_1 \mathbb{E}[e_{t-1} Y_{t-k}] - \cdots - \theta_q \mathbb{E}[e_{t-q} Y_{t-k}] \\
+\gamma_{k} - \phi_1 \gamma_{k-1} - \cdots - \phi_p \gamma_{k-p} &amp;= 0, \quad \forall k&gt;q
+\end{split}
+\]</span> So the recursion part of YW equations have the structure as <span class="math inline">\(AR(p)\)</span>. Using the earlier results, suppose the <span class="math inline">\(p\)</span> roots (assuming <span class="math inline">\(\phi_p \ne 0\)</span>) of the AR polynomial are <span class="math inline">\(z_1,...,z_p\)</span> and they are all <strong>distinct</strong>, then there exist <span class="math inline">\(p\)</span> complex numbers <span class="math inline">\(A_1,...,A_p\)</span> such that <span class="math display">\[
+\gamma_k = A_1 z_1^{-k} + A_2 z_2^{-k} + \cdots + A_p z_p^{-k}
+\]</span> hold for all <span class="math inline">\(k \ge q+1-p\)</span>.</p>
 <ul>
-<li>[Course Syllabus (PDF)] <strong>TBD</strong></li>
-<li><a href="https://posit.cloud/">RStudio Cloud Project</a></li>
+<li>If <span class="math inline">\(p\ge q\)</span>: we need to solve <span class="math inline">\((\gamma_0,...,\gamma_p)\)</span> from the first <span class="math inline">\(p+1\)</span> YW equations (YW eq<span class="math inline">\(0\)</span>, …, YW eq<span class="math inline">\(p\)</span>), then we can use <span class="math inline">\((\gamma_{1},...,\gamma_{p})\)</span> as the initial conditions to determine <span class="math inline">\((A_1,...,A_p)\)</span>.</li>
+<li>If <span class="math inline">\(q&gt; p\)</span>: we need to solve <span class="math inline">\((\gamma_0,...,\gamma_q)\)</span> from the first <span class="math inline">\(q+1\)</span> YW equations (YW eq<span class="math inline">\(0\)</span>, …, YW eq<span class="math inline">\(q\)</span>), then use <span class="math inline">\((\gamma_{q-p+1},...,\gamma_{q})\)</span> as the initial conditions to determine <span class="math inline">\((A_1,...,A_p)\)</span>.</li>
 </ul>
+<p><em>Remark:</em> dividing the YW equation by <span class="math inline">\(\gamma_0\)</span> gives <span class="math inline">\(\rho_{k} - \phi_1 \rho_{k-1} - \cdots - \phi_p \rho_{k-p} = 0\)</span> for <span class="math inline">\(k&gt;q\)</span>. So the ACF has the same structure <span class="math inline">\(\rho_k = \widetilde{A}_1 z_1^{-k} + \widetilde{A}_2 z_2^{-k} + \cdots + \widetilde{A}_p z_p^{-k}\)</span>.</p>
+<p><em>Remark:</em> if the <span class="math inline">\(p\)</span> roots are not distinct, ACVF/ACF have more complicated formula as we discussed before (see last lecture).</p>
+</section>
+</section>
+<section id="a-brief-summary-so-far" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> A brief summary so far</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 28%">
+<col style="width: 14%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Process</th>
+<th>Causal</th>
+<th>Invertible</th>
+<th>(weakly) Stationary</th>
+<th>ACF behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MA(1)</td>
+<td>Always.</td>
+<td><span class="math inline">\(|\theta| &lt; 1\)</span>.</td>
+<td>Always.</td>
+<td><span class="math inline">\(\rho_1 \in [-0.5, 0.5]\)</span>, and <span class="math inline">\(\rho_k=0\)</span> for <span class="math inline">\(k\geq2\)</span>.</td>
+</tr>
+<tr class="even">
+<td>MA(q)</td>
+<td>Always.</td>
+<td>Roots of MA-poly outside of unit disk.</td>
+<td>Always.</td>
+<td><span class="math inline">\(\rho_k=0\)</span> for <span class="math inline">\(k&gt;q\)</span>.</td>
+</tr>
+<tr class="odd">
+<td>AR(1)</td>
+<td><span class="math inline">\(|\phi| &lt; 1\)</span>.</td>
+<td>Always.</td>
+<td><span class="math inline">\(|\phi| \neq 1\)</span>.</td>
+<td><span class="math inline">\(\rho_k = \phi^k\)</span>, exponential decay.</td>
+</tr>
+<tr class="even">
+<td>AR(p)</td>
+<td>Exercise</td>
+<td>Exercise</td>
+<td>Exercise</td>
+<td>Exercise</td>
+</tr>
+<tr class="odd">
+<td>ARMA(1,1)</td>
+<td><span class="math inline">\(|\phi| &lt; 1\)</span>.</td>
+<td><span class="math inline">\(|\theta| &lt; 1\)</span>.</td>
+<td><span class="math inline">\(|\phi| \neq 1\)</span>.</td>
+<td>Exponential decay.</td>
+</tr>
+<tr class="even">
+<td>ARMA(p,q)</td>
+<td>Exercise</td>
+<td>Exercise</td>
+<td>Exercise</td>
+<td>Exercise</td>
+</tr>
+</tbody>
+</table>
 
 
 </section>

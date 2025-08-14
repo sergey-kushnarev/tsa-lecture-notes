@@ -1,0 +1,160 @@
+---
+title: "25 Spring 439/639 TSA: Lecture 7"
+author: "Dr Sergey Kushnarev"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+# More on ARMA($1,1$)
+
+## ACVF of ARMA($1,1$)
+
+Recall last time, for the ARMA($1,1$)
+$$
+Y_t - \phi Y_{t-1} = e_t - \theta e_{t-1},
+$$
+we derived a causal GLP (also an MA($\infty$)) representation for $(Y_t)$
+$$
+Y_t = e_t + \sum_{k=1}^{\infty} \phi^{k-1} (\phi - \theta) e_{t-k}
+$$
+whenever the ARMA($1,1$) is causal (only if $|\phi|<1$). We will use the GLP representation above to find the ACVFs for $(Y_t)$ through the Yule-Walker method.
+
+For $k\ge 0$, multiply $Y_{t-k}$ on both sides and take the expectations.
+$$
+\begin{split}
+Y_t - \phi Y_{t-1} &= e_t - \theta e_{t-1},\\
+Y_t Y_{t-k} - \phi Y_{t-1} Y_{t-k} &= e_t Y_{t-k} - \theta e_{t-1} Y_{t-k}, \\
+\mathbb{E}[Y_t Y_{t-k}] - \phi \mathbb{E}[Y_{t-1} Y_{t-k}] &= \mathbb{E}[e_t Y_{t-k}] - \theta \mathbb{E}[e_{t-1} Y_{t-k}] .
+\end{split}
+$$
+As before, since $(Y_n)$ is mean zero and stationary, $\mathbb{E}[Y_{t} Y_{t-k}] = \gamma_{k}$ and $\mathbb{E}[Y_{t-1} Y_{t-k}] = \gamma_{k-1}$. So the $k$-th YW equation is
+$$
+\gamma_{k} - \phi \gamma_{k-1}= \mathbb{E}[e_t Y_{t-k}] - \theta \mathbb{E}[e_{t-1} Y_{t-k}].
+$$
+Assuming causality, we can use the previous causal GLP, then
+$$
+\gamma_{k} - \phi \gamma_{k-1}= \mathbb{E}[e_t (e_{t-k}+ \psi_1 e_{t-k-1 + \cdots})] - \theta \mathbb{E}[e_{t-1} (e_{t-k}+ \psi_1 e_{t-k-1 + \cdots})].
+$$
+Consider all possible $k\ge 0$:
+$$
+\begin{cases}
+\gamma_{0} - \phi \gamma_{1} = \sigma_e^2 - \theta \psi_1 \sigma_e^2, &0\text{th YW eq}\\
+\gamma_{1} - \phi \gamma_{0} = 0 - \theta \sigma_e^2, &1\text{st YW eq}\\
+\gamma_{k} - \phi \gamma_{k-1}= 0 - \theta 0 = 0, &k\text{-th YW eq, for } k\ge 2
+\end{cases}
+$$
+Recall that $\psi_1 = \phi-\theta$, from the first 2 YW equations we have
+$$
+\begin{cases}
+\gamma_{0} - \phi \gamma_{1} = \sigma_e^2 - \theta (\phi-\theta) \sigma_e^2 \quad &(\text{YW}0)\\
+\gamma_{1} - \phi \gamma_{0} = - \theta \sigma_e^2 &(\text{YW}1)
+\end{cases}
+$$
+$(\text{YW}0) + \phi(\text{YW}1)$:
+$$
+(1 - \phi^2)\gamma_0 = (1 - 2\theta\phi + \theta^2)\sigma_e^2 
+\implies \gamma_0 = \frac{1 - 2\theta\phi + \theta^2}{1 - \phi^2}\sigma_e^2 .
+$$
+Then plug it into $(\text{YW}1)$:
+$$
+\begin{split}
+\gamma_1 &= \phi\gamma_0 - \theta\sigma_e^2
+= \sigma_e^2 \left( \frac{\phi(1-2\theta\phi+\theta^2)}{1-\phi^2}
+  - \frac{\theta (1-\phi^2)}{1-\phi^2} \right) \\
+&= \sigma_e^2 \left( \frac{\phi - 2\theta\phi^2 + \phi\theta^2 - \theta + \theta\phi^2}
+       {1-\phi^2} \right) \\
+&= \sigma_e^2 \frac{\phi - \theta + \theta\phi(\theta-\phi)}{1-\phi^2} 
+= \sigma_e^2 \frac{(\phi-\theta)(1-\theta\phi)}{1-\phi^2} .
+\end{split}
+$$
+Use the $k$-th YW equations (for $k\ge 2$) recursively:
+$$
+\gamma_k = \phi^{k-1} \frac{(\phi - \theta)(1 - \theta\phi)}{1 - \phi^2} \sigma_e^2, \quad \forall k\ge 1.
+$$
+We can observe that, $\gamma_k \to 0$ exponentially as $k\to \infty$ (since $|\phi|<1$ under causality condition).
+
+## Invertible representation for ARMA($1,1$)
+
+By the invertiblity condition (see last lecture), we need all the roots of MA polynomial are outside the unit disk, which reduces to $|\theta| <1$ for ARMA($1,1$). When invertibility holds, we have the following invertible representation (also an AR($\infty$)) for ARMA($1,1$):
+$$
+e_t = Y_t + \sum_{j=1}^{\infty} \theta^{j-1} (\theta - \phi) Y_{t-j} .
+$$
+**Exercise:** derive the formula above, and verify $\sum_{j=0}^{\infty} |\pi_j| < \infty$ in this invertible representation.
+
+# General ARMA($p,q$)
+
+## Find the causal GLP representation
+
+Consider the ARMA($p,q$)
+$$
+Y_t - \phi_1 Y_{t-1} - \cdots - \phi_p Y_{t-p} = e_t - \theta_1 e_{t-1} - \cdots - \theta_q e_{t-q} .
+$$
+Assume the causality condition holds, i.e., assume all the roots of the AR polynomial are outside of the unit disk. So there exists a causal GLP representation $Y_t = \sum_{j=0}^{\infty} \psi_j e_{t-j}$. Our goal is to find $\{\psi_j\}$.
+
+We can simply plug it into the ARMA($p,q$) equation
+$$
+\begin{split}
+&\left( \psi_0 e_t + \psi_1 e_{t-1} + \psi_2 e_{t-2} + \cdots \right)
+  - \phi_1 \left( \psi_0 e_{t-1} + \psi_1 e_{t-2} + \psi_2 e_{t-3} + \cdots \right) - \cdots - \phi_p \left( \psi_0 e_{t-p} + \psi_1 e_{t-p-1} + \psi_2 e_{t-p-2} + \cdots \right) \\
+&= e_t - \theta_1 e_{t-1} - \theta_2 e_{t-2} - \cdots - \theta_q e_{t-q} .
+\end{split}
+$$
+Then compare the coefficients for $e_{t-k}$ on both sides:
+$$
+\begin{cases}
+\psi_0 = 1 \\
+\psi_1 - \phi_1 \psi_0 = -\theta_1 \\
+\psi_2 - \phi_1 \psi_1 - \phi_2 \psi_0 = -\theta_2 \\
+\psi_3 - \phi_1 \psi_2 - \phi_2 \psi_1 - \phi_3 \psi_0 = -\theta_3 \\
+\quad \cdots \\
+\psi_j - \phi_1 \psi_{j-1} - \phi_2 \psi_{j-2} - \cdots - \phi_p \psi_{j-p} = 0, \text{ for large } j \text{ such that } j\ge p \text{ and } j>q
+\end{cases}
+$$
+So we get
+$$
+\begin{cases}
+\psi_0 = 1 \\
+\psi_1 = \phi_1 - \theta_1 \\
+\psi_2 = \phi_1 \psi_1 + \phi_2 - \theta_2 \\
+\psi_3 = \phi_1 \psi_2 + \phi_2 \psi_1 + \phi_3 - \theta_3 \\
+\quad\cdots \\
+\psi_j = \phi_1 \psi_{j-1} + \phi_2 \psi_{j-2} + \cdots + \phi_p \psi_{j-p}, \text{ for large } j \text{ such that } j\ge p \text{ and } j>q
+\end{cases}
+$$
+which can be seen as recursive equations for $\{\psi_j\}$.
+
+## YW approach for ACVF
+
+The basic idea of YW method is same as before, assume causality and stationarity. For any $k>q$, the $k$-th YW equations is
+$$
+\begin{split}
+\mathbb{E}[Y_t Y_{t-k}] - \phi_1 \mathbb{E}[Y_{t-1} Y_{t-k}] - \cdots - \phi_p \mathbb{E}[Y_{t-p} Y_{t-k}] &= \mathbb{E}[e_t Y_{t-k}] - \theta_1 \mathbb{E}[e_{t-1} Y_{t-k}] - \cdots - \theta_q \mathbb{E}[e_{t-q} Y_{t-k}] \\
+\gamma_{k} - \phi_1 \gamma_{k-1} - \cdots - \phi_p \gamma_{k-p} &= 0, \quad \forall k>q
+\end{split}
+$$
+So the recursion part of YW equations have the structure as $AR(p)$. Using the earlier results, suppose the $p$ roots (assuming $\phi_p \ne 0$) of the AR polynomial are $z_1,...,z_p$ and they are all **distinct**, then there exist $p$ complex numbers $A_1,...,A_p$ such that
+$$
+\gamma_k = A_1 z_1^{-k} + A_2 z_2^{-k} + \cdots + A_p z_p^{-k}
+$$
+hold for all $k \ge q+1-p$.
+
+- If $p\ge q$: we need to solve $(\gamma_0,...,\gamma_p)$ from the first $p+1$ YW equations (YW eq$0$, ..., YW eq$p$), then we can use $(\gamma_{1},...,\gamma_{p})$ as the initial conditions to determine $(A_1,...,A_p)$.
+- If $q> p$: we need to solve $(\gamma_0,...,\gamma_q)$ from the first $q+1$ YW equations (YW eq$0$, ..., YW eq$q$), then use $(\gamma_{q-p+1},...,\gamma_{q})$ as the initial conditions to determine $(A_1,...,A_p)$.
+
+*Remark:* dividing the YW equation by $\gamma_0$ gives $\rho_{k} - \phi_1 \rho_{k-1} - \cdots - \phi_p \rho_{k-p} = 0$ for $k>q$. So the ACF has the same structure $\rho_k = \widetilde{A}_1 z_1^{-k} + \widetilde{A}_2 z_2^{-k} + \cdots + \widetilde{A}_p z_p^{-k}$.
+
+*Remark:* if the $p$ roots are not distinct, ACVF/ACF have more complicated formula as we discussed before (see last lecture).
+
+# A brief summary so far
+
+| Process | Causal | Invertible | (weakly) Stationary | ACF behavior |
+|--|--|----|--|----|
+| MA(1) | Always. | $|\theta| < 1$. | Always. | $\rho_1 \in [-0.5, 0.5]$, and $\rho_k=0$ for $k\geq2$. |
+| MA(q) | Always. | Roots of MA-poly outside of unit disk. | Always. | $\rho_k=0$ for $k>q$. |
+| AR(1) | $|\phi| < 1$. | Always. | $|\phi| \neq 1$. | $\rho_k = \phi^k$, exponential decay. |
+| AR(p) | Exercise | Exercise | Exercise | Exercise |
+| ARMA(1,1) | $|\phi| < 1$. | $|\theta| < 1$. | $|\phi| \neq 1$. | Exponential decay. |
+| ARMA(p,q) | Exercise | Exercise | Exercise | Exercise |
