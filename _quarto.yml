@@ -30,6 +30,14 @@ website:
         text: "Rnotebook: Regression"
       - href: TSA-Lecture09.qmd
         text: Lecture 9
+      - href: TSA-Lecture09.qmd
+        text: Lecture 10
+      - href: TSA-Lecture09.qmd
+        text: Lecture 11
+      - href: TSA-Lecture09.qmd
+        text: Lecture 12
+      - href: TSA-Lecture09.qmd
+        text: Lecture 13
 
 format:
   html:
