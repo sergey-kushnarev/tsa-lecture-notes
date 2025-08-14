@@ -33,13 +33,27 @@ The notes are typed by Yue Wu. The notes are authored and maintained by [Sergey 
   - [Rnotebook: Visualizing Time Series](TSA-Lecture07-plots.qmd)
 - [Lecture 8: Trends, Estimation of the mean Yt, Rnotebook: regression approach, residual analysis](TSA-Lecture08.qmd)
   - [Rnotebook: Regression Methods in Time Series](TSA-Lecture08-regression-methods.qmd)
-- [Lecture 9: ](TSA-Lecture09.qmd)
+- [Lecture 9: Residual Analysis. Sample ACF](TSA-Lecture09.qmd)
+- Lecture 10: ARIMA($p,d,q$), Overdifferencing, GLP-like representation
+- Lecture 11: Transformations of TS, sample ACF, Bartletts Theorem, Hypothesis test for MA(q)
+- Lecture 12: PACF, sample PACF, Durbin-Levinson recursion
+- Lecture 13: EACF, Specification of some TS, Unit Root test.
+- Lecture 14: Parameter Estimation: method of moments
   - [Rnotebook: Model Specification](TSA-Lecture14-model-specification.qmd)
+- Lecture 15: Parameter Estimation: Method of Moments, condtional least squares
+- Lecture 16: Parameter Estimation: MLE, unconditional least squares.
   - [Rnotebook: Parameter Estimation](TSA-Lecture16-parameter-estimation.qmd)
+- Lecture 17: Diagnostics: residuals, overfitting
   - [Rnotebook: Model Diagnostics](TSA-Lecture17-model-diagnostics.qmd)
+- Lecture 18: Forecasting
+- Lecture 19: Forecasting: RW, ARMA(1,1), ARIMA, EWMA
   - [Rnotebook: Forecasting](TSA-Lecture19-forecasting.qmd)
+- Lecture 20: SARIMA = Seasonal ARIMA
   - [Rnotebook: SARIMA = Seasonal ARIMA](TSA-Lecture20-sarima.qmd)
+- Lecture 21: Cross-Correlation Function, Spurious Regression.
+- Lecture 22: Spurious Regression, Prewhitening
   - [Rnotebook: Spurious Regression](TSA-Lecture22-spurious.qmd)
+- Lecture 23: ARCH/GARCH Models
   - [Rnotebook: ARCH/GARCH](TSA-Lecture23-arch-garch.qmd)
 ---
 

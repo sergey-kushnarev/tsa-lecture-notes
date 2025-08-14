@@ -68,6 +68,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -280,14 +309,40 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><a href="./TSA-Lecture08-regression-methods.html">Rnotebook: Regression Methods in Time Series</a></li>
 </ul></li>
-<li><a href="./TSA-Lecture09.html">Lecture 9:</a>
+<li><a href="./TSA-Lecture09.html">Lecture 9: Residual Analysis. Sample ACF</a></li>
+<li>Lecture 10: ARIMA(<span class="math inline">\(p,d,q\)</span>), Overdifferencing, GLP-like representation</li>
+<li>Lecture 11: Transformations of TS, sample ACF, Bartletts Theorem, Hypothesis test for MA(q)</li>
+<li>Lecture 12: PACF, sample PACF, Durbin-Levinson recursion</li>
+<li>Lecture 13: EACF, Specification of some TS, Unit Root test.</li>
+<li>Lecture 14: Parameter Estimation: method of moments
 <ul>
 <li><a href="./TSA-Lecture14-model-specification.html">Rnotebook: Model Specification</a></li>
+</ul></li>
+<li>Lecture 15: Parameter Estimation: Method of Moments, condtional least squares</li>
+<li>Lecture 16: Parameter Estimation: MLE, unconditional least squares.
+<ul>
 <li><a href="./TSA-Lecture16-parameter-estimation.html">Rnotebook: Parameter Estimation</a></li>
+</ul></li>
+<li>Lecture 17: Diagnostics: residuals, overfitting
+<ul>
 <li><a href="./TSA-Lecture17-model-diagnostics.html">Rnotebook: Model Diagnostics</a></li>
+</ul></li>
+<li>Lecture 18: Forecasting</li>
+<li>Lecture 19: Forecasting: RW, ARMA(1,1), ARIMA, EWMA
+<ul>
 <li><a href="./TSA-Lecture19-forecasting.html">Rnotebook: Forecasting</a></li>
+</ul></li>
+<li>Lecture 20: SARIMA = Seasonal ARIMA
+<ul>
 <li><a href="./TSA-Lecture20-sarima.html">Rnotebook: SARIMA = Seasonal ARIMA</a></li>
+</ul></li>
+<li>Lecture 21: Cross-Correlation Function, Spurious Regression.</li>
+<li>Lecture 22: Spurious Regression, Prewhitening
+<ul>
 <li><a href="./TSA-Lecture22-spurious.html">Rnotebook: Spurious Regression</a></li>
+</ul></li>
+<li>Lecture 23: ARCH/GARCH Models
+<ul>
 <li><a href="./TSA-Lecture23-arch-garch.html">Rnotebook: ARCH/GARCH</a></li>
 </ul></li>
 </ul>
