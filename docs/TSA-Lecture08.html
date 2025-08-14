@@ -321,7 +321,12 @@ window.Quarto = {
 <li><span class="math inline">\(\{X_t\}\)</span> is a stationary stochastic component. We may fit a model (like AR(<span class="math inline">\(p\)</span>), MA(<span class="math inline">\(q\)</span>), ARMA(<span class="math inline">\(p,q\)</span>)) for it.</li>
 <li><span class="math inline">\(\{\mu_t\}\)</span> is a deterministic component. And it is often non-stationary (which reduces to non-constant, since it is deterministic). It may reflect the trend, or trend combined with seasonality.</li>
 </ul>
-<p>The idea to deal with <span class="math inline">\((Y_t)\)</span>: first estimate <span class="math inline">\(\mu_t\)</span> with <span class="math inline">\(\widehat{\mu}_t\)</span>, then extract <span class="math inline">\(X_t\)</span> by <span class="math inline">\(X_t = Y_t - \widehat{\mu}_t\)</span>.</p>
+<p>The idea to deal with <span class="math inline">\((Y_t)\)</span>:</p>
+<ul>
+<li>first estimate <span class="math inline">\(\mu_t\)</span> with <span class="math inline">\(\widehat{\mu}_t\)</span>,</li>
+<li>estimate <span class="math inline">\(X_t\)</span> by <span class="math inline">\(\widehat{X}_t = Y_t - \widehat{\mu}_t\)</span>.</li>
+</ul>
+<p>Then we can fit any of the stationary time series models (like AR(<span class="math inline">\(p\)</span>), MA(<span class="math inline">\(q\)</span>), ARMA(<span class="math inline">\(p,q\)</span>)) to the estimated residuals <span class="math inline">\(\widehat{X}_t\)</span>.</p>
 </section>
 <section id="estimate-the-sample-mean-of-a-time-series" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Estimate the sample mean of a time series</h1>
