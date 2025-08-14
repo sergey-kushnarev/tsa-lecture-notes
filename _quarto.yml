@@ -38,7 +38,14 @@ website:
         text: Lecture 12
       - href: TSA-Lecture09.qmd
         text: Lecture 13
-
+      - href: TSA-Lecture09.qmd
+        text: Lecture 14
+      - href: TSA-Lecture09.qmd
+        text: Lecture 15
+      - href: TSA-Lecture09.qmd
+        text: Lecture 16
+      - href: TSA-Lecture09.qmd
+        text: Lecture 17
 format:
   html:
     theme:
