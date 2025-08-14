@@ -1,0 +1,238 @@
+---
+title: "Rnotebook: Forecasting"
+author: "Dr Sergey Kushnarev"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+## Steps in Time Series Analysis
+
+|   |   |   |   |
+|:---:|:---:|:---:|:---:|
+| Step 1: Model Specification |  Step 2: Parameter Estimation  | Step 3: Model Checking | **Step 4: Forecasting** |
+
+# ARIMA Forecasting
+
+```{r, message=FALSE, warning=FALSE}
+library(TSA)
+```
+
+Based on Chapter 9 Forecasting, Cryer and Chan (2008).
+
+Forecasting is the process of predicting future values of a time series based on its past values. Let's introduce the notation for the time series and its forecast.
+
+- Let $Y_t$ be the time series at time $t$.
+- Let $Y_{t+1}, Y_{t+2}, \ldots, Y_{t+h}$ be the future, yet unobserved, values of the time series for $h$ periods ahead.
+- The forecast for $Y_{t+1}$ is denoted as $\hat{Y}_t(1)$ and is based on the information available up to time $t$. Similarly, $\hat{Y}_t(2)$ is the forecast for $Y_{t+2}$ based on the information available up to time $t$, and so on.
+- The $h$-step-ahead forecast is denoted as $\hat{Y}_t(h)$ and is based on the information available up to time $t$.
+- The forecast error for the $h$-step-ahead forecast is denoted as $e_t(h) = Y_{t+h} - \hat{Y}_t(h)$.
+
+## Forecasting AR(1)
+
+```{r}
+# Example of Forecasting AR(1) Model
+data(ar1.s)
+m1.ar1=arima(ar1.s,order=c(1,0,0))
+plot(m1.ar1,n.ahead=12,type='b',
+        xlab='Time',ylab='AR(1)', 
+        main = 'Forecasting AR(1) with 12 steps ahead, phi=0.9')
+# add the horizontal line at the estimated mean ("intercept")
+abline(h=coef(m1.ar1)[names(coef(m1.ar1))=='intercept'])
+```
+
+## Forecasting AR(2)
+```{r}
+# Example of Forecasting AR(2) Model
+data(ar2.s)
+m1.ar2=arima(ar2.s,order=c(2,0,0))
+plot(m1.ar2,n.ahead=12,type='b',
+        xlab='Time',ylab='AR(2)', 
+        main = 'Forecasting AR(2) with h=12 , phi1=1.5, phi2=-0.75')
+# add the horizontal line at the estimated mean ("intercept")
+abline(h=coef(m1.ar2)[names(coef(m1.ar2))=='intercept'])
+```
+
+## Forecasting MA(2)
+```{r}
+# Example of Forecasting MA(2) Model
+data(ma2.s)
+m1.ma2=arima(ma2.s,order=c(0,0,2))
+plot(m1.ma2,n.ahead=12,type='b',
+        xlab='Time',ylab='MA(2)', 
+        main = 'Forecasting MA(2), h=12, theta1=1, theta2=-0.6')
+# add the horizontal line at the estimated mean ("intercept")
+abline(h=coef(m1.ma2)[names(coef(m1.ma2))=='intercept'])
+```
+
+## Forecasting ARMA(1,1)
+```{r}
+# Example of Forecasting ARMA(1,1) Model
+data(arma11.s)
+m1.arma11=arima(arma11.s,order=c(1,0,1))
+plot(m1.arma11,n.ahead=12,type='b',
+        xlab='Time',ylab='ARMA(1,1)',
+        main = 'Forecasting ARMA(1,1), h=12, phi=0.6, theta=-0.3')
+abline(h=coef(m1.arma11)[names(coef(m1.arma11))=='intercept'])
+```
+
+## Forecasting Random Walk with Drift
+
+Recall, random walk with a drift is defined as 
+$$Y_t = Y_{t-1} + \delta + e_t$$, 
+where $e_t$ is a white noise error term and $\delta$ is the drift parameter. The forecast for $\hat{Y}_{t}(h)$ is given by $\hat{Y}_t(h) = Y_t + h\,\delta$.
+
+```{r, echo=FALSE}
+set.seed(123)
+n <- 100
+drift <- 0.5
+x <- cumsum(rnorm(n, mean = drift, sd = 1))
+x_ts <- ts(x)
+
+# Estimate drift and residual sd
+delta_hat <- mean(diff(x_ts))
+resid_sd <- sd(diff(x_ts))
+x_last <- tail(x_ts, 1)
+h <- 12
+
+# Forecast mean
+fc_manual <- as.numeric(x_last) + delta_hat * (1:h)
+
+# 95% Prediction interval
+se <- resid_sd * sqrt(1:h)
+lower <- fc_manual - 1.96 * se
+upper <- fc_manual + 1.96 * se
+
+# Plot
+ts.plot(x_ts, xlim = c(1, n + h), ylim = range(c(x_ts, lower, upper)),
+        main = "Random Walk with Drift + 95% PI", ylab = "Value")
+lines((n + 1):(n + h), fc_manual, col = "blue", lwd = 2)
+lines((n + 1):(n + h), lower, col = "blue", lty = 2)
+lines((n + 1):(n + h), upper, col = "blue", lty = 2)
+legend("topleft", legend = c("Observed", "Forecast", "95% PI"),
+       col = c("black", "blue", "blue"), lty = c(1,1,2), bty = "n")
+
+```
+
+<!-- ```{r}
+# Comparing this to fable package
+#install.packages("tsibble")
+library(fable)
+library(tsibble)
+library(dplyr)
+library(ggplot2)
+
+# Create a tsibble
+df <- tibble(time = 1:100, value = x) %>% as_tsibble(index = time)
+
+# Fit a random walk with drift model
+fit <- df %>% model(rw = RW(value ~ drift()))
+
+# Forecast 12 steps ahead
+fc <- fit %>% forecast(h = 12)
+
+# Plot forecast with 95% prediction intervals
+autoplot(fc, df) +
+  ggtitle("Forecast from fable::RW with Observed Series") +
+  ylab("Value") +
+  xlab("Time") +
+  theme_minimal()
+``` -->
+
+
+# Deterministic Trends
+
+A deterministic trend is a trend that can be predicted exactly using a mathematical function. For example, a linear trend can be represented by the equation $Y_t = \beta_0 + \beta_1 t + e_t$, where $e_t$ is a white noise error term.
+In general, a deterministic trend can be represented by the equation 
+$$
+Y_t = \mu_t + e_t,
+$$ 
+where $\mu_t$ is a deterministic function of time and $e_t$ is a white noise error term.
+
+The forecasted value for $Y_{t+h}$ is given by $\hat{Y}_t(h) = \mu_{t+h}$.
+The forecast error is given by $e_t(h) = Y_{t+h} - \hat{Y}_t(h)=e_{t+h}$.
+
+<!-- 
+```{r}
+data(tempdub)
+tempdub1=ts(c(tempdub,rep(NA,24)),
+                start=start(tempdub),
+                freq=frequency(tempdub))
+har.<-harmonic(tempdub,1)
+m5.tempdub=arima(tempdub,order=c(0,0,0),xreg=har.)
+newhar.=harmonic(ts(rep(1,24), start=c(1976,1),freq=12),1)
+# Compute and plot the forecasts.
+plot(m5.tempdub,n.ahead=24,n1=c(1972,1),
+        newxreg=newhar.,
+        type='b',ylab='Temperature',xlab='Year',
+        main ='Forecasts for Temperature')
+``` 
+-->
+
+## Temperature Data
+
+```{r}
+# Exhibit 9.2
+# append 2 years of missing values to the tempdub data as we want to forecast
+# the temperature for two years.
+data(tempdub)
+
+tempdub1=ts(c(tempdub,rep(NA,24)),
+                start=start(tempdub),
+                freq=frequency(tempdub)) 
+
+# creates the first pair of harmonic functions and then fit the model
+har.=harmonic(tempdub,1)
+m5.tempdub=arima(tempdub,order=c(0,0,0),xreg=har.)
+m5.tempdub
+
+# create the harmonic functions over the period of forecast.
+newhar.=harmonic(ts(rep(1,24), start=c(1976,1),freq=12),1)
+# Compute and plot the forecasts.
+plot(m5.tempdub,n.ahead=24,
+        n1=c(1972,1),newxreg=newhar.,
+        type='b',ylab='Temperature',xlab='Year')
+```
+
+# ARIMA Forecasting: actual time series
+
+## Color Property Data
+
+AR(1) model was fitted to the color property data. The forecast is based on the fitted AR(1) model and can be used to predict future values of the time series. 
+
+```{r}
+data(color)
+m1.color=arima(color,order=c(1,0,0))
+
+# Exhibit 9.3 
+data(color)
+m1.color=arima(color,order=c(1,0,0))
+plot(m1.color,n.ahead=12,type='b', xlab='Time', ylab='Color Property')
+# add the horizontal line at the estimated mean ("intercept") 
+abline(h=coef(m1.color)[names(coef(m1.color))=='intercept'])
+```
+
+
+## Hare Data
+
+The Canadian hare abundance series was fitted by working with the square root of
+the abundance numbers and then fitting an AR(3) model. Notice how the forecasts
+mimic the approximate cycle in the actual series even when we forecast with a lead time out to 25 years.
+
+```{r, warning=FALSE}
+# Exhibit 9.4
+data(hare)
+# fixed the AR(2) coefficient to be 0 via the fixed argument.
+m1.hare=arima(sqrt(hare),order=c(3,0,0), fixed=c(NA,0,NA,NA)) 
+plot(m1.hare, n.ahead=25,type='b',xlab='Year',ylab='Sqrt(hare)')
+abline(h=coef(m1.hare)[names(coef(m1.hare))=='intercept'])
+
+```
+
+
+
+
+
+

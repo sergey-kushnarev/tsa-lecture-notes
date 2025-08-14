@@ -1,0 +1,310 @@
+---
+title: "439/639 TSA: Parameter Estimation"
+author: "Dr Sergey Kushnarev"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+
+ 
+## Steps in Time Series Analysis            
+
+|   |   |   |   |
+|:---:|:---:|:---:|:---:|
+| Step 1: Model Specification |  **Step 2: Parameter Estimation**  | Step 3: Model Checking | Step 4: Forecasting |
+
+
+
+
+
+# Parameter Estimation
+
+This R Notebook is based on Chapter 7, Cryer and Chan. We illustrate the following methods of parameters estimation for ARMA models:
+
+- Method of Moments (Yule-Walker method), 
+- Conditional Least Squares, 
+- Maximum Likelihood Estimation, 
+- Unconditional Least Squares. 
+
+We assume that $p,d,q$ are known and we are interested in estimating the parameters of the model. 
+
+Assume $Y_1,Y_2,\ldots,Y_n$ is an observed **stationary** time series, or a corresponding difference of the original series. 
+
+
+
+```{r, message=FALSE,warning=FALSE}
+library(TSA)
+```
+
+## Method of Moments
+
+### MA(1)
+
+The method of moments estimator of the MA(1) coefficient $\theta$ is given by the solution of the following quadratic equation:
+$$
+r_1\theta^2 + \theta  + r_1 = 0,
+$$
+where $r_1$ is the sample lag 1 ACF of the time series.
+
+```{r}
+# Below is a function that computes the method of moments estimator of
+# the MA(1) coefficient of an MA(1) model.
+estimate.ma1.mom = function(x){
+    r=acf(x,plot=F)$acf[1] 
+    if (abs(r)<0.5) 
+        return((-1+sqrt(1-4*r^2))/(2*r)) 
+    else 
+        return(NA)
+        }
+
+# Exhibit 7.1
+data(ma1.2.s)
+estimate.ma1.mom(ma1.2.s)
+
+data(ma1.1.s)
+estimate.ma1.mom(ma1.1.s)
+
+set.seed(1234)
+ma1.3.s=arima.sim(list(ma=c(-0.9)),n=60)
+estimate.ma1.mom(ma1.3.s)
+
+ma1.4.s=arima.sim(list(ma=c(-0.5)),n=60) 
+estimate.ma1.mom(ma1.4.s)
+```
+
+```{r}
+# Display the results of the method of moments for all MA(1) models above in a table format
+library(knitr)
+kable(data.frame(
+    c('ma1.1.s','ma1.2.s','ma1.3.s','ma1.4.s'),
+    c(0.9,-0.9,0.9,0.5),
+    c(estimate.ma1.mom(ma1.1.s),estimate.ma1.mom(ma1.2.s),
+      estimate.ma1.mom(ma1.3.s),estimate.ma1.mom(ma1.4.s)),
+    c(120,120,60,60)),
+    col.names=c('Data','True Value theta','Estimate of MA(1)', 'Sample size')
+    )  
+```
+
+### AR(p)
+
+Method of moments estimator of the AR(1) coefficient $\phi$ is given by
+$$
+\widehat\phi_{MoM}=r_1.
+$$
+
+```{r}
+# Fitting an AR(1) model to the data
+data(ar1.s)
+ar(ar1.s,order.max=1,AIC=F,method='yw')
+data(ar1.2.s)
+ar(ar1.2.s,order.max=1,AIC=F,method='yw')
+data(ar2.s)
+ar(ar2.s,order.max=2,AIC=F,method='yw')
+```
+
+```{r}
+# Display the results of the method of moments for all AR(1) models above in a table format
+kable(data.frame(
+    c('ar1.s','ar1.2.s','ar2.s','--'),
+    c('0.9','0.4','1.5','-0.75'),
+    c(ar(ar1.s,order.max=1,AIC=F,method='yw')$ar, 
+      ar(ar1.2.s,order.max=1,AIC=F,method='yw')$ar,
+      ar(ar2.s,order.max=2,AIC=F,method='yw')$ar),
+    c(120,120,120, '--')),
+    col.names=c('Data','True Value phi','Estimate of AR(1)', 'Sample size')
+    )
+```
+
+## Comparison of Estimation methods
+
+We will compare Method of Moments, Conditional Sum of Squares, and Maximum Likelihood Methods
+
+### AR(1)
+
+```{r}
+# Exhibit 7.4
+data(ar1.s)
+ar(ar1.s,order.max=1,AIC=F,method='yw') # method of moments
+ar(ar1.s,order.max=1,AIC=F,method='ols') # conditional sum of squares
+ar(ar1.s,order.max=1,AIC=F,method='mle') # maximum likelihood
+# The AIC option is set to be False otherwise the function will choose
+# the AR order by minimizing AIC, so that zero order might be chosen.
+
+data(ar1.2.s)
+ar(ar1.2.s,order.max=1,AIC=F,method='yw') # method of moments
+ar(ar1.2.s,order.max=1,AIC=F,method='ols') # conditional sum of squares
+ar(ar1.2.s,order.max=1,AIC=F,method='mle') # maximum likelihood
+```
+
+```{r}
+# Display the results of the method of moments, conditional sum of squares, and maximum likelihood for AR(1) models above in a table format
+kable(data.frame(
+    c('ar1.s','ar1.2.s'),
+    c('0.9','0.4'),
+    c(ar(ar1.s,order.max=1,AIC=F,method='yw')$ar, 
+      ar(ar1.2.s,order.max=1,AIC=F,method='yw')$ar),
+    c(ar(ar1.s,order.max=1,AIC=F,method='ols')$ar, 
+      ar(ar1.2.s,order.max=1,AIC=F,method='ols')$ar),
+    c(ar(ar1.s,order.max=1,AIC=F,method='mle')$ar, 
+      ar(ar1.2.s,order.max=1,AIC=F,method='mle')$ar),
+    c(60,60)),
+    col.names=c('Data','True Value phi','MoM of AR(1)', 'CSS of of AR(1)', 'MLE of AR(1)', 'Sample size')
+    )
+```
+
+The standard errors of the estimated AR(1) coefficients are given by the following formula:
+$$
+SE(\hat\phi)=\sqrt{\widehat{\text{Var}}(\hat\phi)}=\frac{1-\hat\phi^2}{n}
+$$
+
+For example, for the first AR(1) model, we have $\hat\phi=0.89$ and $n=60$, so that $SE(\hat\phi)=\approx 0.06$.
+
+And for the second AR(1) model, we have $\hat\phi=0.465$ and $n=60$, so that $SE(\hat\phi)=\approx 0.11$.
+
+All the estimates are comparable.
+
+### AR(2)
+
+```{r}
+
+# Exhibit 7.5
+data(ar2.s)
+ar(ar2.s,order.max=2,AIC=F,method='yw') # method of moments
+ar(ar2.s,order.max=2,AIC=F,method='ols') # conditional sum of squares
+ar(ar2.s,order.max=2,AIC=F,method='mle') # maximum likelihood
+# Display the results of the method of moments, conditional sum of squares, and maximum likelihood for AR(2) models above in a table format
+kable(data.frame(
+    c('ar2.s'),
+    c('1.5','-0.75'),
+    c(ar(ar2.s,order.max=2,AIC=F,method='yw')$ar),
+    c(ar(ar2.s,order.max=2,AIC=F,method='ols')$ar),
+    c(ar(ar2.s,order.max=2,AIC=F,method='mle')$ar),
+    c(120)),
+    col.names=c('Data','True Value phi_i','MoM of AR(2)', 'CSS of AR(2)', 'MLE of AR(2)', 'Sample size')
+    )
+```
+
+Standard errors of the estimated AR(2) coefficients are given by the following formula:
+
+$$
+SE(\hat\phi_1)\approx SE(\hat\phi_2)\approx\sqrt{\frac{1-\hat\phi_2^2}{n}}\approx 0.06
+$$
+
+
+
+## Conditional Least Squares/Sum of Squares
+
+### MA(1)
+
+```{r}
+# Using conditinal sum of squares method
+arima(ma1.4.s,order=c(0,0,1),method='CSS',include.mean=F)
+```
+
+### ARMA(1,1)
+
+```{r}
+# Fitting an ARMA(1,1) model to the data
+# Exhibit 7.6
+data(arma11.s)
+arima(arma11.s, order=c(1,0,1),method='CSS') # conditional sum of squares
+arima(arma11.s, order=c(1,0,1),method='ML') # maximum likelihood
+# 
+# Recall that R uses the plus convention whereas our book uses the minus 
+# convention in the specification of the MA part, i.e. R specifies an
+# ARMA(1,1) model as z_t=theta_0+phi*z_{t-1}+e_t+theta_1*e_{t-1} 
+# versus our convention
+# z_t=theta_0+phi*z_{t-1}+e_t-theta_1*e_{t-1} 
+```
+
+| Parameter | MOM | CSS | UCSS | MLE | $n$   |
+|-----------|-------------------|----------------|-------------------|---------------------|-----|
+| $\phi = 0.6$   | 0.637             | 0.5586         | 0.5691            | 0.5647              | 100 |
+| $\theta = −0.3$  | −0.2066           | −0.3669        | −0.3618           | −0.3557             | 100 |
+
+
+\newpage
+
+# Parameter Estimation for Some Actual Time Series
+
+### Color Property
+
+The sample PACF of the color property dataset strongly suggested an AR(1) model. We will fit an AR(1) model to the color property dataset using the method of moments, conditional sum of squares, and maximum likelihood methods.
+
+```{r}
+# Exhibit 7.7
+data(color)
+ar(color,order.max=1,AIC=F,method='yw') # method of moments
+ar(color,order.max=1,AIC=F,method='ols') # conditional sum of squares
+ar(color,order.max=1,AIC=F,method='mle') # maximum likelihood
+```
+
+| Parameter | MoM | CSS  | Unconditional SS | MLE | $n$  |
+|-----------|-----------------------------|--------------------------|----------------------------|------------------------------|----|
+| $\phi$         | 0.5282                      | 0.5549                   | 0.5890                     | 0.5703                       | 35 |
+
+The standard error of the estimated AR(1) coefficient is given by the following formula:
+$$
+SE(\hat\phi)=\sqrt{\widehat{\text{Var}}(\hat\phi)}=\sqrt{\frac{1-\hat\phi^2}{n}}\approx 0.14
+$$
+
+All estimates are comparable. 
+
+### Hare Data
+
+We are fitting an AR(3) model to the square root of the hare data, $\sqrt{Y_t}$.
+
+```{r}
+# Exhibit 7.8
+data(hare)
+arima(sqrt(hare),order=c(3,0,0))
+```
+
+| Coefficient | Estimate | Std. Error |
+|-------------|----------|------------|
+| $\phi_1$         | $\phantom{-}1.0519$   | 0.1877     |
+| $\phi_2$    | $−0.2292$  | 0.2942     |
+| $\phi_3$    | $−0.3931$  | 0.1915     |
+| Intercept*  | $\phantom{-}5.6923$   | 0.3371     |
+
+* The intercept here is the estimate of the process mean $\mu$.
+
+- $\sigma^2$ estimated as 1.066  
+- Log-likelihood = −46.54  
+- AIC = 101.08
+
+The fitted model is:
+
+\begin{align*}
+\sqrt{Y_t} - 5.6923 &= 1.0519(\sqrt{Y_{t-1}} - 5.6923) - 0.2292(\sqrt{Y_{t-2}} - 5.6923) \\
+&\quad - 0.3930(\sqrt{Y_{t-3}} - 5.6923) + e_t \\
+\sqrt{Y_t} &= 3.25 + 1.0519\, \sqrt{Y_{t-1}} - 0.2292\, \sqrt{Y_{t-2}} - 0.3930\, \sqrt{Y_{t-3}} + e_t
+\end{align*}
+
+Notice, $\phi_2$ is not significantly different from 0, so we can drop it from the model and refit the AR(3) model with only $\phi_1$ and $\phi_3$ coefficients.
+
+### Oil-prices
+
+We are fitting the ARIMA(0,1,1) model to the log of oil prices, $\log(Y_t)$, or an ARMA(0,1)=MA(1) model to the first differences of the log of oil prices, $\nabla\log Y_t$:
+
+```{r}
+# Exhibit 7.9
+data(oil.price)
+arima(log(oil.price),order=c(0,1,1),method='CSS') # conditional sum of squares
+arima(log(oil.price),order=c(0,1,1),method='ML') # maximum likelihood
+```
+
+| Parameter | MoM | CSS | UCSS  | MLE | $n$   |
+|-----------|-----------------------------|--------------------------|----------------------------|------------------------------|-----|
+| $\theta$         | $−0.2225$                     | $−0.2731$                  | $−0.2954$                   | $−0.2956$                      | 241 |
+
+
+All estimates are comparable, since the standard errors are close to 0.06. 
+
+**Exercise** Find the standard error of the estimated MA(1) coefficient $\theta$.
+
+
+

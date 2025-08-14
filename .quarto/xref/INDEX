@@ -40,5 +40,26 @@
   },
   "TSA-Lecture09-model-specification.qmd": {
     "TSA-Lecture09-model-specification.html": "2b3f3b21"
+  },
+  "TSA-Lecture16-parameter-estimation.qmd": {
+    "TSA-Lecture16-parameter-estimation.html": "09f4b1ec"
+  },
+  "TSA-Lecture14-model-specification.qmd": {
+    "TSA-Lecture14-model-specification.html": "eac0b9ab"
+  },
+  "TSA-Lecture17-model-diagnostics.qmd": {
+    "TSA-Lecture17-model-diagnostics.html": "ee42b688"
+  },
+  "TSA-Lecture19-forecasting.qmd": {
+    "TSA-Lecture19-forecasting.html": "3876006a"
+  },
+  "TSA-Lecture22-spurious.qmd": {
+    "TSA-Lecture22-spurious.html": "c5c56f07"
+  },
+  "TSA-Lecture20-sarima.qmd": {
+    "TSA-Lecture20-sarima.html": "6effa3e2"
+  },
+  "TSA-Lecture23-arch-garch.qmd": {
+    "TSA-Lecture23-arch-garch.html": "488a2491"
   }
 }

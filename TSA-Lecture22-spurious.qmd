@@ -1,0 +1,240 @@
+---
+title: "439/639: Vector Time Series and Spurious Correlation"
+author: "Dr Sergey Kushnarev"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+# Cross-covariance and Cross-correlation Functions
+
+Cross-covariance and cross-correlation functions are used to analyze the relationship between two time series. The cross-covariance function measures the covariance between two time series at different lags, while the cross-correlation function measures the correlation between two time series at different lags.
+$$
+\gamma_m(x,y) = Cov(X_t, Y_{t+m})
+$$
+
+Cross-correlation function is defined as:
+$$
+r_m(x,y) = \frac{\gamma_m(x,y)}{\sqrt{\gamma_0(x,x)\gamma_0(y,y)}}
+$$
+
+where $\gamma_0(x,x)$ and $\gamma_0(y,y)$ are the variances of the time series $x$ and $y$, respectively.
+The cross-correlation function is a normalized version of the cross-covariance function, which allows for easier interpretation and comparison between different time series.
+
+Often cross-correlation function is displayed in a grid of plots, where each plot shows the cross-correlation function between two time series at different lags. This allows for a visual representation of the relationship between the two time series and can help identify any patterns or trends in the data.
+
+```{r, message=FALSE, warning=FALSE}
+# Load required packages
+library(TSA)
+
+set.seed(639)
+X=rnorm(105) 
+Y=zlag(X,2)+0.5*rnorm(105)
+X=ts(X[-(1:5)],start=1,freq=1)
+Y=ts(Y[-(1:5)],start=1,freq=1)
+
+# Make X, Y a multivariate time series
+library(astsa)
+X=ts(X,start=1,freq=1)
+Y=ts(Y,start=1,freq=1)
+XY <- ts(cbind(X, Y), start = 1, frequency = 1)
+# Cross-covariance function
+acfm(XY)
+```
+
+## Bartlett's Theorem for Sample Cross-Correlation Function
+
+Bartlett's theorem states that the sample cross-correlation function converges to the true cross-correlation function as the sample size increases. This means that as the number of observations in the time series increases, the sample cross-correlation function will become a more accurate estimate of the true cross-correlation function.
+
+$$
+r_m(X,Y)\sim N(\rho_m(X,Y),\frac{1}{n}\left[1+2\sum_{k=1}^\infty\rho_k(X)\rho_k(Y)\right])
+$$
+
+where $\rho_k(X)$ and $\rho_k(Y)$ are the autocorrelation functions of the time series $X$ and $Y$, respectively. 
+
+The term $2\sum_{k=1}^\infty\rho_k(X)\rho_k(Y)$ often result in inflation of the variance of the sample cross-correlation function, which can lead to misleading conclusions about the relationship between the two time series. This is particularly important when analyzing time series data with long memory or strong autocorrelation, as these characteristics can significantly affect the sample cross-correlation function.
+
+In the example of $X_t\sim AR(1)$ and $Y_t\sim AR(1)$ the variance becomes:
+$$
+\frac{1}{n}\frac{1+\phi_X\phi_Y}{1-\phi_X\phi_Y}
+$$
+
+
+```{r, message=FALSE, warning=FALSE}
+set.seed(639)
+library(astsa)
+x <- rnorm(100)
+y <- rnorm(100)
+xy <- ts(cbind(x, y), start = 1, frequency = 1)
+acfm(xy)
+
+ccf(xy[,1], xy[,2], lag.max = 20, main = 'Cross-correlation function of X and Y')
+```
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+# display histogram of sample cross-correlation function in white noise case and overlay the theoretical normal distribution
+
+set.seed(639)
+
+sample.rxy <- c()
+for (i in 1:10) {
+  x <- rnorm(1000)
+  y <- rnorm(1000)
+  rxy <- ccf(x, y, plot = FALSE, lag.max = 20)
+  
+  sample.rxy <- cbind(sample.rxy, rxy$acf)
+}
+sample.rxy <- as.vector(sample.rxy)
+
+
+sample.rxy.ar1 <- c()
+for (i in 1:10) {
+  x <- arima.sim(model = list(order = c(1, 0, 0), ar = 0.8), n = 1000)
+  y <- arima.sim(model = list(order = c(1, 0, 0), ar = 0.8), n = 1000)
+  rxy <- ccf(x, y, plot = FALSE, lag.max = 20)
+  
+  sample.rxy.ar1 <- cbind(sample.rxy, rxy$acf)
+} 
+sample.rxy.ar1 <- as.vector(sample.rxy.ar1)
+
+
+x_vals <- seq(min(sample.rxy), max(sample.rxy), length.out = 100)
+
+# Plot the histogram of white noise CCFs (density form)
+hist(sample.rxy, breaks = 20, freq = FALSE,
+     col = rgb(0, 0, 1, 0.5), border = 'blue',
+     main = 'Histogram of Sample CCFs',
+     xlab = 'Cross-correlation', ylab = 'Density')
+
+# Overlay the histogram of AR(1) CCFs
+hist(sample.rxy.ar1, breaks = 20, freq = FALSE,
+     col = rgb(1, 0, 0, 0.5), border = 'red',
+     add = TRUE)
+
+# Add the standard normal curve
+x_vals <- seq(min(c(sample.rxy, sample.rxy.ar1)), 
+              max(c(sample.rxy, sample.rxy.ar1)), 
+              length.out = 200)
+lines(x_vals, dnorm(x_vals, mean = 0, sd = sqrt(1/1000)), 
+      col = 'black', lwd = 2)
+
+# Add legend
+legend("topright", legend = c("White Noise", "AR(1)", "Normal Curve"), 
+       fill = c(rgb(0, 0, 1, 0.5), rgb(1, 0, 0, 0.5), NA), 
+       border = c("blue", "red", NA), 
+       lty = c(NA, NA, 1), col = c(NA, NA, "black"), lwd = c(NA, NA, 2))
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+x <- arima.sim(model = list(order = c(1, 0, 0), ar = 0.8), n = 100)
+y <- arima.sim(model = list(order = c(1, 0, 0), ar = 0.8), n = 100)
+xy <- ts(cbind(x, y), start = 1, frequency = 1)
+acfm(xy)
+```
+
+## Prewhitening
+Prewhitening is a technique used to remove the effects of autocorrelation from a time series before analyzing the cross-correlation between two time series. This is particularly important when the two time series have strong autocorrelation, as this can lead to misleading conclusions about the relationship between the two time series.
+
+```{r, message=FALSE, warning=FALSE}
+set.seed(123)
+x <- arima.sim(n = 100, model = list(ar = 0.9))
+y <- 0.5 * x + arima.sim(n = 100, model = list(ar = 0.9))
+
+ccf(x,y)
+
+# Prewhiten x and filter y
+prewhiten(x, y)
+
+```
+
+
+## Milk vs Electricity production example
+
+```{r, message=FALSE, warning=FALSE}
+data(milk) 
+data(electricity)
+milk.electricity <- ts.intersect(milk,log(electricity))
+plot(milk.electricity,yax.flip=T)
+
+acfm(milk.electricity)
+
+ccf(milk.electricity[,1],milk.electricity[,2],
+    lag.max=20,main='CCF of Milk and Electricity')
+```
+
+Let's prewhiten the data 
+
+```{r, message=FALSE, warning=FALSE}
+me.dif <- ts.intersect(diff(diff(milk,12)),
+                    diff(diff(log(electricity),12)))
+prewhiten(as.vector(me.dif[,1]),
+        as.vector(me.dif[,2]),
+        ylab='CCF')
+```
+
+
+## Bluebird potato chips example
+
+Our first example of this section is a sales and price dataset of a certain potato chip
+from Bluebird Foods Ltd., New Zealand. The data consist of the log-transformed
+weekly unit sales of large packages of standard potato chips sold and the weekly average
+price over a period of 104 weeks.
+
+```{r, message=FALSE, warning=FALSE}
+data(bluebird)
+plot(bluebird,yax.flip=T)
+
+acfm(bluebird)
+
+prewhiten(y=diff(bluebird)[,1],x=diff(bluebird)[,2],ylab='CCF')
+
+```
+
+We see strong contemporaneous correlation between the two series. Therefore the model should be
+$$
+Log.sales_t = \beta_0 + \beta_1 Price_t + \epsilon_t
+$$
+The model can be estimated using OLS regression.
+
+```{r, message=FALSE, warning=FALSE}
+sales=bluebird[,1] 
+price=bluebird[,2]
+chip.m1=lm(sales~price,data=bluebird)
+summary(chip.m1)
+```
+
+Analyzing the residuals of the model, we see that they are not white noise. This indicates that there is still some autocorrelation present in the data, which suggests that the model may not be fully capturing the relationship between the two time series.
+```{r, message=FALSE, warning=FALSE}
+acf(residuals(chip.m1),ci.type='ma')
+pacf(residuals(chip.m1))
+eacf(residuals(chip.m1))
+```
+
+The diagnostics suggest the model: _______
+
+\newpage
+
+```{r, message=FALSE, warning=FALSE}
+chip.m2=arima(sales,order=c(1,0,4),xreg=data.frame(price))
+chip.m2
+chip.m3=arima(sales,order=c(1,0,4),xreg=data.frame(price),
+fixed=c(NA,0,NA,0,NA,NA,NA)) 
+chip.m3
+chip.m4=arima(sales,order=c(0,0,4),xreg=data.frame(price),
+fixed=c(0,NA,0,NA,NA,NA)) 
+chip.m4
+```
+
+Note that the regression coefficient estimate on Price is similar to that from the OLS
+regression fit earlier, but the standard error of the estimate is about 10% lower than that
+from the simple OLS regression. This illustrates the general result that the simple OLS
+estimator is consistent but the associated standard error is generally not trustworthy.
+
+Diagnosing the residuals from this model
+```{r, message=FALSE, warning=FALSE, fig.width=9, fig.height=9}
+tsdiag(chip.m4)
+```
+

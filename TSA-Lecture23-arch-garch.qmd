@@ -1,0 +1,308 @@
+---
+title: "439/639: ARCH and GARCH Models"
+author: "Dr Sergey Kushnarev"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+# ARCH models
+
+ARCH (Autoregressive Conditional Heteroskedasticity) models are used to model time series data with changing variance over time. They are particularly useful in financial applications where volatility is not constant. The basic idea is to model the variance of the error term as a function of past squared errors.
+
+For comparison, the ARMA models are conditionally homoscedastic, meaning that the variance of the error term is constant over time. In contrast, ARCH models allow for the variance to change over time, which is more realistic for many financial time series.
+The ARCH model was introduced by Robert Engle in 1982. The basic ARCH(q) model can be expressed as:
+
+$$
+Y_t = \mu + \sigma^2_t\epsilon_t
+$$
+
+where $\epsilon_t$ is the error term, and it is assumed to be normally distributed with mean 0 and variance 1. The variance $\sigma^2_t$ is modeled as a function of past squared errors:
+
+$$
+\sigma^2_t = \alpha_0 + \alpha_1 \epsilon^2_{t-1} + \alpha_2 \epsilon^2_{t-2} + ... + \alpha_q \epsilon^2_{t-q}
+$$
+
+where $\alpha_0 > 0$ and $\alpha_i \geq 0$ for $i=1,2,...,q$. The parameters $\alpha_0, \alpha_1, ..., \alpha_q$ are estimated from the data.
+
+For example, ARCH(1) can be expressed as:
+$$
+Y_t = \mu + \sigma^2_t\epsilon_t 
+$$
+
+$$
+\sigma^2_t = \alpha_0 + \alpha_1 \epsilon^2_{t-1}
+$$
+
+where $\alpha_0 > 0$ and $\alpha_1 \geq 0$. The ARCH(1) model captures the idea that the current variance is a function of the previous squared error.
+
+```{r, message=FALSE, warning=FALSE}
+library(TSA)
+# Load the CREF data
+data(CREF) 
+plot(CREF)
+```
+
+```{r}
+# Calculate the returns
+r.cref <- diff(log(CREF))*100
+plot(r.cref) 
+abline(h=0)
+title(main="CREF Returns")
+```
+
+```{r}
+# Plot ACF and PACF
+acf(r.cref, main="ACF of CREF Returns")
+pacf(r.cref, main="PACF of CREF Returns")
+
+# Plot ACF and PACF of absolute returns
+acf(abs(r.cref))
+title(main="ACF of Absolute CREF Returns")
+pacf(abs(r.cref))
+title(main="PACF of Absolute CREF Returns")
+
+# Plot ACF and PACF of squared returns
+acf(r.cref^2, main="ACF of Squared CREF Returns")
+pacf(r.cref^2, main="PACF of Squared CREF Returns")
+```
+
+Note, that the ACF and PACF of the squared returns show significant spikes, indicating the presence of ARCH effects, but ACF and PACF of the original returns shows white noise.
+
+```{r}
+# Perform McLeod-Li test for ARCH effects
+McLeod.Li.test(y=r.cref)
+
+qqnorm(r.cref)
+qqline(r.cref)
+
+shapiro.test(r.cref)
+```
+
+# Simulated ARCH(1) process
+
+```{r, message=FALSE, warning=FALSE}
+set.seed(1235678); library(tseries)
+garch01.sim=garch.sim(alpha=c(.01,.9),n=500)
+plot(garch01.sim,type='l',ylab=expression(r[t]), xlab='t')
+```
+
+```{r}
+set.seed(1234567)
+garch11.sim=garch.sim(alpha=c(0.02,0.05),beta=.9,n=500)
+plot(garch11.sim,type='l',ylab=expression(r[t]), xlab='t')
+
+# ACF and PACF of the simulated ARCH(1) process
+acf(garch11.sim, main="ACF of Simulated ARCH(1) Process")
+pacf(garch11.sim, main="PACF of Simulated ARCH(1) Process")
+
+# ACF and PACF of the absolute values of the simulated ARCH(1) process
+acf(abs(garch11.sim), main="ACF of Absolute Simulated ARCH(1) Process")
+pacf(abs(garch11.sim), main="PACF of Absolute Simulated ARCH(1) Process")
+title(main="PACF of Absolute Simulated ARCH(1) Process")
+
+# ACF and PACF of the squared values of the simulated ARCH(1) process
+acf(garch11.sim^2, main="ACF of Squared Simulated ARCH(1) Process")
+pacf(garch11.sim^2, main="PACF of Squared Simulated ARCH(1) Process")
+
+# Extended ACF of squared and absolute values
+eacf((garch11.sim)^2)
+eacf(abs(garch11.sim))
+
+``` 
+
+Plotting Extended ACF for the absolute and squared returns of the CREF data.
+
+```{r}
+eacf(abs(r.cref))
+eacf((r.cref)^2)
+```
+
+## Fitting ARIMA and GARCH models to simulated GARCH(1,1)
+
+```{r}
+arima(abs(garch11.sim),order=c(1,0,1))
+g1 <- garch(garch11.sim,order=c(2,2))
+summary(g1)
+
+g2 <- garch(garch11.sim,order=c(1,1))
+summary(g2)
+```
+
+```{r}
+m1=garch(x=r.cref,order=c(1,1))
+summary(m1)
+```
+
+## Diagnostics of the model
+
+```{r}
+plot(residuals(m1),type='h',ylab='Standardized Residuals')
+
+qqnorm(residuals(m1), main="Normal Q-Q Plot of Residuals") 
+qqline(residuals(m1))
+
+acf(residuals(m1)^2,na.action=na.omit, main="ACF of Squared Residuals")
+acf(abs(residuals(m1)),na.action=na.omit, main="ACF of Absolute Residuals")
+```
+
+We do not detect significant ARCH effects in the residuals. Thus the model is fitted adequately.
+
+<!-- 
+
+## Example of ARCH(p) model: US GNP data
+
+```{r, message=FALSE, warning=FALSE}
+#install.packages("astsa", repos = "http://cran.us.r-project.org")
+#install.packages("fGarch", repos = "http://cran.us.r-project.org")
+
+library(fGarch)
+set.seed(123)
+
+# Simulate ARCH(1) process, the formula will be sigma^2 = alpha_0 + alpha_1 * e^2_{t-1}, where alpha_0 = 5, alpha_1 = 0.5
+arch_sim <- as.ts(garchSim(spec = garchSpec(model = list(alpha = c(0.1, 0.8), beta = 0)), n = 300))
+
+arch_sim2 <- as.ts(garchSim(spec = garchSpec(model = list(alpha = c(0.1, 0.7, 0.1), beta = 0)), n = 300))
+
+plot(arch_sim, type = "l", main = "Simulated ARCH(1) process", ylab = "Value", xlab = "Time", col = 4)
+
+plot(arch_sim2, type = "l", main = "Simulated ARCH(2) process", ylab = "Value", xlab = "Time", col = 4)
+
+qqnorm(arch_sim, main = "Normal Q-Q plot of ARCH(1) residuals")
+qqline(arch_sim, col = 2)
+
+qqnorm(arch_sim2, main = "Normal Q-Q plot of ARCH(2) residuals")
+qqline(arch_sim2, col = 2)
+
+
+acf(arch_sim, main = "ACF of ARCH(1)")
+
+acf(arch_sim2, main = "ACF of ARCH(2)")
+
+acf(arch_sim^2, main = "ACF of Squared ARCH(1)")
+pacf(arch_sim^2, main = "PACF of Squared ARCH(1)")
+
+acf(arch_sim2^2, main = "ACF of Squared ARCH(2)")
+pacf(arch_sim2^2, main = "PACF of Squared ARCH(2)")
+
+acf(abs(arch_sim), main = "ACF of Squared ARCH(1)")
+pacf(abs(arch_sim), main = "PACF of Squared ARCH(1)")
+
+acf(abs(arch_sim2), main = "ACF of Squared ARCH(2)")
+pacf(abs(arch_sim2), main = "PACF of Squared ARCH(2)")
+```
+
+Based on the diagnostics, we can see that the residuals are not normally distributed. The Q-Q plot shows that the residuals deviate are heavy tailed. This suggests that maybe ARCH/GARCH model is more appropriate for this data.
+
+Analyzing the squared residuals can help us identify the presence of ARCH effects. If the squared residuals show significant autocorrelation, it indicates that the variance is not constant over time.
+
+```{r}
+library(astsa)
+library(fGarch)
+
+tsplot(GNP, main = "US GNP data", ylab = "GNP", xlab = "Time", col = 4)
+tsplot(diff(log(GNP)), main = "US GNP data", ylab = "GNP", xlab = "Time", col = 4)
+
+acf(diff(log(GNP)), xaxp = c(0, 20, 20), main = "ACF of diff(log(GNP)) data")
+pacf(diff(log(GNP)), xaxp = c(0, 20, 20), main = "PACF of diff(log(GNP)) data")
+
+library(TSA)
+eacf(diff(log(GNP)))
+
+
+ar2.fit <- arima(diff(log(GNP)), order = c(2, 0, 0), include.mean = TRUE)
+ar2.fit
+
+tsdiag(ar2.fit, main = "AR(2) model diagnostics")
+
+qqnorm(resid(ar2.fit), main = "Normal Q-Q plot of residuals")
+qqline(resid(ar2.fit), col = 2)
+
+hist(resid(ar2.fit), breaks = 20, main = "Histogram of residuals", xlab = "Residuals", col = "lightblue")
+
+acf(resid(ar2.fit)^2, main = "ACF of squared residuals")
+pacf(resid(ar2.fit)^2, main = "PACF of squared residuals")
+
+acf(abs(resid(ar2.fit)), main = "ACF of abs residuals")
+pacf(abs(resid(ar2.fit)), main = "PACF of abs residuals")
+
+#library(TSA)
+#eacf(abs(resid(ar2.fit)))
+
+#eacf((resid(ar2.fit))^2)
+```
+
+
+The suggested model is non-normal AR(2)-GARCH(0,1) model. 
+
+\begin{align*}
+Y_t &= \mu_t + \sigma_t e_t \\
+\mu_t &= \phi_0 + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} \\
+\sigma^2_t &= \alpha_0 + \alpha_1 Y^2_{t-1} \\
+\end{align*}
+
+where $e_t$ is the error term.
+
+
+```{r}
+gnp.g <- garchFit(~arma(0,2)+garch(2,0),data=diff(log(GNP)), cond.dist="std", trace=F)
+summary(gnp.g)
+
+gnp.g@fit$ics["AIC"]
+
+
+hist(residuals(gnp.g, standardize = TRUE), breaks = 20, main = "Histogram of residuals", xlab = "Residuals", col = "lightblue")
+
+acf(residuals(gnp.g, standardize = TRUE), main = "ACF of residuals")    
+pacf(residuals(gnp.g, standardize = TRUE), main = "PACF of residuals")
+
+```
+
+
+
+```{r}
+library(fGarch)
+
+# Define candidate orders
+arma_orders <- list(c(0, 1), c(0, 2), c(1, 1),c(1, 0), c(2, 0), c(2, 1))
+garch_orders <- list(c(1, 0), c(2, 0), c(1, 1))
+
+# Create a data frame to store results
+results <- data.frame(
+  arma = character(),
+  garch = character(),
+  AIC = numeric(),
+  stringsAsFactors = FALSE
+)
+
+# Loop over all combinations
+for (arma in arma_orders) {
+  for (garch in garch_orders) {
+    formula_str <- paste0("~arma(", arma[1], ",", arma[2], 
+                          ")+garch(", garch[1], ",", garch[2], ")")
+    cat("Fitting:", formula_str, "\n")
+    
+    # Fit the model
+    fit <- try(garchFit(as.formula(formula_str), 
+                        data = diff(log(GNP)), 
+                        cond.dist = "std", 
+                        trace = FALSE), silent = TRUE)
+    
+    # If successful, store AIC
+    if (!inherits(fit, "try-error")) {
+      aic <- fit@fit$ics["AIC"]
+      results <- rbind(results, data.frame(
+        arma = paste0("(", arma[1], ",", arma[2], ")"),
+        garch = paste0("(", garch[1], ",", garch[2], ")"),
+        AIC = aic
+      ))
+    }
+  }
+}
+
+# Show results
+results[order(results$AIC), ]
+```
+ -->

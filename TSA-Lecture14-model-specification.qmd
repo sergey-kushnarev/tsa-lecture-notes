@@ -8,6 +8,12 @@ format:
     code-fold: true
 ---
 
+## Steps in Time Series Analysis            
+
+|   |   |   |   |
+|:---:|:---:|:---:|:---:|
+| **Step 1: Model Specification** |  Step 2: Parameter Estimation  | Step 3: Model Checking | Step 4: Forecasting |
+
 # Model Specification
 
 This R notebook is based on Chapter 6, Cryer and Chan (2008), *Time Series Analysis with Applications in R*. Springer.
@@ -191,6 +197,7 @@ plot(res)
 
 
 ```{r}
+# Load the oil price data
 data(oil.price)
 # Plot the oil price series
 acf(as.vector(diff(log(oil.price))),xaxp=c(0,22,11))

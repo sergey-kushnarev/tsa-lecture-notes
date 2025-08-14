@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./TSA-Lecture16-parameter-estimation.html" rel="next">
 <link href="./TSA-Lecture09.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -145,7 +146,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture09-model-specification.html">Rnotebook: Model Specification</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture14-model-specification.html">Rnotebook: Model Specification</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -244,8 +245,44 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture09-model-specification.html" class="sidebar-item-text sidebar-link active">
+  <a href="./TSA-Lecture14-model-specification.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Rnotebook: Model Specification</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture16-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rnotebook: Parameter Estimation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture17-model-diagnostics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rnotebook: Model Diagnostics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture19-forecasting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rnotebook: Forecasting</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture20-sarima.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rnotebook: SARIMA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture22-spurious.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rnotebook: Spurious Regression</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture23-arch-garch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rnotebook: ARCH/GARCH</span></a>
   </div>
 </li>
     </ul>
@@ -258,7 +295,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#model-specification" id="toc-model-specification" class="nav-link active" data-scroll-target="#model-specification"><span class="header-section-number">1</span> Model Specification</a>
+  <li><a href="#steps-in-time-series-analysis" id="toc-steps-in-time-series-analysis" class="nav-link active" data-scroll-target="#steps-in-time-series-analysis"><span class="header-section-number">0.1</span> Steps in Time Series Analysis</a></li>
+  <li><a href="#model-specification" id="toc-model-specification" class="nav-link" data-scroll-target="#model-specification"><span class="header-section-number">1</span> Model Specification</a>
   <ul class="collapse">
   <li><a href="#specification-of-simulated-maq-processes" id="toc-specification-of-simulated-maq-processes" class="nav-link" data-scroll-target="#specification-of-simulated-maq-processes"><span class="header-section-number">1.1</span> Specification of simulated MA(q) processes</a></li>
   <li><a href="#specification-of-the-simulated-arp-processes" id="toc-specification-of-the-simulated-arp-processes" class="nav-link" data-scroll-target="#specification-of-the-simulated-arp-processes"><span class="header-section-number">1.2</span> Specification of the simulated AR(p) processes</a></li>
@@ -304,6 +342,25 @@ window.Quarto = {
 </header>
 
 
+<section id="steps-in-time-series-analysis" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="steps-in-time-series-analysis"><span class="header-section-number">0.1</span> Steps in Time Series Analysis</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>Step 1: Model Specification</strong></td>
+<td style="text-align: center;">Step 2: Parameter Estimation</td>
+<td style="text-align: center;">Step 3: Model Checking</td>
+<td style="text-align: center;">Step 4: Forecasting</td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="model-specification" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Model Specification</h1>
 <p>This R notebook is based on Chapter 6, Cryer and Chan (2008), <em>Time Series Analysis with Applications in R</em>. Springer.</p>
@@ -340,7 +397,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -356,7 +413,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -372,7 +429,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -386,7 +443,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -400,7 +457,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -419,7 +476,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -431,7 +488,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -447,7 +504,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -460,7 +517,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -478,7 +535,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -490,7 +547,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -502,7 +559,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -752,7 +809,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -767,7 +824,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -780,7 +837,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-10-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-10-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -809,7 +866,7 @@ window.Quarto = {
     Augmented Dickey-Fuller Test
 
 data:  rw
-Dickey-Fuller = -2.4753, Lag order = 3, p-value = 0.3827
+Dickey-Fuller = -0.40724, Lag order = 3, p-value = 0.9829
 alternative hypothesis: stationary</code></pre>
 </div>
 <details class="code-fold">
@@ -821,7 +878,7 @@ alternative hypothesis: stationary</code></pre>
     Augmented Dickey-Fuller Test
 
 data:  diff(rw)
-Dickey-Fuller = -3.6977, Lag order = 3, p-value = 0.03267
+Dickey-Fuller = -4.7779, Lag order = 3, p-value = 0.01
 alternative hypothesis: stationary</code></pre>
 </div>
 </div>
@@ -846,7 +903,7 @@ BIC = – 2\log(maximum likelihood) + k\log(n)
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -854,14 +911,15 @@ BIC = – 2\log(maximum likelihood) + k\log(n)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(oil.price)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the oil price series</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(<span class="fu">as.vector</span>(<span class="fu">diff</span>(<span class="fu">log</span>(oil.price))),<span class="at">xaxp=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">22</span>,<span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the oil price data</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(oil.price)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the oil price series</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(<span class="fu">as.vector</span>(<span class="fu">diff</span>(<span class="fu">log</span>(oil.price))),<span class="at">xaxp=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">22</span>,<span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -872,7 +930,7 @@ BIC = – 2\log(maximum likelihood) + k\log(n)
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -893,7 +951,7 @@ BIC = – 2\log(maximum likelihood) + k\log(n)
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -930,7 +988,7 @@ alternative hypothesis: stationary</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -941,7 +999,7 @@ alternative hypothesis: stationary</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-14-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-14-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -958,7 +1016,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -969,7 +1027,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -987,7 +1045,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1001,7 +1059,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1017,7 +1075,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1049,7 +1107,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1061,7 +1119,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1072,7 +1130,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-18-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-18-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1090,7 +1148,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1102,7 +1160,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1114,7 +1172,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-19-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-19-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1125,7 +1183,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-19-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-19-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1144,7 +1202,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1158,7 +1216,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1171,7 +1229,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-20-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-20-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1185,7 +1243,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1197,7 +1255,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-21-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-21-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1208,7 +1266,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-21-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-21-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1219,7 +1277,7 @@ W_t=\nabla Y_t = Y_t - Y_{t-1}.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-21-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-21-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1263,7 +1321,7 @@ alternative hypothesis: stationary</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TSA-Lecture09-model-specification_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TSA-Lecture14-model-specification_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1698,6 +1756,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./TSA-Lecture16-parameter-estimation.html" class="pagination-link" aria-label="Rnotebook: Parameter Estimation">
+        <span class="nav-page-text">Rnotebook: Parameter Estimation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
