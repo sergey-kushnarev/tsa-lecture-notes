@@ -32,22 +32,8 @@ website:
         text: "Rnotebook: Regression"
       - href: TSA-Lecture09.qmd
         text: Lecture 9
-      - href: TSA-Lecture09.qmd
-        text: Lecture 10
-      - href: TSA-Lecture09.qmd
-        text: Lecture 11
-      - href: TSA-Lecture09.qmd
-        text: Lecture 12
-      - href: TSA-Lecture09.qmd
-        text: Lecture 13
-      - href: TSA-Lecture09.qmd
-        text: Lecture 14
-      - href: TSA-Lecture09.qmd
-        text: Lecture 15
-      - href: TSA-Lecture09.qmd
-        text: Lecture 16
-      - href: TSA-Lecture09.qmd
-        text: Lecture 17
+      - href: TSA-Lecture09-model-specification.qmd
+        text: "Rnotebook: Model Specification"
 format:
   html:
     theme:
