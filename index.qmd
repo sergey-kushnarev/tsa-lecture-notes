@@ -17,6 +17,7 @@ The notes are typed by Yue Wu. The notes are authored and maintained by [Sergey 
 - Figures and simulation results
 
 > Think of these notes as a companion to our lectures and discussions, not a substitute. You'll likely spot some typos and errors, so always double-check with the textbook and other course materials. If you catch an issue or have a question, please don't hesitate to reach out to me via email or during office hours.
+
 ---
 
 ## 📚 Lecture Notes
