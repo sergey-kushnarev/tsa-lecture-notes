@@ -37,10 +37,10 @@ The notes are typed by Yue Wu. The notes are authored and maintained by [Sergey 
   - [Rnotebook: Model Specification](TSA-Lecture14-model-specification.qmd)
   - [Rnotebook: Parameter Estimation](TSA-Lecture16-parameter-estimation.qmd)
   - [Rnotebook: Model Diagnostics](TSA-Lecture17-model-diagnostics.qmd)
-- [Rnotebook: Forecasting](TSA-Lecture19-forecasting.qmd)
-- [Rnotebook: SARIMA = Seasonal ARIMA](TSA-Lecture20-sarima.qmd)
-- [Rnotebook: Spurious Regression](TSA-Lecture22-spurious.qmd)
-- [Rnotebook: ARCH/GARCH](TSA-Lecture23-arch-garch.qmd)
+  - [Rnotebook: Forecasting](TSA-Lecture19-forecasting.qmd)
+  - [Rnotebook: SARIMA = Seasonal ARIMA](TSA-Lecture20-sarima.qmd)
+  - [Rnotebook: Spurious Regression](TSA-Lecture22-spurious.qmd)
+  - [Rnotebook: ARCH/GARCH](TSA-Lecture23-arch-garch.qmd)
 ---
 
 ## 🔗 Resources
