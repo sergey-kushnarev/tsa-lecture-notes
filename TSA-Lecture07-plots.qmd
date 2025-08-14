@@ -17,9 +17,6 @@ These will cover the following topics:
 - Random walk
 - ACF and time series plots for: MA(1), MA(2), AR(1), AR(2), ARMA(1,1) 
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 ## Los Angeles Annual Rainfall
 ```{r, warning=FALSE, message=FALSE}
