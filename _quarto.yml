@@ -10,6 +10,24 @@ website:
         text: Home
       - href: TSA-Lecture01.qmd
         text: Lecture 1
+      - href: TSA-Lecture02.qmd
+        text: Lecture 2
+      - href: TSA-Lecture03.qmd
+        text: Lecture 3
+      - href: TSA-Lecture04.qmd
+        text: Lecture 4
+      - href: TSA-Lecture05.qmd
+        text: Lecture 5
+      - href: TSA-Lecture06.qmd
+        text: Lecture 6
+      - href: TSA-Lecture07.qmd
+        text: Lecture 7
+      - href: TSA-Lecture08.qmd
+        text: Lecture 8
+      - href: TSA-Lecture08-regression-methods.qmd
+        text: Rnotebook: Regression 
+      - href: TSA-Lecture09.qmd
+        text: Lecture 9
 
 format:
   html:
