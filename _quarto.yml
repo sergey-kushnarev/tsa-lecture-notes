@@ -44,6 +44,8 @@ website:
         text: "Rnotebook: SARIMA"
       - href: TSA-Lecture22-spurious.qmd
         text: "Rnotebook: Spurious Regression"
+      - href: TSA-Lecture23.qmd
+      - text: Lecture 23
       - href: TSA-Lecture23-arch-garch.qmd
         text: "Rnotebook: ARCH/GARCH"
 format:

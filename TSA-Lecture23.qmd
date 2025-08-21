@@ -1,0 +1,252 @@
+---
+title: "25 Spring 439/639 TSA: Lecture 23"
+author: "Dr Sergey Kushnarev"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+# ARCH/GARCH models
+
+ARCH/GARCH stands for Autoregressive Conditional Heteroskedastic / Generalized Autoregressive Conditional Heteroskedastic models. These models are models for **conditional heteroskedasticity**, which means that they allow the variance of the error terms to change over time. This is particularly useful in financial time series data, where volatility (i.e. conditional variance) tends to cluster over time.
+
+In contrast, ARMA models, are models of *conditional mean*, while ARCH/GARCH models are used to model *conditional variance*. Specifically, for AR(1):
+
+$$
+\begin{aligned}
+Y_t &= \phi Y_{t-1} + e_t \\
+e_t &\sim iid(0, \sigma^2)
+\end{aligned}
+$$
+
+Here, unconditional mean is constant over time, $EY_t = 0$. But conditional mean is given by:
+
+$$
+E[Y_t | Y_{t-1}] = \phi Y_{t-1} =: \mu_{t|t-1}.
+$$
+
+So AR(1) model could be written as:
+
+$$
+Y_t = \underbrace{\mu_{t|t-1}}_{\text{conditional mean}} + \underbrace{\sigma_0}_{\text{conditional sd}} e_t,\qquad e_t\sim iid(0,1).
+$$
+
+## ARCH(1)
+
+ARCH(1) model, on the other hand, models *conditional variance*:
+
+$$
+\begin{cases}
+Y_t = \mu_{0} + \sigma_{t|t-1} e_t, \quad e_t\sim iid(0,1) \\
+\sigma_{t|t-1}^2 = \alpha_0 + \alpha_1 Y_{t-1}^2
+\end{cases}
+$$
+
+This is **conditionally heteroskedastic** model, as the variance of the error term $e_t$ is not constant but depends on the past values of the series. Note, we need $\alpha_0 > 0$ and $\alpha_1 > 0$ for the model to be valid. These models were developed by Robert Engle (ARCH, 1982) and Tim Bollerslev (GARCH, 1986). ARCH models are often used in financial time series analysis, particularly for modeling return volatility.
+
+### Stationarity of ARCH(1)
+
+It can be shown that ARCH(1) process is stationary if $0<\alpha_1 < 1$. It may seem contradictory that a stationary process can have non-constant conditional variance. But, recall that weakly stationary processes has constant **unconditional variance**.
+
+### Financial Returns
+
+Consider $X_t$ the price of a stock/asset. The **return** can be defined as:
+
+$$
+Y_t = \nabla \log(X_t)\approx \frac{X_t - X_{t-1}}{X_{t-1}} = \frac{X_t}{X_{t-1}} - 1
+$$
+Standard deviation of $Y_t$ is known as **volatility**.
+
+For simplicity assume $\mu_0=0$, then ARCH(1) process becomes:
+
+$$
+\begin{cases}
+Y_t = \sigma_{t} e_t, \quad e_t\sim iid(0,1) \\
+\sigma_{t}^2 = \alpha_0 + \alpha_1 Y_{t-1}^2
+\end{cases}
+$$
+
+If the previous time series value $Y_{t-1}$ is large, then volatility $\sigma_{t}$ will also be large, indicating a period of high uncertainty or risk in the asset's return: $Y_t$ may *potentially* be quite large as well.
+
+### Properties of ARCH(1)
+
+1. Expectation
+$$
+EY_t=E[\sigma_{t} e_t]=E[\sigma_{t}]E[e_t]=0.
+$$
+
+2. Variance
+$$
+Var(Y_t) = E(Y_t^2) = E[\sigma_{t}^2e_t^2] = E[\sigma_{t}^2]E[e_t^2] = E[\sigma_{t}^2]
+$$
+$$
+=\alpha_0 + \alpha_1 E[Y_{t-1}^2]=\alpha_0 + \alpha_1 Var(Y_t).
+$$
+
+In the last step we used the fact that ARCH(1) is stationary, so $E[Y_t^2] = Var(Y_t)$. Solving for $Var(Y_t)$ gives:
+
+$$
+Var(Y_t) = \frac{\alpha_0}{1 - \alpha_1}.
+$$
+
+Thus it is necessary to have $\alpha_1 < 1$ for the model to be stable and for the variance to be finite.
+
+Note, the conditional variance will not be constant:
+
+$$
+Var(Y_t|Y_{t-1}) = \alpha_0 + \alpha_1 Y_{t-1}^2.
+$$
+
+3. Dependence
+
+$Y_t$ and $Y_{t-h}$ are **uncorrelated** for $h > 0$, but **dependent**.
+
+$$
+cov(Y_t,Y_{t-1}) = E[Y_t Y_{t-1}] - E[Y_t]E[Y_{t-1}] = E[Y_t Y_{t-1}]=E[\sigma_{t} e_t \sigma_{t-1} e_{t-1}] = E[\sigma_{t} \sigma_{t-1} e_{t-1}] E[e_t] = 0.
+$$
+Above we used the fact that $e_t$ is independent of the past, i.e. of $\sigma_{t}, \sigma_{t-1}, e_{t-1}$.
+
+4. $Y_t$ is leptokurtic, i.e. has heavier tails than normal.
+
+Recall, **kurtosis** is defined as $K=\frac{\mu_4}{\sigma_t^2}=\frac{EY_t^4}{(Var Y_t)^2}$.
+
+$$
+\mu_4=E[Y_t^4]=E[\sigma_t^4 e_t^4]=E[\sigma_t^4]E[e_t^4]= 3E[\sigma_t^4].
+$$
+
+$$
+=3E[(\alpha_0+\alpha_1 Y_{t-1}^2)^2]=3(\alpha_0^2+\alpha_1^2 E[Y_{t-1}^4]+2\alpha_0\alpha_1 E[Y_{t-1}^2]).
+$$
+
+Note that $E[Y_{t-1}^2] = Var(Y_t)$ and $E[Y_{t-1}^4] = \mu_4$ by stationarity, so
+$$
+\begin{aligned}
+\mu_4(1-3\alpha_1^2) &= 3\alpha_0^2+6\alpha_0\alpha_1 \frac{\alpha_0}{1-\alpha_1} \\
+&= \frac{3\alpha_0^2-3\alpha_0^2\alpha_1+6\alpha_0^2\alpha_1}{1-\alpha_1} \\
+&= 3\alpha_0^2\frac{1+\alpha_1}{1-\alpha_1}
+\end{aligned}
+$$
+
+Thus, we have:
+
+$$
+\mu_4 = 3\frac{\alpha_0^2}{(1-3\alpha_1^2)}\frac{1+\alpha_1}{1-\alpha_1}
+$$
+
+So kurtosis is given by:
+
+$$
+K = \frac{\mu_4}{(\sigma_t^2)^2} = \frac{3\frac{\alpha_0^2}{(1-3\alpha_1^2)}\frac{1+\alpha_1}{1-\alpha_1}}{\frac{\alpha_0^2}{(1 - \alpha_1)^2}} = 3\frac{1-\alpha_1^2}{1-3\alpha_1^2}
+$$
+
+*Excess kurtosis* is
+$$
+K-K_{normal}=K-3=\frac{6\alpha_1^2}{1-3\alpha_1^2}>0.
+$$
+The ARCH(1) model exhibits excess kurtosis, indicating that it has heavier tails than a normal distribution.
+
+This is an important property for financial time series, as it suggests that extreme events (e.g., market crashes) are more likely than what a normal distribution would predict.
+
+So in summary for $Y_t\sim ARCH(1)$, we have:
+
+1. Expectation: $EY_t = 0$.
+2. Variance: $Var(Y_t) = \frac{\alpha_0}{1 - \alpha_1}$.
+3. ACF $\rho_k=0$ for $k>0$.
+4. $Y_t$ is leptokurtic, i.e. has heavier tails than normal.
+5. $Y_t$ is symmetric (question: why?).
+
+In other words, $Y_t$ is a symmetric heavy-tailed white noise process! But it is not an independent process!
+
+### Connection to AR(1)
+
+We can think of $Y_t^2$ as approximately following AR(1) in the following sense.
+
+Let's write the following equations and take their difference:
+$$
+\begin{aligned}
+Y_t^2 &= \sigma_t^2 e_t^2\\
+\alpha_0 + \alpha_1 Y_{t-1}^2 &= \sigma_{t}^2.
+\end{aligned}
+$$
+
+We get
+
+$$
+Y_t^2 - \alpha_0 - \alpha_1 Y_{t-1}^2 = \sigma_t^2(e_t^2-1)=:\eta_t
+$$
+
+Note, that on the RHS we have $e_t^2-1$, a centered $\chi^2_1$ noise term, scaled by $\sigma_t^2$. Thus we have
+
+$$
+Y_t^2 = \alpha_0 + \alpha_1 Y_{t-1}^2 + \eta_t
+$$
+
+$Y_t^2$ `follows` AR(1) process with the non-normal, mean zero innovation process $\eta_t$, which is **uncorrelated but dependant.**
+
+### Signs of ARCH(1) effects
+
+If $Y_t\sim WN$ and $Y_t^2\sim AR(1)$, then $Y_t\sim ARCH(1)$. We will refer to this behavior (i.e. uncorrelated but dependent) as **ARCH effects**.
+
+We will talk about fitting the ARCH/GARCH models below.
+
+## ARCH(p)
+
+We can generalize the ARCH(1) model to ARCH(p) model as follows:
+
+$$
+Y_t = \sigma_t e_t, \quad \sigma_t^2 = \alpha_0 + \sum_{i=1}^{p} \alpha_i Y_{t-i}^2.
+$$
+
+Larger values of $Y_t$ in the last $p$ lags will lead to larger values of $\sigma_t^2$, thus potentially large $Y_t$.
+
+One can show that ARCH(p) is stationary if the sum of the coefficients is less than 1:
+$$
+\sum_{i=0}^{p} \alpha_i < 1.
+$$
+
+## GARCH(p,q)
+
+Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models extend ARCH models by including lagged values of the conditional variance itself. The GARCH(p,q) model is defined as:
+
+$$
+Y_t = \sigma_t e_t, \quad \sigma_t^2 = \alpha_0 + \sum_{i=1}^{p} \alpha_i Y_{t-i}^2 + \sum_{j=1}^{q} \beta_j \sigma_{t-j}^2.
+$$
+
+Larger values of $Y_t$ in the last $p$ lags and/or larger values of $\sigma_t^2$ in the last $q$ lags will lead to larger values of $\sigma_t^2$, thus potentially large $Y_t$.
+
+### Stationarity of GARCH
+
+It can be shown that GARCH(p,q) process is stationary if 
+$$
+\sum_{i=1}^{p} \alpha_i + \sum_{j=1}^{q} \beta_j < 1.
+$$
+Note, that all $\alpha_i, \beta_j > 0$.
+
+Similarly to the previous analysis, one can show that $Y_t\sim GARCH(p,q)$ is white noise, mean zero, and $Y_t^2\sim ARMA(p,q)$ with non-normal errors:
+
+$$
+Y_t^2=\alpha_0 + \sum_{i=1}^{max(p,q)} (\alpha_i+\beta_i) Y_{t-i}^2 +\eta_t- \sum_{j=1}^{q} \beta_j \eta_{t-j}.
+$$
+
+# Fitting an ARIMA-GARCH model
+
+Given a time series $X_t$ we can fit an ARIMA-GARCH model. This model would fit an ARIMA process to the mean and the GARCH process to the variance.
+
+1. Make $X_t$ stationary (if needed) using differencing or transformation $\rightarrow W_t$.
+2. Fit an ARMA(p,q) model to the stationary series $W_t$. Then define residuals $Y_t = W_t - ARMA(p,q)$.
+3. Check whether $Y_t$ exhibits ARCH effects. In other words, whether it is white noise, heavy tailed and $Y_t^2 \overset{\approx}{\sim} ARMA(p_0,q_0)$
+4. Fit a GARCH(p_0,q_0) model to the residuals $Y_t$ if ARCH effects are present.
+
+Then we have
+$$
+W_t \sim ARMA(p,q) + GARCH(p_0,q_0).
+$$
+
+## Caveats
+
+- In general, $p_0,q_0\leq 2$.
+- $Y_t^2$ rarely follows a simple ARMA structure.
+- Sometimes $|Y_t|$ exhibits a better behavior, close to the predicted ARMA structure.
+- In reality one would fit a low dimensional GARCH model to $Y_t$ and then would check the residuals for GARCH effects.

@@ -52,7 +52,7 @@ The notes are typed by Yue Wu. The notes are authored and maintained by [Sergey 
 - Lecture 21: Cross-Correlation Function, Spurious Regression.
 - Lecture 22: Spurious Regression, Prewhitening
   - [Rnotebook: Spurious Regression](TSA-Lecture22-spurious.qmd)
-- Lecture 23: ARCH/GARCH Models
+- [Lecture 23: ARCH/GARCH Models](TSA-Lecture23.qmd)
   - [Rnotebook: ARCH/GARCH](TSA-Lecture23-arch-garch.qmd)
 ---
 
