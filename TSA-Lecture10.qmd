@@ -2,12 +2,11 @@
 title: "25 Spring 439/639 TSA: Lecture 10"
 author: "Dr Sergey Kushnarev"
 #date: "March 30, 2023"
-toc: true
-format: 
-    pdf:
-        documentclass: article
-        geometry: margin=1in
-#format: html
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
 ---
 
 # More on ARIMA($p,d,q$)

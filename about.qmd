@@ -1,31 +1,63 @@
 ---
-title: "About this Course"
+title: "About these Notes"
 format:
   html:
     toc: false
 ---
 
-## Instructor
+# Instructor
 
 **Dr Sergey Kushnarev**  
 Senior Lecturer, AMS JHU  
 
-## Course Info
+# About
 
-**Course Title**: Time Series Analysis  
-**Course Code**: EN.553.439/639
+This website is a collection of lecture notes from courses I have taught or am currently teaching.  
+The notes are typeset in [Quarto](https://quarto.org/) and hosted on [GitHub Pages](https://pages.github.com/).
 
 
-## What This Site Contains
+## Current Courses
 
-These are live lecture notes created with [Quarto](https://quarto.org). They include:
+- **Time Series Analysis (TSA)**  
+  Lecture notes: [TSA Lecture Notes](https://sergey-kushnarev.github.io/tsa-lecture-notes/)  
+  Based on Cryer and Chen’s *Time Series Analysis: With Applications in R*, 2nd edition.  
+  Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.  
+  Topics: Stationarity, ARMA/ARIMA/SARIMA models, forecasting.
 
-- Summaries of lecture topics
-- Math and derivations
-- Code examples in R and/or Python
-- Figures and visualizations
+- **Bayesian Statistics**  
+  Notes: Bayesian Notes *To be posted*
+  Based on Peter Hoff’s *A First Course in Bayesian Statistical Methods*.  
+  Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.  
+  Topics: Conjugate priors, Gibbs sampling, Metropolis-Hastings, model comparison, etc.  
 
-They are meant to reinforce material covered in class and serve as a review resource. Some material may be added after class depending on questions and discussion.
+- **Applied Statistics and Data Analysis I**  
+  Notes: ASDA1 *To be posted*
+  Based on Kutner, Nachtsheim, Neter, and Li’s *Applied Linear Statistical Models*.  
+  Audience: Advanced undergraduates and master’s students.  
+  Topics: Simple and multiple linear regression, ANOVA, model selection, diagnostics, etc.
+
+- **Applied Statistics and Data Analysis II**  
+  Notes: ASDA2 *To be posted*
+  Based on Alan Agresti’s book *Foundations of Linear and Generalized Linear Models*.  
+  Audience: Advanced undergraduates and master’s students.  
+  Topics: Linear regression, logistic regression, Poisson regression, GLMs.
+
+- **Elements of Statistical Learning**
+  Notes: ESL *To be posted*
+  Based on Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani’s *An Introduction to Statistical Learning in R*, 2nd edition.
+  Audience: Advanced undergraduates and master’s students.
+  Topics: Supervised/unsupervised learning, model assessment, regularization, tree-based methods, etc.
+
+## A Note on the Material
+
+These notes are designed as **teaching resources** and not polished textbooks.  
+
+They include:
+- Theory, examples and proofs
+- Code snippets and exercises
+
+Feedback is always welcome — feel free to suggest improvements or point out typos via GitHub.
+
 
 ## License
 
