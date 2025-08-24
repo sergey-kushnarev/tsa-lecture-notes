@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.41">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr Sergey Kushnarev">
+
+<title>25 Spring 439/639 TSA: Lecture 5 – Lecture Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-48ffa3e5b9d089919c6712c39e5b00f2.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Lecture Notes
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Lecture Notes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text">Courses</span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#causality-condition-for-an-arp-process" id="toc-causality-condition-for-an-arp-process" class="nav-link active" data-scroll-target="#causality-condition-for-an-arp-process"><span class="header-section-number">1</span> Causality condition for an AR(<span class="math inline">\(p\)</span>) process</a>
+  <ul class="collapse">
+  <li><a href="#derive-the-glp-form" id="toc-derive-the-glp-form" class="nav-link" data-scroll-target="#derive-the-glp-form"><span class="header-section-number">1.1</span> Derive the GLP form</a></li>
+  <li><a href="#sketch-of-the-remaining-proof" id="toc-sketch-of-the-remaining-proof" class="nav-link" data-scroll-target="#sketch-of-the-remaining-proof"><span class="header-section-number">1.2</span> Sketch of the remaining proof</a></li>
+  <li><a href="#discussion-on-other-cases-without-proof" id="toc-discussion-on-other-cases-without-proof" class="nav-link" data-scroll-target="#discussion-on-other-cases-without-proof"><span class="header-section-number">1.3</span> Discussion on other cases (without proof)</a></li>
+  <li><a href="#example-ar2" id="toc-example-ar2" class="nav-link" data-scroll-target="#example-ar2"><span class="header-section-number">1.4</span> Example: AR(<span class="math inline">\(2\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#remark-on-different-definitions-with-the-textbook" id="toc-remark-on-different-definitions-with-the-textbook" class="nav-link" data-scroll-target="#remark-on-different-definitions-with-the-textbook"><span class="header-section-number">2</span> Remark on different definitions with the textbook</a></li>
+  <li><a href="#finding-the-coefficients-psi-in-the-glp-representation-of-arp" id="toc-finding-the-coefficients-psi-in-the-glp-representation-of-arp" class="nav-link" data-scroll-target="#finding-the-coefficients-psi-in-the-glp-representation-of-arp"><span class="header-section-number">3</span> Finding the coefficients <span class="math inline">\(\psi\)</span> in the GLP representation of AR(<span class="math inline">\(p\)</span>)</a>
+  <ul class="collapse">
+  <li><a href="#method-1-using-convolution" id="toc-method-1-using-convolution" class="nav-link" data-scroll-target="#method-1-using-convolution"><span class="header-section-number">3.1</span> Method 1: using convolution</a></li>
+  <li><a href="#method-2-using-arp-equation" id="toc-method-2-using-arp-equation" class="nav-link" data-scroll-target="#method-2-using-arp-equation"><span class="header-section-number">3.2</span> Method 2: using AR(<span class="math inline">\(p\)</span>) equation</a></li>
+  </ul></li>
+  <li><a href="#yule-walker-method-for-arp" id="toc-yule-walker-method-for-arp" class="nav-link" data-scroll-target="#yule-walker-method-for-arp"><span class="header-section-number">4</span> Yule-Walker method for AR(<span class="math inline">\(p\)</span>)</a>
+  <ul class="collapse">
+  <li><a href="#a-property-of-the-recursion-part" id="toc-a-property-of-the-recursion-part" class="nav-link" data-scroll-target="#a-property-of-the-recursion-part"><span class="header-section-number">4.1</span> A property of the recursion part</a></li>
+  <li><a href="#a-related-observation" id="toc-a-related-observation" class="nav-link" data-scroll-target="#a-related-observation"><span class="header-section-number">4.2</span> A related observation</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">25 Spring 439/639 TSA: Lecture 5</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="causality-condition-for-an-arp-process" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Causality condition for an AR(<span class="math inline">\(p\)</span>) process</h1>
+<section id="derive-the-glp-form" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="derive-the-glp-form"><span class="header-section-number">1.1</span> Derive the GLP form</h2>
+<p>Recall last time, from the AR(<span class="math inline">\(p\)</span>) <span class="math display">\[
+Y_t - \phi_1 Y_{t-1} - \phi_2 Y_{t-2} - \cdots - \phi_p Y_{t-p} = e_t, \quad
+e_t \sim \mathrm{iid}(0, \sigma_e^2),
+\]</span> we got the reformulated form <span class="math inline">\(\Phi(B) Y_t = e_t\)</span>, where the AR polynomial is <span class="math inline">\(\Phi(x) = 1 - \phi_1 x^1 - \phi_2 x^2 - \cdots - \phi_p x^p\)</span>. If all the <span class="math inline">\(p\)</span> complex roots of the AR polynomial satisfy <span class="math inline">\(|z_i| &gt;1\)</span> for all <span class="math inline">\(i=1,...,p\)</span>, i.e., all the <span class="math inline">\(p\)</span> roots are outside the unit disc in <span class="math inline">\(\mathbb{C}\)</span>, then we showed that the AR(<span class="math inline">\(p\)</span>) equation became <span class="math display">\[
+e_t = \left(1-\frac{B}{z_1}\right) \cdots \left(1-\frac{B}{z_p}\right) Y_t .
+\]</span> Since each <span class="math inline">\(|\frac{1}{z_i}|&lt;1\)</span>, we have <span class="math inline">\(\left(1-\frac{B}{z_i}\right) ^{-1} = \sum_{j=0}^\infty z_i^{-j} B^j\)</span>. Then <span class="math display">\[
+\begin{split}
+Y_t &amp;= \left(1-\frac{B}{z_1}\right)^{-1} \cdots \left(1-\frac{B}{z_p}\right)^{-1} e_t \\
+&amp;= \left(\sum_{j=0}^\infty z_1^{-j} B^j \right) \cdots \left(\sum_{j=0}^\infty z_p^{-j} B^j \right) e_t .
+\end{split}
+\]</span> As we mentioned last time, this product can be written as a GLP. To see this, we first consider the simple case <span class="math inline">\(p=2\)</span>. Suppose <span class="math inline">\(a_j = z_1^{-j}\)</span> and <span class="math inline">\(b_j = z_2^{-j}\)</span>. Then <span class="math display">\[
+\begin{split}
+&amp; \left(\sum_{j=0}^\infty z_1^{-j} B^j \right) \left(\sum_{j=0}^\infty z_2^{-j} B^j \right) = \left(\sum_{j=0}^\infty a_j B^j \right) \left(\sum_{j=0}^\infty b_j B^j \right) \\
+&amp;= \left(a_0 + a_1 B^1 + a_2 B^2 + \cdots \right) \left(b_0 + b_1 B^1 + b_2 B^2 + \cdots \right) \\
+&amp;= a_0 b_0 + (a_0 b_1 + a_1 b_0) B^1 + (a_0 b_2 + a_1 b_1 + a_2 b_0) B^2 + (a_0 b_3 + a_1 b_2 + a_2 b_1 + a_3 b_0) B^3 + \cdots \\
+&amp;= \sum_{n=0}^\infty \underbrace{\left( \sum_{j_1+j_2 = n} a_{j_1} b_{j_2} \right)}_{c_n} B^n .
+\end{split}
+\]</span> For general <span class="math inline">\(p\)</span>, we have the similar result <span class="math display">\[
+\left(\sum_{j=0}^\infty a_{1,j} B^j \right) \left(\sum_{j=0}^\infty a_{2,j} B^j \right) \cdots \left(\sum_{j=0}^\infty a_{p,j} B^j \right) = \sum_{n=0}^\infty c_n B^n
+\]</span> where <span class="math inline">\(c_n = \sum_{j_1+j_2+\cdots + j_p = n} a_{1,j_1} a_{2,j_2} \cdots a_{p,j_p}\)</span>. <em>Note: this can be seen as a <span class="math inline">\(p\)</span>-fold convolution.</em> Using this result, <span class="math display">\[
+\begin{split}
+&amp; \Phi(B)^{-1}
+= \left(\sum_{j=0}^\infty z_1^{-j} B^j \right) \cdots \left(\sum_{j=0}^\infty z_p^{-j} B^j \right) = \sum_{n=0}^\infty \psi_n B^n ,\\
+&amp; \text{ where}\quad \psi_n = \sum_{j_1+j_2+\cdots + j_p = n} z_1^{-j_i} z_2^{-j_2} \cdots z_p^{-j_p} .
+\end{split}
+\]</span> So the AR(<span class="math inline">\(p\)</span>) can be written as <span class="math display">\[
+\begin{split}
+Y_t
+&amp;= \left(\sum_{j=0}^\infty z_1^{-j} B^j \right) \cdots \left(\sum_{j=0}^\infty z_p^{-j} B^j \right) e_t = \left(\sum_{n=0}^\infty \psi_n B^n \right) e_t = \sum_{n=0}^\infty \psi_n e_{t-n}
+\end{split}
+\]</span> which looks like a GLP, with the <span class="math inline">\(\{\psi_n\}\)</span> specified above. To ensure this is a GLP, we still need to verify <span class="math inline">\(\sum_{n=0}^\infty |\psi_n| &lt; \infty\)</span> (see the definition of GLP).</p>
+</section>
+<section id="sketch-of-the-remaining-proof" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sketch-of-the-remaining-proof"><span class="header-section-number">1.2</span> Sketch of the remaining proof</h2>
+<p>The sketch of the proof for <span class="math inline">\(\sum_{n=0}^\infty |\psi_n| &lt; \infty\)</span>: <span class="math display">\[
+\begin{split}
+\sum_{n=0}^\infty |\psi_n| &amp;= \sum_{n=0}^\infty \left| \sum_{j_1+j_2+\cdots + j_p = n} z_1^{-j_i} z_2^{-j_2} \cdots z_p^{-j_p} \right| \le \sum_{n=0}^\infty \sum_{j_1+j_2+\cdots + j_p = n} |z_1|^{-j_i} |z_2|^{-j_2} \cdots |z_p|^{-j_p} \\
+&amp;\le \sum_{n=0}^\infty \sum_{j_1+j_2+\cdots + j_p = n} |z^*|^{-j_1-j_2-\cdots - j_p}
+\le \sum_{n=0}^\infty c(p) n^p |z^*|^{-n} &lt; \infty .
+\end{split}
+\]</span> <em>Notes on the missing details (without proof):</em></p>
+<ul>
+<li>Let <span class="math inline">\(z^*\)</span> be the root among <span class="math inline">\(\{z_1,\dots, z_p\}\)</span> with the smallest modulus, so <span class="math inline">\(1&lt;|z^*| \le \min\{ |z_1|,\dots, |z_p| \}\)</span>.</li>
+<li>The number of terms in the summation <span class="math inline">\(\sum_{j_1+j_2+\cdots + j_p = n}\)</span> can be upper bounded by <span class="math inline">\(c(p) n^p\)</span> where <span class="math inline">\(c(p)\)</span> is a constant that only depends on <span class="math inline">\(p\)</span>. (Since <span class="math inline">\({n+p-1\choose p-1} = \frac{(n+p-1)(n+p-2) \cdots (n+1)}{ (p-1)!}\)</span> is a polynomial of <span class="math inline">\(n\)</span> with degree less than <span class="math inline">\(p\)</span> and coefficients only depend on <span class="math inline">\(p\)</span>.)</li>
+<li>The last step is because <span class="math inline">\(\sum_{n=0}^\infty n^p |z^*|^{-n}\)</span> converges for <span class="math inline">\(|z^*| &gt;1\)</span>.</li>
+</ul>
+<p>So we just showed <span class="math inline">\(\sum_{n=0}^\infty |\psi_n| &lt; \infty\)</span>, which finishes the proof that <span class="math inline">\(Y_t = \Phi(B)^{-1} e_t\)</span> is a GLP (as long as all roots of <span class="math inline">\(\Phi(x)\)</span> are outside the unit disc in <span class="math inline">\(\mathbb{C}\)</span>).</p>
+</section>
+<section id="discussion-on-other-cases-without-proof" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="discussion-on-other-cases-without-proof"><span class="header-section-number">1.3</span> Discussion on other cases (without proof)</h2>
+<p>In summary, for AR(<span class="math inline">\(p\)</span>) process, we have the following results. (Look similar to the three cases for AR(<span class="math inline">\(1\)</span>) from last lecture.)</p>
+<ul>
+<li>If all roots of the AR polynomial are outside the unit disc (<span class="math inline">\(|z_i| &gt; 1\)</span> for all <span class="math inline">\(i\)</span>), then <span class="math inline">\((Y_t)\)</span> is causal and stationary.</li>
+<li>If at least one of the roots is inside the unit disc (<span class="math inline">\(|z_i| &lt; 1\)</span> for one <span class="math inline">\(z_i\)</span>), and none of the roots is on the unit circle (<span class="math inline">\(|z_i| \neq 1\)</span> for all <span class="math inline">\(i\)</span>), then <span class="math inline">\((Y_t)\)</span> is non-causal (future-dependent) and stationary.</li>
+<li>If at least one root is a unit root (i.e.&nbsp;<span class="math inline">\(|z_i| = 1\)</span> for one <span class="math inline">\(z_i\)</span>), then <span class="math inline">\((Y_t)\)</span> is not stationary.</li>
+</ul>
+</section>
+<section id="example-ar2" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="example-ar2"><span class="header-section-number">1.4</span> Example: AR(<span class="math inline">\(2\)</span>)</h2>
+<p>We start with a concrete AR(<span class="math inline">\(2\)</span>) example. Suppose the AR(<span class="math inline">\(2\)</span>) equation is <span class="math display">\[
+Y_t = Y_{t-1} + Y_{t-2} + e_t .
+\]</span> We can use the previous results to find whether this process is causal or stationary. The AR polynomial for this example is <span class="math inline">\(\Phi(x) = 1 - x - x^2\)</span>. Solving <span class="math inline">\(\Phi(x)=0\)</span>, we get two roots <span class="math display">\[
+z_{1,2} = \frac{-1 \pm \sqrt{1 + 4}}{2} = \frac{-1 \pm \sqrt{5}}{2} .
+\]</span> Since <span class="math inline">\(\left| \frac{-1 - \sqrt{5}}{2} \right| &gt;1\)</span> and <span class="math inline">\(\left| \frac{-1 + \sqrt{5}}{2} \right| &lt;1\)</span>, this process is stationary but non-causal. <em>Note:</em> in this example <span class="math inline">\(z_{1,2}\)</span> are both real, so the modulus <span class="math inline">\(|z|\)</span> reduces to the absolute value of real number.</p>
+<p>In general, for a generic AR(<span class="math inline">\(2\)</span>) equation <span class="math display">\[
+Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + e_t ,
+\]</span> the AR polynomial is <span class="math inline">\(\Phi(x) = 1 - \phi_1 x - \phi_2 x^2\)</span>, which has two roots <span class="math display">\[
+z_{1,2} = \frac{-\phi_1 \pm \sqrt{\phi_1^2 + 4\phi_2}}{2\phi_2} .
+\]</span> The causality condition can be explicitly characterized by <span class="math display">\[
+|z_{1,2}| &gt; 1 \iff
+\begin{cases}
+\phi_1 + \phi_2 &lt; 1 \\
+\phi_2 - \phi_1 &lt; 1 \\
+|\phi_2| &lt; 1
+\end{cases}
+\]</span></p>
+</section>
+</section>
+<section id="remark-on-different-definitions-with-the-textbook" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Remark on different definitions with the textbook</h1>
+<p>In the textbook (Cryan and Chan), the definition of GLP is <span class="math inline">\(Y_t = \sum_{j=0}^{\infty} \psi_j\, e_{t-j}\)</span>. So their <em>stationary GLP</em> means <strong>causal and stationary GLP</strong> in our notations.</p>
+<p>In this course TSA, we defined GLP as <span class="math inline">\(Y_t = \sum_{j=-\infty}^{\infty} \psi_j\, e_{t-j}\)</span>. And a stationary GLP can be either <strong>causal</strong> or <strong>non-causal</strong> in our setting.</p>
+</section>
+<section id="finding-the-coefficients-psi-in-the-glp-representation-of-arp" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Finding the coefficients <span class="math inline">\(\psi\)</span> in the GLP representation of AR(<span class="math inline">\(p\)</span>)</h1>
+<section id="method-1-using-convolution" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="method-1-using-convolution"><span class="header-section-number">3.1</span> Method 1: using convolution</h2>
+<p>We can use the formula <span class="math inline">\(\psi_n = \sum_{j_1+j_2+\cdots + j_p = n} z_1^{-j_i} z_2^{-j_2} \cdots z_p^{-j_p}\)</span> from the first part of this lecture.</p>
+<p>Example: consider the AR(<span class="math inline">\(2\)</span>) equation <span class="math inline">\(Y_t = \frac{1}{6} Y_{t-1} + \frac{1}{6} Y_{t-2} + e_t\)</span>.</p>
+<p><strong>Exercise:</strong> verify this AR(<span class="math inline">\(2\)</span>) process is causal, and the roots of the AR polynomial are <span class="math inline">\(\{-3, 2\}\)</span>.</p>
+<p>Then we can use the formula above to calculate <span class="math inline">\(\psi_n\)</span>: <span class="math display">\[
+\begin{split}
+\psi_0 &amp;= z_1^0 z_2^0 = 1 \\
+\psi_1 &amp;= z_1^0 z_2^{-1} + z_1^{-1} z_2^0 = 1 \times \frac{1}{2} + \frac{1}{-3} \times 1 = \frac{1}{2} + \left(-\frac{1}{3}\right) = \frac{1}{6} \\
+\psi_2 &amp;= z_1^0 z_2^{-2} + z_1^{-1} z_2^{-1} + z_1^{-2} z_2^0 = \frac{1}{4} + \frac{1}{-3} \cdot \frac{1}{2} + \frac{1}{9} = \frac{7}{36} \\
+\cdots
+\end{split}
+\]</span></p>
+</section>
+<section id="method-2-using-arp-equation" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="method-2-using-arp-equation"><span class="header-section-number">3.2</span> Method 2: using AR(<span class="math inline">\(p\)</span>) equation</h2>
+<p>We can use the AR(<span class="math inline">\(p\)</span>) equation and directly solve a system for <span class="math inline">\(\{\psi_n\}\)</span>. Consider the same example <span class="math display">\[
+Y_t = \frac{1}{6} Y_{t-1} + \frac{1}{6} Y_{t-2} + e_t .
+\]</span> Since we want to get the GLP form <span class="math inline">\(Y_t = \psi_0 e_t + \psi_1 e_{t-1} + \psi_2 e_{t-2} + \cdots\)</span>, we can plug it into the equation above: <span class="math display">\[
+\psi_0 e_t + \psi_1 e_{t-1} + \psi_2 e_{t-2} + \cdots = \frac{1}{6} (\psi_0 e_{t-1} + \psi_1 e_{t-2} + \psi_2 e_{t-3} + \cdots) + \frac{1}{6} (\psi_0 e_{t-2} + \psi_1 e_{t-3} + \psi_2 e_{t-4} + \cdots) + e_t .
+\]</span> For this to hold, the coefficients for each <span class="math inline">\(e_{t-n}\)</span> term (<span class="math inline">\(n=0,1,\dots\)</span>) on both sides should match. So we get the following system of equations <span class="math display">\[
+\begin{split}
+\psi_0 &amp;= 1 \\
+\psi_1 &amp;= \frac{1}{6} \psi_0 \\
+\psi_n &amp;= \frac{1}{6} \psi_{n-1} + \frac{1}{6} \psi_{n-2} \quad\text{for } n\ge 2
+\end{split}
+\]</span> So <span class="math inline">\(\psi_0 = 1\)</span>, <span class="math inline">\(\psi_1 = \frac{1}{6} \psi_0 = \frac{1}{6}\)</span>, <span class="math inline">\(\psi_2 = \frac{1}{6} \psi_1 + \frac{1}{6} \psi_0 = \frac{1}{36} + \frac{1}{6} = \frac{7}{36}\)</span>. These results are same as the earlier convolution method.</p>
+</section>
+</section>
+<section id="yule-walker-method-for-arp" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Yule-Walker method for AR(<span class="math inline">\(p\)</span>)</h1>
+<p>The general idea is similar to the AR(<span class="math inline">\(2\)</span>) example from the last lecture. For YW method to work, we still need to require the process <span class="math inline">\((Y_t)\)</span> is <em>mean zero, stationary, and causal</em>.</p>
+<p>The AR(<span class="math inline">\(p\)</span>) equation is <span class="math display">\[
+Y_t - \phi_1 Y_{t-1} - \cdots - \phi_p Y_{t-p} = e_t .
+\]</span> Step 1: multiply by <span class="math inline">\(Y_{t-k}\)</span> (for some <span class="math inline">\(k\ge 0\)</span>) <span class="math display">\[
+Y_t Y_{t-k} - \phi_1 Y_{t-1} Y_{t-k} - \cdots - \phi_p Y_{t-p} Y_{t-k} = e_t Y_{t-k}.
+\]</span> Step 2: take expectation, and we call the following ``the <span class="math inline">\(k\)</span>-th YW equation” <span class="math display">\[
+\mathbb{E}[Y_t Y_{t-k}] - \phi_1 \mathbb{E}[Y_{t-1} Y_{t-k}] - \cdots - \phi_p \mathbb{E}[Y_{t-p} Y_{t-k}] = \mathbb{E}[e_t Y_{t-k}] .
+\]</span> Since <span class="math inline">\((Y_t)\)</span> is mean zero and stationary, the terms <span class="math inline">\(\mathbb{E}[Y_{t-i} Y_{t-k}] = \gamma_{k-i}\)</span>. By causality, <span class="math inline">\(\mathbb{E}[e_t Y_{t-k}] = \sigma_e^2\)</span> if <span class="math inline">\(k=0\)</span>, and <span class="math inline">\(\mathbb{E}[e_t Y_{t-k}] = 0\)</span> if <span class="math inline">\(k&gt;0\)</span>. So the <span class="math inline">\(k\)</span>-th YW equation is <span class="math display">\[
+\gamma_k - \phi_1 \gamma_{k-1} - \cdots - \phi_p \gamma_{k-p} =
+\begin{cases}
+\sigma_e^2, &amp; k = 0 \\
+0,          &amp; k \geq 1
+\end{cases}
+\]</span> <strong>Exercise:</strong> verify the statement above about <span class="math inline">\(\mathbb{E}[e_t Y_{t-k}]\)</span>.</p>
+<p>Note that <span class="math inline">\(\gamma_{k-p} = \gamma_{p-k}\)</span>, so the first (<span class="math inline">\(p\)</span>+1) YW equations can be written together as a system for <span class="math inline">\(\gamma_0,\gamma_1, \dots, \gamma_p\)</span>: <span class="math display">\[
+\begin{cases}
+\gamma_0 - \phi_1 \gamma_1 - \phi_2 \gamma_2 - \cdots - \phi_p \gamma_p = \sigma_e^2 ,\quad &amp;\text{0th YW eq}\\
+\gamma_1 - \phi_1 \gamma_0 - \phi_2 \gamma_1 - \cdots - \phi_p \gamma_{p-1} = 0 ,\quad &amp;\text{1st YW eq}\\
+\cdots \\
+\gamma_p - \phi_1 \gamma_{p-1} - \phi_2 \gamma_{p-2} - \cdots - \phi_p \gamma_0 = 0 ,\quad &amp; p\text{-th YW eq}
+\end{cases}
+\]</span> So we can solve <span class="math inline">\((\gamma_0,\gamma_1, \dots, \gamma_p)\)</span> from this system (<span class="math inline">\(p+1\)</span> equations and <span class="math inline">\(p+1\)</span> unknown variables). This can be seen as the initial conditions for the following recursion.</p>
+<p>For <span class="math inline">\(k\ge p\)</span>, the <span class="math inline">\(k\)</span>-th YW equation is simply <span class="math display">\[
+\gamma_k = \phi_1 \gamma_{k-1} + \phi_2 \gamma_{k-2} + \cdots + \phi_p \gamma_{k-p} .
+\]</span> Then we can use this to calculate <span class="math inline">\(\gamma_{p+1}, \gamma_{p+2}, \dots\)</span> recursively.</p>
+<section id="a-property-of-the-recursion-part" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="a-property-of-the-recursion-part"><span class="header-section-number">4.1</span> A property of the recursion part</h2>
+<p>If <span class="math inline">\(k\)</span> is large, solving <span class="math inline">\(\gamma_k\)</span> recursively from <span class="math inline">\((\gamma_0,\gamma_1, \dots, \gamma_p)\)</span> may be hard. We have the following useful property.</p>
+<p><strong>Claim:</strong> If the roots of the AR polynomial <span class="math inline">\(\Phi(x)\)</span> are <strong>distinct</strong>, then there exist (complex) numbers <span class="math inline">\(A_1, \dots, A_p\)</span>, such that the solution to <span class="math display">\[
+\begin{cases}
+\text{initial conditions for } (\gamma_0,\gamma_1, \dots, \gamma_p)\\
+\text{recursion equation: } \gamma_k = \phi_1 \gamma_{k-1} + \phi_2 \gamma_{k-2} + \cdots + \phi_p \gamma_{k-p}, \quad \forall k\ge p
+\end{cases}
+\]</span> is given by <span class="math display">\[
+\gamma_k = A_1 z_1^{-k} + A_2 z_2^{-k} + \cdots + A_p z_p^{-k}, \quad \forall k \ge 0 .
+\]</span></p>
+<p>This gives another idea to calculate <span class="math inline">\(\gamma_k\)</span> in the final step of the YW method (useful when we are targeting for a large <span class="math inline">\(k\)</span>): after getting the values of <span class="math inline">\((\gamma_0,\gamma_1, \dots, \gamma_p)\)</span>, we can solve <span class="math inline">\((A_1,...,A_p)\)</span> such that <span class="math inline">\(A_1 z_1^{-k} + A_2 z_2^{-k} + \cdots + A_p z_p^{-k} = \gamma_k\)</span> hold for all <span class="math inline">\(0\le k\le p-1\)</span>. Then for this solution <span class="math inline">\((A_1,...,A_p)\)</span>, the formula <span class="math inline">\(\gamma_k = A_1 z_1^{-k} + A_2 z_2^{-k} + \cdots + A_p z_p^{-k}\)</span> (for <span class="math inline">\(k\ge 0\)</span>) gives the ACVF we wanted.</p>
+</section>
+<section id="a-related-observation" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="a-related-observation"><span class="header-section-number">4.2</span> A related observation</h2>
+<p>For causal AR(<span class="math inline">\(p\)</span>) process, the ACVF has the following asymptotic rate (<em>up to some constant factor</em>) <span class="math display">\[
+\gamma_k \approx \Bigl[ \min \left\{ |z_1|, \ldots, |z_p| \right\} \Bigr]^{-k}, \text{ as } k\to \infty.
+\]</span> It decays exponentially, and never <em>stays</em> at zero for a ``long time”.</p>
+<p>Example: if the AR polynomial for an AR(<span class="math inline">\(3\)</span>) has roots <span class="math inline">\(\{z_1 = 2, z_2=3, z_3=10\}\)</span>, then <span class="math inline">\(\gamma_k \approx 2^{-k}\)</span> for large <span class="math inline">\(k\)</span>.</p>
+<p><em>Note:</em> should be <span class="math inline">\(\gamma_k \approx c \cdot \left[ \min \left\{ |z_1|, \ldots, |z_p| \right\} \right]^{-k}\)</span>.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

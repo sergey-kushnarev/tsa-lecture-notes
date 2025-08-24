@@ -1,0 +1,13 @@
+---
+title: "Lecture Notes"
+---
+
+# Welcome
+
+This site hosts lecture notes for several courses I have taught or am currently teaching.  
+
+## Courses
+- [Time Series Analysis](tsa/index.html)
+- [Statistical Machine Learning](sml/index.html)
+- [Bayesian Statistics](bayes/index.html)
+- [Linear & Generalized Linear Models](glm/index.html)

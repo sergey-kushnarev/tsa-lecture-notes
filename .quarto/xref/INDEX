@@ -90,5 +90,86 @@
   },
   "TSA-Lecture16.qmd": {
     "TSA-Lecture16.tex": "8a524b0a"
+  },
+  "tsa/index.qmd": {
+    "index.html": "6185ba59"
+  },
+  "tsa/TSA-Lecture01.qmd": {
+    "TSA-Lecture01.html": "59116b15"
+  },
+  "tsa/TSA-Lecture02.qmd": {
+    "TSA-Lecture02.html": "314c3a5e"
+  },
+  "tsa/TSA-Lecture03.qmd": {
+    "TSA-Lecture03.html": "d78b26f5"
+  },
+  "tsa/TSA-Lecture04.qmd": {
+    "TSA-Lecture04.html": "a8fba06e"
+  },
+  "tsa/TSA-Lecture05.qmd": {
+    "TSA-Lecture05.html": "e55e7100"
+  },
+  "tsa/TSA-Lecture06.qmd": {
+    "TSA-Lecture06.html": "faad387c"
+  },
+  "tsa/TSA-Lecture07-plots.qmd": {
+    "TSA-Lecture07-plots.html": "85be98fe"
+  },
+  "tsa/TSA-Lecture07.qmd": {
+    "TSA-Lecture07.html": "5dc48268"
+  },
+  "tsa/TSA-Lecture08-regression-methods.qmd": {
+    "TSA-Lecture08-regression-methods.html": "64f61d48"
+  },
+  "tsa/TSA-Lecture08.qmd": {
+    "TSA-Lecture08.html": "c21a1b27"
+  },
+  "tsa/TSA-Lecture09.qmd": {
+    "TSA-Lecture09.html": "c279a901"
+  },
+  "tsa/TSA-Lecture10.qmd": {
+    "TSA-Lecture10.html": "e5e32a30"
+  },
+  "tsa/TSA-Lecture11.qmd": {
+    "TSA-Lecture11.html": "f9160188"
+  },
+  "tsa/TSA-Lecture12.qmd": {
+    "TSA-Lecture12.html": "851906a0"
+  },
+  "tsa/TSA-Lecture13.qmd": {
+    "TSA-Lecture13.html": "111cd5dd"
+  },
+  "tsa/TSA-Lecture14-model-specification.qmd": {
+    "TSA-Lecture14-model-specification.html": "9d9e5865"
+  },
+  "tsa/TSA-Lecture14.qmd": {
+    "TSA-Lecture14.html": "5efbc16c"
+  },
+  "tsa/TSA-Lecture15.qmd": {
+    "TSA-Lecture15.tex": "5bd446f5"
+  },
+  "tsa/TSA-Lecture16-parameter-estimation.qmd": {
+    "TSA-Lecture16-parameter-estimation.html": "a39abe5c"
+  },
+  "tsa/TSA-Lecture16.qmd": {
+    "TSA-Lecture16.tex": "0e52425b"
+  },
+  "tsa/TSA-Lecture17-model-diagnostics.qmd": {
+    "TSA-Lecture17-model-diagnostics.html": "4659f741"
+  },
+  "tsa/TSA-Lecture19-forecasting.qmd": {
+    "TSA-Lecture19-forecasting.html": "7d49ca90"
+  },
+  "tsa/TSA-Lecture20-sarima.qmd": {
+    "TSA-Lecture20-sarima.html": "b36dd5ba"
+  },
+  "tsa/TSA-Lecture22-spurious.qmd": {
+    "TSA-Lecture22-spurious.html": "7722461c"
+  },
+  "tsa/TSA-Lecture23-arch-garch.qmd": {
+    "TSA-Lecture23-arch-garch.html": "c69389f8"
+  },
+  "tsa/TSA-Lecture23.qmd": {
+    "TSA-Lecture23.html": "09ccbe8f"
   }
 }

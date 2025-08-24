@@ -8,7 +8,7 @@
 
 <meta name="author" content="Dr Sergey Kushnarev">
 
-<title>25 Spring 439/639 TSA: Lecture 1 – tsa-lecture-notes</title>
+<title>25 Spring 439/639 TSA: Lecture 1 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,28 +24,28 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-48ffa3e5b9d089919c6712c39e5b00f2.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-48ffa3e5b9d089919c6712c39e5b00f2.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -98,44 +98,64 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">tsa-lecture-notes</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link active" href="./TSA-Lecture01.html" aria-current="page"> 
-<span class="menu-text">Lecture 1</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Lecture Notes
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Lecture Notes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text">Courses</span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -204,7 +224,8 @@ window.Quarto = {
 </section>
 <section id="formal-definition-of-time-series" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="formal-definition-of-time-series"><span class="header-section-number">1.2</span> Formal definition of time series</h2>
-<p><strong>Definition:</strong> A time series is a stochastic process model (for an observed time series) of the general form <span class="math inline">\(\{ Y(\omega,t), t\in T\}\)</span>.</p>
+<p><strong>Definition:</strong> A <strong>time series model</strong> for the observed data <span class="math inline">\((y_t)\)</span> is a specification of the joint distribution, or possibly just the means and covariances, of a sequence of random variables <span class="math inline">\(\{ Y(\omega,t), t\in T\}\)</span> of which <span class="math inline">\((y_t)\)</span> is a realization.</p>
+<p>We will frequently use the term <strong>time series</strong> to denote both the model and the observed data.</p>
 <p>In this definition, the stochastic process can be seen as a set/sequence of random variables <span class="math inline">\(Y(\omega,t)\)</span> indexed by time <span class="math inline">\(t\)</span>. The <span class="math inline">\(T\)</span> is an index set for time <span class="math inline">\(t\)</span>. The randomness comes from <span class="math inline">\(\omega\)</span>, which takes values from the sample space <span class="math inline">\(\Omega\)</span>. For this course TSA, in most cases, we have the following setting:</p>
 <ul>
 <li>The time index set <span class="math inline">\(T\)</span> is often <span class="math inline">\(\mathbb{Z}\)</span> (the set of integers) or <span class="math inline">\(\mathbb{Z}_{\ge 0}\)</span> (nonnegative integers).</li>
@@ -291,10 +312,20 @@ window.Quarto = {
 <ul>
 <li>ACF: Using ACVF, <span class="math inline">\(\rho_{s,t}= \frac{\gamma_{s,t}}{ \sqrt{\gamma_{s,s}\cdot \gamma_{t,t}}} = \frac{\min\{s,t\} \cdot \sigma_e^2}{\sqrt{s \sigma_e^2} \sqrt{t \sigma_e^2}} = \frac{\min\{s,t\}}{ \sqrt{st}}\)</span>. It can also be rewritten as <span class="math inline">\(\rho_{s,t} = \min\{ \sqrt{\frac{s}{t}}, \sqrt{\frac{t}{s}}\}\)</span>. Example: <span class="math inline">\(\rho_{1,2}= \sqrt{\frac{1}{2}}\)</span>, <span class="math inline">\(\rho_{2,3}= \sqrt{\frac{2}{3}}\)</span>. Some further observations: <span class="math inline">\(\rho_{t,t+1}= \sqrt{\frac{t}{t+1}} \to 1\)</span> as <span class="math inline">\(t\to\infty\)</span>; <span class="math inline">\(\rho_{1,t}= \sqrt{\frac{1}{t}} \to 0\)</span> as <span class="math inline">\(t\to\infty\)</span>.</li>
 </ul>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="TSA-Lecture01_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption>Two Sample Paths of a Random Walk</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="example-3-moving-average" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="example-3-moving-average"><span class="header-section-number">3.3</span> Example 3: “Moving Average”</h2>
-<p>Let <span class="math inline">\(e_t\dots \sim IID(0,\sigma_e^2)\)</span>, and define <span class="math inline">\(Y_t = \frac{1}{2} (e_t + e_{t-1})\)</span>. For this example,</p>
+<p>Let <span class="math inline">\((e_t) \sim IID(0,\sigma_e^2)\)</span>, and define <span class="math inline">\(Y_t = \frac{1}{2} (e_t + e_{t-1})\)</span>. For this example,</p>
 <ul>
 <li>Mean function: <span class="math inline">\(\mu_t = \mathbb{E}[Y_t] = \frac{1}{2} \mathbb{E}[e_t + e_{t-1}] = 0.\)</span> Note that this mean function does not depend on time <span class="math inline">\(t\)</span>.</li>
 <li>Variance function: <span class="math inline">\(\gamma_{t,t} = Var(Y_t) = Var(\frac{1}{2} (e_t + e_{t-1})) = \frac{1}{4} (Var(e_t) + Var(e_{t-1}) + 2 Cov(e_t, e_{t-1})) = \frac{1}{2} \sigma_e^2\)</span>. Note that this variance function does not depend on time <span class="math inline">\(t\)</span>.</li>

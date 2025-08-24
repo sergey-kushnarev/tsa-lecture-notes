@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.41">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr Sergey Kushnarev">
+
+<title>25 Spring 439/639 TSA: Lecture 2 – Lecture Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-48ffa3e5b9d089919c6712c39e5b00f2.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Lecture Notes
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Lecture Notes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text">Courses</span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#stationarity" id="toc-stationarity" class="nav-link active" data-scroll-target="#stationarity"><span class="header-section-number">1</span> Stationarity</a>
+  <ul class="collapse">
+  <li><a href="#strict-stationarity" id="toc-strict-stationarity" class="nav-link" data-scroll-target="#strict-stationarity"><span class="header-section-number">1.1</span> Strict stationarity</a></li>
+  <li><a href="#properties-of-strict-stationarity" id="toc-properties-of-strict-stationarity" class="nav-link" data-scroll-target="#properties-of-strict-stationarity"><span class="header-section-number">1.2</span> Properties of strict stationarity</a></li>
+  <li><a href="#weak-stationarity" id="toc-weak-stationarity" class="nav-link" data-scroll-target="#weak-stationarity"><span class="header-section-number">1.3</span> Weak stationarity</a></li>
+  </ul></li>
+  <li><a href="#some-examples" id="toc-some-examples" class="nav-link" data-scroll-target="#some-examples"><span class="header-section-number">2</span> Some examples</a>
+  <ul class="collapse">
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">2.1</span> Example 1</a></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">2.2</span> Example 2</a></li>
+  <li><a href="#clarification-on-some-notations-and-concepts" id="toc-clarification-on-some-notations-and-concepts" class="nav-link" data-scroll-target="#clarification-on-some-notations-and-concepts"><span class="header-section-number">2.3</span> Clarification on some notations and concepts</a></li>
+  <li><a href="#more-examples-details-omitted" id="toc-more-examples-details-omitted" class="nav-link" data-scroll-target="#more-examples-details-omitted"><span class="header-section-number">2.4</span> More examples (details omitted)</a></li>
+  <li><a href="#example-3" id="toc-example-3" class="nav-link" data-scroll-target="#example-3"><span class="header-section-number">2.5</span> Example 3</a></li>
+  </ul></li>
+  <li><a href="#q-dependent-clt" id="toc-q-dependent-clt" class="nav-link" data-scroll-target="#q-dependent-clt"><span class="header-section-number">3</span> <span class="math inline">\(q\)</span>-dependent CLT</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">25 Spring 439/639 TSA: Lecture 2</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="stationarity" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Stationarity</h1>
+<section id="strict-stationarity" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="strict-stationarity"><span class="header-section-number">1.1</span> Strict stationarity</h2>
+<p>Lecture 1: A time series is strictly stationary if all finite dimensional joint distributions are time invariant, i.e., <span class="math display">\[
+F_{Y_{t_1}, \dots, Y_{t_n}} = F_{Y_{t_1 -k}, \dots, Y_{t_n -k}}, \quad \forall n, \forall t_1,\dots,t_n, \forall k.
+\]</span></p>
+</section>
+<section id="properties-of-strict-stationarity" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="properties-of-strict-stationarity"><span class="header-section-number">1.2</span> Properties of strict stationarity</h2>
+<p>Suppose <span class="math inline">\((Y_t)\)</span> is a strictly stationary time series.</p>
+<ul>
+<li><span class="math inline">\(Y_t \overset{D}{=} Y_0\)</span> for all <span class="math inline">\(t\)</span>, i.e., all <span class="math inline">\(Y_t\)</span> are identically distributed. Proof: take <span class="math inline">\(n=1\)</span> in the definition.</li>
+<li>If the distribution (of <span class="math inline">\(Y_t\)</span>) has finite 2nd moment (which implies finite first moment by <span class="math inline">\((\mathbb{E}[Y])^2 \le \mathbb{E}[Y^2] &lt; \infty\)</span>), then for any <span class="math inline">\(t\)</span>,
+<ul>
+<li><span class="math inline">\(\mu_t = \mathbb{E}[Y_t] = \mathbb{E}[Y_0]\)</span> does not depend on <span class="math inline">\(t\)</span>.</li>
+<li><span class="math inline">\(\sigma_t^2 = Var(Y_t) = Var(Y_0)\)</span> does not depend on <span class="math inline">\(t\)</span>.</li>
+</ul></li>
+<li>Let <span class="math inline">\(n=2\)</span> in the definition, we have <span class="math inline">\((Y_s,Y_t) \overset{D}{=} (Y_{s-k},Y_{t-k}) \overset{D}{=} (Y_0, Y_{t-s})\)</span>. Consider the covariance, <span class="math inline">\(Cov(Y_s,Y_t) = Cov(Y_0, Y_{t-s})\)</span>, i.e., <span class="math inline">\(\gamma_{s,t} = \gamma_{0, t-s}\)</span> which only depends on the lag <span class="math inline">\(t-s\)</span>. So for strictly stationary time series, we can simplify the notation by the following definition</li>
+</ul>
+<p><span class="math display">\[
+\gamma_{t-s} := \gamma_{0, t-s} = \gamma_{s,t}.
+\]</span> By the symmetry of ACVF, <span class="math inline">\(\gamma_{s-t} = \gamma_{t,s} = \gamma_{s,t} = \gamma_{t-s}\)</span>, so <span class="math inline">\(\gamma_k\)</span> is an even function of <span class="math inline">\(k\)</span> in the sense that <span class="math inline">\(\gamma_{s-t} = \gamma_{t-s} = \gamma_{|t-s|}\)</span>. Example: for a strictly stationary time series, <span class="math inline">\(\gamma_5 = \gamma_{-5}= Cov(Y_0,Y_5)= Cov(Y_1,Y_6) = Cov(Y_t,Y_{t+5}), \forall t\)</span>.</p>
+<p>In summary, for a strictly stationary time series with finite 2nd moment,</p>
+<ul>
+<li><strong>Mean Function</strong>: <span class="math inline">\(\mu_t=\mu\)</span>, <span class="math inline">\(\forall t\in \mathbb{Z}\)</span>.</li>
+<li><strong>Variance Function</strong>: <span class="math inline">\(Var(Y_t) = \gamma_{t,t}= \gamma_0 = \sigma^2\)</span>, <span class="math inline">\(\forall t\in \mathbb{Z}\)</span>.</li>
+<li><strong>ACVF</strong>: <span class="math inline">\(\gamma_k = Cov(Y_t,Y_{t-k}) = Cov(Y_{t-k},Y_t) = \gamma_{-k}\)</span>, <span class="math inline">\(\forall k,t\in \mathbb{Z}\)</span>.</li>
+<li><strong>ACF</strong>: <span class="math inline">\(\rho_k = \frac{\gamma_k}{\gamma_0}\)</span> (assuming <span class="math inline">\(\gamma_0 \neq 0\)</span>).</li>
+</ul>
+</section>
+<section id="weak-stationarity" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="weak-stationarity"><span class="header-section-number">1.3</span> Weak stationarity</h2>
+<p><strong>Definition:</strong> A time series <span class="math inline">\((Y_t)\)</span>, <span class="math inline">\(t\in \mathbb{Z}\)</span>, satisfying the following three conditions,</p>
+<ul>
+<li><span class="math inline">\(\mu_t=\mu\)</span> for some (finite) constant <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\forall t\in \mathbb{Z}\)</span>,</li>
+<li><span class="math inline">\(Var(Y_t) =\sigma^2\)</span> for some (finite) constant <span class="math inline">\(\sigma^2\)</span>, <span class="math inline">\(\forall t\in \mathbb{Z}\)</span>,</li>
+<li><span class="math inline">\(Cov(Y_t,Y_{t-k}) = \gamma_k\)</span> for some function <span class="math inline">\(\gamma_k\)</span> that only depends on the lag <span class="math inline">\(k\)</span> and does not depend on the time <span class="math inline">\(t\)</span>,</li>
+</ul>
+<p>is called weakly stationary/ stationary / second order stationary / covariance stationary.</p>
+</section>
+</section>
+<section id="some-examples" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Some examples</h1>
+<p>In the examples below, example 1 is both strictly stationary and weakly stationary, example 2 is weakly stationary but not strictly stationary.</p>
+<p><strong>Exercise:</strong> Give an example of strictly stationary time series that is not weakly stationary.</p>
+<section id="example-1" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="example-1"><span class="header-section-number">2.1</span> Example 1</h2>
+<p>Consider the time series <span class="math inline">\((e_t)\)</span> where <span class="math inline">\(e_t \sim IID(0,\sigma_e^2)\)</span>.</p>
+<ul>
+<li>Show the joint cdf of <span class="math inline">\((e_{t_1},\cdots,e_{t_n})\)</span> and <span class="math inline">\((e_{t_1-k},\cdots,e_{t_n-k})\)</span> are the same:</li>
+</ul>
+<p><span class="math display">\[
+\begin{split}
+F_{e_{t_1},\cdots,e_{t_n}}(a_1,\cdots,a_n) &amp;= \mathbb{P}(e_{t_1}\le a_1, \cdots, e_{t_n}\le a_n) \\
+&amp;= \mathbb{P}(e_{t_1}\le a_1) \mathbb{P}(e_{t_2}\le a_2) \cdots \mathbb{P}(e_{t_n}\le a_n) \\
+&amp;= \mathbb{P}(e_{t_1-k}\le a_1) \mathbb{P}(e_{t_2-k}\le a_2) \cdots \mathbb{P}(e_{t_n-k}\le a_n) \\
+&amp;= \mathbb{P}(e_{t_1-k}\le a_1, \cdots, e_{t_n-k}\le a_n) = F_{e_{t_1-k},\cdots,e_{t_n-k}}(a_1,\cdots,a_n)
+\end{split}
+\]</span> By definition, <span class="math inline">\((e_t)\)</span> is strictly stationary.</p>
+<ul>
+<li>It is also weakly stationary, since
+<ul>
+<li><span class="math inline">\(\mu_t = 0\)</span>, does not depend on <span class="math inline">\(t\)</span>,</li>
+<li><span class="math inline">\(Var(e_t) = \sigma_e^2\)</span>, does not depend on <span class="math inline">\(t\)</span>,</li>
+<li>The ACVF only depends on the lag <span class="math inline">\(k\)</span> as follows</li>
+</ul>
+<span class="math display">\[
+Cov(e_t, e_{t-k}) = \begin{cases}
+0, &amp; k\neq 0\\
+\sigma_e^2, &amp; k=0.
+\end{cases}
+\]</span></li>
+</ul>
+</section>
+<section id="example-2" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="example-2"><span class="header-section-number">2.2</span> Example 2</h2>
+<p>Let <span class="math inline">\(U_t \overset{iid}{\sim} N(0,1)\)</span>. Define <span class="math inline">\(X_t\)</span> as follows <span class="math display">\[
+X_t = \begin{cases}
+U_t, &amp; t \text{ is even}\\
+\frac{1}{\sqrt{2}}(U_t^2 - 1), &amp; t \text{ is odd}.
+\end{cases}
+\]</span> It is weakly stationary since</p>
+<ul>
+<li>For even <span class="math inline">\(t\)</span>, <span class="math inline">\(\mu_t= \mathbb{E}[U_t] = 0\)</span>. For odd <span class="math inline">\(t\)</span>, <span class="math inline">\(\mu_t= \mathbb{E}[\frac{1}{\sqrt{2}}(U_t^2 - 1)] = \frac{1}{\sqrt{2}}(\mathbb{E}[U_t^2]-1) = 0\)</span>. So <span class="math inline">\(\mu_t=0\)</span> for all <span class="math inline">\(t\)</span>.</li>
+<li>For even <span class="math inline">\(t\)</span>, <span class="math inline">\(Var(X_t) = Var(U_t)=1\)</span>. For odd <span class="math inline">\(t\)</span>, <span class="math inline">\(Var(X_t) = Var(\frac{1}{\sqrt{2}}(U_t^2 - 1)) = \frac{1}{2} Var(U_t^2) = \frac{1}{2} (\mathbb{E}[U_t^4] - (\mathbb{E}[U_t^2])^2 ) = \frac{1}{2}(3-1) = 1\)</span>. So <span class="math inline">\(Var(X_t) = 1\)</span> for all <span class="math inline">\(t\)</span>.</li>
+<li></li>
+</ul>
+<p><span class="math display">\[
+Cov(Y_t,Y_{t-k}) = \begin{cases}
+0, \quad k\neq 0 \\
+1, \quad k=0.
+\end{cases}
+\]</span> <strong>Exercise:</strong> show that <span class="math inline">\(Cov(Y_t,Y_{t-k}) = 0\)</span> for <span class="math inline">\(k\neq 0\)</span>.</p>
+<p>For this example <span class="math inline">\((X_t)\)</span>, we can show that it is not strictly stationary by proving <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are not identically distributed.</p>
+<p><strong>Exercise:</strong> prove the claim above. (<em>Hint:</em> find some real number <span class="math inline">\(a\)</span> such that <span class="math inline">\(\mathbb{P}(\frac{1}{\sqrt{2}}(U_1^2 - 1) \le a) \neq \mathbb{P}(U_2 \le a)\)</span>.)</p>
+</section>
+<section id="clarification-on-some-notations-and-concepts" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="clarification-on-some-notations-and-concepts"><span class="header-section-number">2.3</span> Clarification on some notations and concepts</h2>
+<ul>
+<li><strong>IID noise</strong>: In the previous Example 1, <span class="math inline">\(e_t \sim IID(0,\sigma_e^2)\)</span>. <strong>In this course (TSA)</strong>, we call a time series <span class="math inline">\((e_t)\)</span> <strong>iid noise</strong>, denoted by <span class="math inline">\(e_t \sim IID(0,\sigma_e^2)\)</span>, if it satisfies: mean <span class="math inline">\(0\)</span>, variance <span class="math inline">\(\sigma_e^2\)</span>, all <span class="math inline">\(e_t\)</span> are iid (independently identically distributed).</li>
+<li><strong>White noise</strong>: In this course, we call a time series <span class="math inline">\((e_t)\)</span> <strong>white noise</strong>, denoted by <span class="math inline">\(e_t \sim WN(0,\sigma_e^2)\)</span>, if it satisfies: mean <span class="math inline">\(0\)</span>, variance <span class="math inline">\(\sigma_e^2\)</span>, all <span class="math inline">\(e_t\)</span> are uncorrelated (pairwise uncorrelated).</li>
+<li>In general, iid noise implies white noise, and the inverse is not true. Under the assumption of normality, they are equivalent. (Note: here normality refers to the assumption that the time series <span class="math inline">\((e_t)\)</span> is a Gaussian process.)</li>
+</ul>
+<p><span class="math display">\[
+\begin{split}
+\text{iid noise} \quad &amp; \Rightarrow \quad \text{white noise}, \\
+\text{iid noise} \quad &amp; \not\Leftarrow \quad \text{white noise}, \\
+\text{iid Normal(Gaussian) noise} \quad &amp; \Leftrightarrow \quad \text{Normal(Gaussian) white noise}.
+\end{split}
+\]</span></p>
+<ul>
+<li><strong>Warning:</strong> in Cryer and Chan, they often use iid noise and white noise interchangeably.</li>
+</ul>
+</section>
+<section id="more-examples-details-omitted" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="more-examples-details-omitted"><span class="header-section-number">2.4</span> More examples (details omitted)</h2>
+<ul>
+<li>“Linear regression” example from lecture 1, where <span class="math inline">\(Y_t = a+bt+e_t\)</span>, and <span class="math inline">\(e_t \sim WN(0,\sigma_e^2)\)</span>. This is not stationary since <span class="math inline">\(\mu_t = a+bt\)</span> (whenever <span class="math inline">\(b\neq 0\)</span>).</li>
+<li>“Random walk” example from lecture 1. For positive integer <span class="math inline">\(t\)</span>, <span class="math inline">\(Y_t = \sum_{i}^t e_i\)</span>, where <span class="math inline">\(e_t \sim WN(0,\sigma_e^2)\)</span>. We have <span class="math inline">\(\mu_t=0\)</span>, <span class="math inline">\(Var(Y_t) = t \sigma_e^2\)</span>. This <span class="math inline">\((Y_t)\)</span> is not stationary.</li>
+<li>“Moving average” example from lecture 1, where <span class="math inline">\(Y_t = \frac{e_t+ e_{t-1}}{2}\)</span>, and <span class="math inline">\(e_t \sim WN(0,\sigma_e^2)\)</span>. In lecture 1, we already calculated its mean function, variance function and ACVF. This <span class="math inline">\((Y_t)\)</span> is stationary.</li>
+</ul>
+</section>
+<section id="example-3" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="example-3"><span class="header-section-number">2.5</span> Example 3</h2>
+<p>Let <span class="math inline">\(A,B\)</span> be two iid random variables, with <span class="math inline">\(\mathbb{E}[A]=\mathbb{E}[B]=0\)</span> and <span class="math inline">\(Var(A)= Var(B) = \sigma^2\)</span>. Let <span class="math inline">\(w\in \mathbb{R}\)</span> be a fixed real number. For each <span class="math inline">\(t\in \mathbb{Z}\)</span>, define <span class="math inline">\(Y_t = A \cos(wt) + B \sin(wt)\)</span>. <em>Remark:</em> note that <span class="math inline">\(A,B\)</span> are random, but they are “same” for all <span class="math inline">\(t\)</span>.</p>
+<ul>
+<li><span class="math inline">\(\mu_t = \mathbb{E}[Y_t] = \mathbb{E}[A \cos(wt) + B \sin(wt)] = \cos(wt)\mathbb{E}[A] + \sin(wt) \mathbb{E}[B] =0\)</span>.</li>
+<li><span class="math inline">\(Var(Y_t)= Var(A \cos(wt) + B \sin(wt)) = \cos^2(wt)Var(A) + \sin^2(wt)Var(B) + 0 = \sigma^2\)</span>.</li>
+<li>The ACVF only depends on the lag <span class="math inline">\(k\)</span> as follows</li>
+</ul>
+<p><span class="math display">\[
+\begin{split}
+Cov(Y_t,Y_{t-k}) &amp;= Cov(A \cos(wt) + B \sin(wt), A \cos(w(t-k)) + B \sin(w(t-k))) \\
+&amp;= \cos(wt)\cos(w(t-k)) Var(A) + \sin(wt)\sin(w(t-k)) Var(B) + 0 + 0 \\
+&amp;= \sigma^2 (\cos(wt)\cos(w(t-k)) + \sin(wt)\sin(w(t-k))) \\
+&amp;= \sigma^2 \cos(wt - w(t-k)) = \sigma^2 \cos(wk)
+\end{split}
+\]</span> So <span class="math inline">\((Y_t)\)</span> is weakly stationary. In general (for generic choice of <span class="math inline">\(w\)</span>, generic distribution of <span class="math inline">\(A,B\)</span>, etc.), <span class="math inline">\((Y_t)\)</span> is not strictly stationary.</p>
+<p><strong>Exercise:</strong> show that <span class="math inline">\(Y_0\)</span> and <span class="math inline">\(Y_1\)</span> are not identically distributed in general.</p>
+</section>
+</section>
+<section id="q-dependent-clt" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> <span class="math inline">\(q\)</span>-dependent CLT</h1>
+<p><strong>Motivation:</strong> Assume <span class="math inline">\((Y_t)\)</span> is a stationary time series with <span class="math inline">\(\mu_t=\mu\)</span>, <span class="math inline">\(Var(Y_t)=\sigma^2\)</span>, <span class="math inline">\(Cov(Y_t, Y_{t-k})= \gamma_k\)</span>. Suppose we observe <span class="math inline">\(Y_1,\dots,Y_n\)</span>, can we make any estimation/inference on <span class="math inline">\(\mu\)</span>? The sample mean <span class="math inline">\(\overline{Y}= \frac{1}{n} \sum_{t=1}^n Y_t\)</span> may have nice properties under some strong assumptions. For example, if <span class="math inline">\(Y_t\)</span> are iid, then the Central Limit Theorem (CLT) provides the limiting distribution of <span class="math inline">\(\overline{Y}\)</span>. But for a general time series <span class="math inline">\((Y_t)\)</span> without iid condition, the behavior of <span class="math inline">\(\overline{Y}\)</span> can be tricky.</p>
+<p><strong>Example:</strong> Let <span class="math inline">\(Z\sim N(0,1)\)</span>, <span class="math inline">\(U_t \overset{iid}{\sim}\text{Unif}[0,1]\)</span>, and assume <span class="math inline">\(Z\)</span> is independent of all <span class="math inline">\((U_t)\)</span>. Let <span class="math inline">\(Y_t = Z+ U_t\)</span>. Under this setting, <span class="math inline">\(\mu= \mathbb{E}[Y_t]= \mathbb{E}[Z]+ \mathbb{E}[U_t] = \frac{1}{2}\)</span>. The classic CLT cannot be directly applied to <span class="math inline">\(\frac{1}{n} \sum_{t=1}^n Y_t\)</span> since <span class="math inline">\(Y_t\)</span> are not iid. But we can still manage to obtain the limiting distribution of <span class="math inline">\(\overline{Y}\)</span>. Note that <span class="math display">\[
+\overline{Y} = \frac{1}{n} \sum_{t=1}^n (Z+U_t) = Z+ \overline{U}.
+\]</span> The classic CLT can be applied to <span class="math inline">\(\overline{U} = \frac{1}{n} \sum_{t=1}^n U_t\)</span>, which gives <span class="math inline">\(\overline{U} \to N(\frac{1}{2}, \frac{1}{12n})\)</span>. Also recall that <span class="math inline">\(Z\sim N(0,1)\)</span> and it is independent with <span class="math inline">\(\overline{U}\)</span>. So <span class="math inline">\(\overline{Y} = Z+ \overline{U} \to N(\frac{1}{2}, 1+ \frac{1}{12n})\)</span>. This result looks quite different from the classic CLT in the following sense: the classic limiting distribution looks like <span class="math inline">\(\overline{Y} \to N(\mu_Y, \frac{\sigma_Y^2}{n})\)</span>. Consider the large-sample variance: as <span class="math inline">\(n\to \infty\)</span>, the classic result <span class="math inline">\(\frac{\sigma_Y^2}{n}\)</span> shrinks to <span class="math inline">\(0\)</span>, while the actual variance in this example <span class="math inline">\(1+ \frac{1}{12n}\)</span> converges to <span class="math inline">\(1\)</span>!</p>
+<p>From the example above, we can see that the classic CLT do not work (the iid condition fails and consequently the limiting behavior also looks different). <em>Question:</em> can we still get something similar to CLT? The answer is Yes. A similar version of CLT works if there is some but “not much” dependence between the <span class="math inline">\(Y_t\)</span>. This idea leads to the concept <strong><span class="math inline">\(q\)</span>-dependent</strong>.</p>
+<p><strong>Definition:</strong> For a time series <span class="math inline">\((Y_t)\)</span>,</p>
+<ul>
+<li>If <span class="math inline">\(Y_s\)</span> and <span class="math inline">\(Y_{s+k}\)</span> are independent for any <span class="math inline">\(s\)</span> and any <span class="math inline">\(k&gt;q\)</span>, then <span class="math inline">\((Y_t)\)</span> is <strong><span class="math inline">\(q\)</span>-dependent</strong>.</li>
+<li>If <span class="math inline">\(Y_s\)</span> and <span class="math inline">\(Y_{s+k}\)</span> are uncorrelated for any <span class="math inline">\(s\)</span> and any <span class="math inline">\(k&gt;q\)</span>, then <span class="math inline">\((Y_t)\)</span> is <strong><span class="math inline">\(q\)</span>-correlated</strong>.</li>
+</ul>
+<p>So “<span class="math inline">\(q\)</span>-dependent” means “dependent only up to lag <span class="math inline">\(q\)</span>”. The concept “<span class="math inline">\(q\)</span>-correlated” is defined in a similar fashion where the only difference is we care about the covariance instead of the dependence.</p>
+<p>In the previous example, <span class="math inline">\(\gamma_0 = Var(Y_t) = Var(Z+U_t) = Var(Z)+Var(U_t) = \frac{13}{12}\)</span>. For lag <span class="math inline">\(k&gt;0\)</span>, <span class="math inline">\(\gamma_k = Cov(Y_t, Y_{t-k}) = Cov(Z+U_t, Z+U_{t-k}) = Var(Z) = 1\)</span>. Since <span class="math inline">\(\gamma_k=1\neq 0\)</span> for any <span class="math inline">\(k&gt;0\)</span>, the <span class="math inline">\((Y_t)\)</span> in this example is not <span class="math inline">\(q\)</span>-dependent (for any <span class="math inline">\(q\)</span>).</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,64 +1,14 @@
 ---
-title: "Time Series Analysis: Lecture Notes"
-format:
-  html:
-    toc: false
+title: "Lecture Notes"
 ---
 
-## Welcome!
+# Welcome
 
-These are the lecture notes for **EN.553.439/639 Time Series Analysis**, based on the Cryer and Chen textbook *Time Series Analysis: With Applications in R* and Time Series Lecture notes of Dr Torcaso.
+This site hosts lecture notes for several courses I have taught or am currently teaching at the Applied Mathematics and Statistics department of Johns Hopkins University.
 
-The notes are typed by Yue Wu. The notes are authored and maintained by [Sergey Kushnarev](about.qmd), and include:
-
-- Topic summaries
-- Mathematical derivations
-- R notebooks with code and data examples
-- Figures and simulation results
-
-> Think of these notes as a companion to our lectures and discussions, not a substitute. You'll likely spot some typos and errors, so always double-check with the textbook and other course materials. If you catch an issue or have a question, please don't hesitate to reach out to me via email or during office hours.
-
----
-
-## 📚 Lecture Notes
-
-- [Lecture 1: Introduction to Time Series Analysis](TSA-Lecture01.qmd)
-- [Lecture 2: Stationarity](TSA-Lecture02.qmd)
-- [Lecture 3: Q-dependent CLT. MA(q), General Linear Process. Causality](TSA-Lecture03.qmd)
-- [Lecture 4: AR(1), Yule-Walker method, AR-polynomial](TSA-Lecture04.qmd)
-- [Lecture 5: AR(p): causality, YW method, GLP representation, ](TSA-Lecture05.qmd)
-- [Lecture 6: Recursive equations, ACVF for AR(2), AR(p), Invertibility](TSA-Lecture06.qmd)
-- [Lecture 7: ARMA(1,1), ARMA(p,q): GLP representation, YW method, ACVF.](TSA-Lecture07.qmd)
-  - [Rnotebook: Visualizing Time Series](TSA-Lecture07-plots.qmd)
-- [Lecture 8: Trends, Estimation of the mean Yt, Rnotebook: regression approach, residual analysis](TSA-Lecture08.qmd)
-  - [Rnotebook: Regression Methods in Time Series](TSA-Lecture08-regression-methods.qmd)
-- [Lecture 9: Residual Analysis. Sample ACF](TSA-Lecture09.qmd)
-- [Lecture 10: ARIMA($p,d,q$), Overdifferencing, GLP-like representation](TSA-Lecture10.qmd)
-- [Lecture 11: Transformations of TS, sample ACF, Bartletts Theorem, Hypothesis test for MA(q)](TSA-Lecture11.qmd)
-- [Lecture 12: PACF, sample PACF, Durbin-Levinson recursion](TSA-Lecture12.qmd)
-- [Lecture 13: EACF, Specification of some TS, Unit Root test.](TSA-Lecture13.qmd)
-- [Lecture 14: Parameter Estimation: method of moments](TSA-Lecture14.qmd)
-  - [Rnotebook: Model Specification](TSA-Lecture14-model-specification.qmd)
-- Lecture 15: Parameter Estimation: Method of Moments, condtional least squares
-- Lecture 16: Parameter Estimation: MLE, unconditional least squares.
-  - [Rnotebook: Parameter Estimation](TSA-Lecture16-parameter-estimation.qmd)
-- Lecture 17: Diagnostics: residuals, overfitting
-  - [Rnotebook: Model Diagnostics](TSA-Lecture17-model-diagnostics.qmd)
-- Lecture 18: Forecasting
-- Lecture 19: Forecasting: RW, ARMA(1,1), ARIMA, EWMA
-  - [Rnotebook: Forecasting](TSA-Lecture19-forecasting.qmd)
-- Lecture 20: SARIMA = Seasonal ARIMA
-  - [Rnotebook: SARIMA = Seasonal ARIMA](TSA-Lecture20-sarima.qmd)
-- Lecture 21: Cross-Correlation Function, Spurious Regression.
-- Lecture 22: Spurious Regression, Prewhitening
-  - [Rnotebook: Spurious Regression](TSA-Lecture22-spurious.qmd)
-- [Lecture 23: ARCH/GARCH Models](TSA-Lecture23.qmd)
-  - [Rnotebook: ARCH/GARCH](TSA-Lecture23-arch-garch.qmd)
----
-
-## 🔗 Resources
-
-- [Course Syllabus (PDF)] **TBD**
-- [RStudio Cloud Project](https://posit.cloud/)
-
-
+## Courses
+- [Time Series Analysis](tsa/index.html)
+- [Elements of Statistical Learning](esl/index.html)
+- [Bayesian Statistics](bayes/index.html)
+- [Applied Statistics and Data Analysis I](asda1/index.html)
+- [Applied Statistics and Data Analysis II](asda2/index.html)

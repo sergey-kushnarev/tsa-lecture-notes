@@ -1,63 +1,29 @@
 project:
   type: website
-  output-dir: docs
 
 website:
-  title: "tsa-lecture-notes"
+  title: "Lecture Notes"
   sidebar:
     # optional: set width in pixels
     width: 250px
     contents:
       - href: index.qmd
         text: Home
-      - href: TSA-Lecture01.qmd
-        text: Lecture 1
-      - href: TSA-Lecture02.qmd
-        text: Lecture 2
-      - href: TSA-Lecture03.qmd
-        text: Lecture 3
-      - href: TSA-Lecture04.qmd
-        text: Lecture 4
-      - href: TSA-Lecture05.qmd
-        text: Lecture 5
-      - href: TSA-Lecture06.qmd
-        text: Lecture 6
-      - href: TSA-Lecture07.qmd
-        text: Lecture 7
-      - href: TSA-Lecture07-plots.qmd
-        text: "Rnotebook: Visualizing Time Series"
-      - href: TSA-Lecture08.qmd
-        text: Lecture 8
-      - href: TSA-Lecture08-regression-methods.qmd
-        text: "Rnotebook: Regression"
-      - href: TSA-Lecture09.qmd
-        text: Lecture 9
-      - href: TSA-Lecture10.qmd
-        text: Lecture 10
-      - href: TSA-Lecture11.qmd
-        text: Lecture 11
-      - href: TSA-Lecture12.qmd
-        text: Lecture 12
-      - href: TSA-Lecture13.qmd
-        text: Lecture 13
-      - href: TSA-Lecture14.qmd
-        text: Lecture 14
-      - href: TSA-Lecture14-model-specification.qmd
-        text: "Rnotebook: Model Specification"
-      - href: TSA-Lecture16-parameter-estimation.qmd
-        text: "Rnotebook: Parameter Estimation"
-      - href: TSA-Lecture17-model-diagnostics.qmd
-        text: "Rnotebook: Model Diagnostics"
-      - href: TSA-Lecture19-forecasting.qmd
-        text: "Rnotebook: Forecasting"
-      - href: TSA-Lecture20-sarima.qmd
-        text: "Rnotebook: SARIMA"
-      - href: TSA-Lecture22-spurious.qmd
-        text: "Rnotebook: Spurious Regression"
-      - href: TSA-Lecture23.qmd
-        text: Lecture 23
-      - href: TSA-Lecture23-arch-garch.qmd
-        text: "Rnotebook: ARCH/GARCH"
+      - text: Courses
+        menu:
+          - text: Time Series Analysis
+            href: tsa/index.qmd
+          - text: Bayesian Statistics
+            href: bayes/index.qmd
+          - text: Applied Statistics and Data Analysis I
+            href: asda1/index.qmd
+          - text: Applied Statistics and Data Analysis II
+            href: asda2/index.qmd
+          - text: Elements of Statistical Learning
+            href: esl/index.qmd
+      - href: about.qmd
+        text: About
+      
 format:
   html:
     theme:
