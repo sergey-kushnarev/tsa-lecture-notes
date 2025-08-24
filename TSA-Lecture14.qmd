@@ -1,0 +1,189 @@
+---
+title: "25 Spring 439/639 TSA: Lecture 14"
+author: "Dr Sergey Kushnarev"
+#date: "March 30, 2023"
+toc: true
+format: 
+    pdf:
+        documentclass: article
+        geometry: margin=1in
+#format: html
+---
+
+# Parameter estimation
+
+Using all the tools we have seen (sample ACF/PACF/EACF, transformations, ADF test, ARMA subsets, etc.) we arrive at a few candidate models.
+
+**Next goal:** Estimate the parameters $\phi_i$ ($i=1,...,p$), $\theta_j$ ($j=1,...,p$). And maybe the variance of the noise $\sigma_e^2$, the mean of the time series $\mu$.
+
+# Method of Moments (MoM)
+
+Recall that the task is estimating the parameters given the observed samples. The idea of **Method of Moments (MoM)** is to solve the parameters from the equation(s)
+$$
+\text{theoretical moment} = \text{sample moment}
+$$
+where the theoretical $k$-th moment $\mu_k = \mathbb{E}[Y^k]$ is a function of the parameters, and the sample $k$-th moment $m_k = \frac{1}{n} \sum_{i=1}^n Y_i^k$ is a function of the observed data.
+
+**Example 0.** Suppose $Y_1, \cdots, Y_n \overset{\text{iid}}{\sim} N(\mu, \sigma^2)$. Then we know that $\mu_1 = \mathbb{E}[Y] = \mu$, and $\mu_2 = \mathbb{E}[Y^2] = \mu^2 + \sigma^2$. The MoM method considers
+$$
+\begin{cases}
+\mu_1 = m_1 \\
+\mu_2 = m_2
+\end{cases}
+\implies
+\begin{cases}
+\mathbb{E} [Y] = \dfrac{1}{n} \sum_{i=1}^{n} Y_i \\
+\mathbb{E} [Y^2] = \dfrac{1}{n} \sum_{i=1}^{n} Y_i^2
+\end{cases}
+\implies
+\begin{cases}
+\mu = \frac{1}{n} \sum_{i=1}^{n} Y_i = \overline{Y} \\
+\mu^2 + \sigma^2 = \frac{1}{n} \sum_{i=1}^{n} Y_i^2
+\end{cases}
+$$
+Solving the system gives
+$$
+\begin{cases}
+\widehat{\mu}_{\text{MOM}} = \overline{Y} \\
+\widehat{\sigma}^2_{\text{MOM}} = \frac{1}{n} \sum_{i=1}^{n} Y_i^2 - \overline{Y}^2 = \frac{1}{n} \sum_{i=1}^{n} (Y_i - \overline{Y})^2
+\end{cases}
+$$
+**Exercise:** verify the last step above.
+
+There is a variant method of MoM, called **generalized method of moments (GMoM)**. (For simplicity, we may also call it MoM.) The basic idea is, if we want to estimate some quantity $g(Y)$, then we can directly use $\frac{1}{n}\sum_{i=1}^n g(Y_i)$. This idea is useful in time series parameter estimation, since we can utilize the sequential structure of the observed data.
+
+**Example 1.** Suppose $Y_1, \dots, Y_n$ are from an AR($1$) model with mean zero:
+$$
+Y_t - \phi Y_{t-1} = e_t, \quad e_t \sim \text{iid} (0, \sigma_e^2).
+$$
+We can apply the generalized MoM here by solving the equation(s)
+$$
+\text{theoretical ACF} = \text{sample ACF}.
+$$
+Note that the theoretical ACF is $\rho_k = \phi^k$, and in particular $\rho_1 = \phi$. To estimate $\phi$, we can solve the equation $\rho_1 = r_1$ where $r_1$ is the sample ACF at lag $1$:
+$$
+r_1 = \frac{\sum_{t=1}^{n-1} (Y_{t+1} - \overline{Y})(Y_t - \overline{Y})}
+{\sum_{t=1}^{n} (Y_t - \overline{Y})^2}.
+$$
+Solving the equation $\rho_1 = r_1$ gives the MoM (GMoM) estimate
+$$
+\widehat{\phi}_\text{MOM} = \frac{\sum_{t=1}^{n-1} (Y_{t+1} - \overline{Y})(Y_t - \overline{Y})}
+{\sum_{t=1}^{n} (Y_t - \overline{Y})^2}.
+$$
+
+**Example 2.** Suppose $Y_1, \dots, Y_n$ are from an AR($2$) model with mean zero:
+$$
+Y_t - \phi_1 Y_{t-1} - \phi_2 Y_{t-2} = e_t.
+$$
+The first two YW equations are
+$$
+\begin{cases}
+\gamma_1 - \phi_1 \gamma_0 - \phi_2 \gamma_1 = 0 \\
+\gamma_2 - \phi_1 \gamma_1 - \phi_2 \gamma_0 = 0
+\end{cases}
+\implies
+\begin{cases}
+\rho_1 = \phi_1 + \phi_2 \rho_1 \\
+\rho_2 = \phi_1 \rho_1 + \phi_2
+\end{cases}
+\implies
+\begin{cases}
+\rho_1 = \frac{\phi_1}{1 - \phi_2} \\
+\rho_2 = \frac{\phi_1^2 - \phi_2^2 + \phi_2}{1 - \phi_2}
+\end{cases}
+$$
+Using MoM, we need to solve $\phi_1, \phi_2$ from the equations
+$$
+\begin{cases}
+\rho_1(\phi_1, \phi_2) = r_1 \\
+\rho_2(\phi_1, \phi_2) = r_2
+\end{cases} \quad\text{i.e.,}\quad
+\begin{cases}
+\frac{\phi_1}{1 - \phi_2} = r_1 \\
+\frac{\phi_1^2 - \phi_2^2 + \phi_2}{1 - \phi_2} = r_2
+\end{cases}
+$$
+Alternatively, we can also replace the theoretical ACF with sample ACF in the YW equations, and then solve for $\phi_1, \phi_2$: (this is equivalent to the procedure above)
+$$
+\begin{cases}
+r_1 = \phi_1 + \phi_2 r_1 \\
+r_2 = \phi_1 r_1 + \phi_2
+\end{cases}
+$$
+**Exercise:** verify that
+$$
+\begin{cases}
+\widehat{\phi}_1^{\text{MOM}} = \frac{r_1 (1 - r_2)}{1 - r_1^2} \\
+\widehat{\phi}_2^{\text{MOM}} = \frac{r_2 - r_1^2}{1 - r_1^2}
+\end{cases}
+$$
+
+**Example 3.** Suppose $Y_1, \dots, Y_n$ are from an AR($p$) model with mean zero:
+$$
+Y_t - \phi_1 Y_{t-1} - \phi_2 Y_{t-2} - \cdots - \phi_p Y_{t-p}= e_t.
+$$
+Similar to the AR($2$) example, we start from the first $p$ YW equations
+$$
+\begin{cases}
+\rho_1 = \phi_1 + \phi_2 \rho_1 + \cdots + \phi_p \rho_{p-1} \\
+\rho_2 = \phi_1 \rho_1 + \phi_2 + \cdots + \phi_p \rho_{p-2} \\
+\quad\vdots \\
+\rho_p = \phi_1 \rho_{p-1} + \phi_2 \rho_{p-2} + \cdots + \phi_p
+\end{cases}
+$$
+which can be written in the matrix form
+$$
+\begin{bmatrix}
+\rho_0 & \rho_1 & \cdots & \rho_{p-1} \\
+\rho_1 & \rho_0 & \cdots & \rho_{p-2} \\
+\vdots & \vdots &        & \vdots \\
+\rho_{p-1} & \rho_{p-2} & \cdots & \rho_0
+\end{bmatrix}
+\begin{bmatrix}
+\phi_{1} \\
+\phi_{2} \\
+\vdots \\
+\phi_{p}
+\end{bmatrix}
+= \begin{bmatrix}
+\rho_1 \\
+\rho_2 \\
+\vdots \\
+\rho_k
+\end{bmatrix}.
+$$
+Replace the theoretical ACF $\rho_k$ by the sample ACF $r_k$, and solve the MoM estimate for $(\phi_1,...,\phi_p)$. So the MoM estimates satisfy
+$$
+\widehat{R}_p \ \widehat{\vec\phi} = \widehat{\vec\rho}_p,\quad
+\text{where}\quad
+\widehat{R}_p = \begin{bmatrix}
+r_0 & r_1 & \cdots & r_{p-1} \\
+r_1 & r_0 & \cdots & r_{p-2} \\
+\vdots & \vdots &        & \vdots \\
+r_{p-1} & r_{p-2} & \cdots & r_0
+\end{bmatrix},\quad
+\widehat{\vec\phi} = \begin{bmatrix}
+\widehat{\phi}_{1} \\
+\widehat{\phi}_{2} \\
+\vdots \\
+\widehat{\phi}_{p}
+\end{bmatrix},\quad
+\widehat{\vec\rho}_p = \begin{bmatrix}
+r_1 \\
+r_2 \\
+\vdots \\
+r_p
+\end{bmatrix}.
+$$
+Then we get the MoM estimate
+$$
+ \widehat{\vec\phi}_\text{MOM} = \widehat{R}_p^{-1}\ \widehat{\vec\rho}_p.
+$$
+*Remark:* The matrix $\widehat{R}_p$ defined above is always invertible, which is guaranteed by the particular way (and details) we used to construct the sample ACF $r_k$ in lecture 9. In fact, we remarked in lecture 9 that our construction of $r_k$ makes the "sample ACF matrix" invertible, and this matrix is nothing but the $\widehat{R}_p$ we have just seen.
+
+
+
+
+
+
+

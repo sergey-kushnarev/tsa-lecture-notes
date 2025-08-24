@@ -32,6 +32,16 @@ website:
         text: "Rnotebook: Regression"
       - href: TSA-Lecture09.qmd
         text: Lecture 9
+      - href: TSA-Lecture10.qmd
+        text: Lecture 10
+      - href: TSA-Lecture11.qmd
+        text: Lecture 11
+      - href: TSA-Lecture12.qmd
+        text: Lecture 12
+      - href: TSA-Lecture13.qmd
+        text: Lecture 13
+      - href: TSA-Lecture14.qmd
+        text: Lecture 14
       - href: TSA-Lecture14-model-specification.qmd
         text: "Rnotebook: Model Specification"
       - href: TSA-Lecture16-parameter-estimation.qmd
@@ -45,7 +55,7 @@ website:
       - href: TSA-Lecture22-spurious.qmd
         text: "Rnotebook: Spurious Regression"
       - href: TSA-Lecture23.qmd
-      - text: Lecture 23
+        text: Lecture 23
       - href: TSA-Lecture23-arch-garch.qmd
         text: "Rnotebook: ARCH/GARCH"
 format:
