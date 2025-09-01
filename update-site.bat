@@ -1,6 +1,17 @@
 @echo off
+REM Render the Quarto site
 quarto render
+
+REM Stage all changes
 git add .
-git commit -m "Restructure TSA repo into multi-course lecture notes"
+
+REM Prompt for commit message
+set /p commitmsg="Enter commit message: "
+
+REM Commit with the message you typed
+git commit -m "%commitmsg%"
+
+REM Push to GitHub
 git push
+
 pause

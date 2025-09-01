@@ -39,18 +39,18 @@ The notes are typed by Yue Wu. The notes are authored and maintained by [Sergey 
 - [Lecture 13: EACF, Specification of some TS, Unit Root test.](TSA-Lecture13.qmd)
 - [Lecture 14: Parameter Estimation: method of moments](TSA-Lecture14.qmd)
   - [Rnotebook: Model Specification](TSA-Lecture14-model-specification.qmd)
-- Lecture 15: Parameter Estimation: Method of Moments, condtional least squares
-- Lecture 16: Parameter Estimation: MLE, unconditional least squares.
+- [Lecture 15: Parameter Estimation: Method of Moments, conditional least squares](TSA-Lecture15.qmd)
+- [Lecture 16: Parameter Estimation: MLE, unconditional least squares](TSA-Lecture16.qmd)
   - [Rnotebook: Parameter Estimation](TSA-Lecture16-parameter-estimation.qmd)
-- Lecture 17: Diagnostics: residuals, overfitting
+- [Lecture 17: Diagnostics: residuals, overfitting](TSA-Lecture17.qmd)
   - [Rnotebook: Model Diagnostics](TSA-Lecture17-model-diagnostics.qmd)
-- Lecture 18: Forecasting
-- Lecture 19: Forecasting: RW, ARMA(1,1), ARIMA, EWMA
+- [Lecture 18: Forecasting](TSA-Lecture18.qmd)
+- [Lecture 19: Forecasting: RW, ARMA(1,1), ARIMA, EWMA](TSA-Lecture19.qmd)
   - [Rnotebook: Forecasting](TSA-Lecture19-forecasting.qmd)
-- Lecture 20: SARIMA = Seasonal ARIMA
+- [Lecture 20: SARIMA = Seasonal ARIMA](TSA-Lecture20.qmd)
   - [Rnotebook: SARIMA = Seasonal ARIMA](TSA-Lecture20-sarima.qmd)
-- Lecture 21: Cross-Correlation Function, Spurious Regression.
-- Lecture 22: Spurious Regression, Prewhitening
+- [Lecture 21: Cross-Correlation Function, Spurious Regression](TSA-Lecture21.qmd)
+- [Lecture 22: Spurious Regression, Prewhitening](TSA-Lecture22.qmd)
   - [Rnotebook: Spurious Regression](TSA-Lecture22-spurious.qmd)
 - [Lecture 23: ARCH/GARCH Models](TSA-Lecture23.qmd)
   - [Rnotebook: ARCH/GARCH](TSA-Lecture23-arch-garch.qmd)
