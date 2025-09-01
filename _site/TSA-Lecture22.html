@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>Lecture Notes</title>
+<title>25 Spring 439/639 TSA: Lecture 22 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,6 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./TSA-Lecture22-spurious.html" rel="next">
+<link href="./TSA-Lecture21.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -67,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -80,9 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      Lecture Notes
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture22.html">Lecture 22</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -289,7 +319,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture22.html" class="sidebar-item-text sidebar-link">
+  <a href="./TSA-Lecture22.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture 22</span></a>
   </div>
 </li>
@@ -321,10 +351,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
-  <ul class="collapse">
-  <li><a href="#courses" id="toc-courses" class="nav-link" data-scroll-target="#courses">Courses</a></li>
-  </ul></li>
+  <li><a href="#spurious-correlation-continued" id="toc-spurious-correlation-continued" class="nav-link active" data-scroll-target="#spurious-correlation-continued"><span class="header-section-number">1</span> Spurious correlation (continued)</a></li>
+  <li><a href="#prewhitening" id="toc-prewhitening" class="nav-link" data-scroll-target="#prewhitening"><span class="header-section-number">2</span> Prewhitening</a></li>
   </ul>
 </nav>
     </div>
@@ -333,13 +361,19 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lecture Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 22</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -350,21 +384,48 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome" class="level1">
-<h1>Welcome</h1>
-<p>This site hosts lecture notes for several courses I have taught or am currently teaching at the Applied Mathematics and Statistics department of Johns Hopkins University.</p>
-<section id="courses" class="level2">
-<h2 class="anchored" data-anchor-id="courses">Courses</h2>
-<ul>
-<li><a href="tsa/index.html">Time Series Analysis</a></li>
-<li><a href="esl/index.html">Elements of Statistical Learning</a></li>
-<li><a href="bayes/index.html">Bayesian Statistics</a></li>
-<li><a href="asda1/index.html">Applied Statistics and Data Analysis I</a></li>
-<li><a href="asda2/index.html">Applied Statistics and Data Analysis II</a></li>
-</ul>
-
-
+<section id="spurious-correlation-continued" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Spurious correlation (continued)</h1>
+<p>Last time we mentioned the issue of spurious correlation for vector time series <span class="math inline">\((X_t,Y_t)\)</span>. When sample size <span class="math inline">\(n\)</span> is large, the sampling distribution of the sample CCF <span class="math inline">\(r_m(X,Y)\)</span> is approximately <span class="math display">\[
+r_m(X,Y) \sim \mathcal{N} \left(\rho_m(X,Y),\ \frac{1}{n} \left( 1 + 2 \sum_{k=1}^\infty \rho_k(X)\, \rho_k(Y) \right) \right).
+\]</span> The variance in this sampling distribution can be non-negligibly larger than <span class="math inline">\(\frac{1}{n}\)</span>. If this happens, then the results reported by the default method in software are not not reliable.</p>
+<p>We notice that, if one of the series <span class="math inline">\((X_t)\)</span> (or <span class="math inline">\((Y_t)\)</span>) is a white noise, then <span class="math inline">\(\rho_k(X)=0\)</span> for any <span class="math inline">\(k\ge 1\)</span>. This makes the variance <span class="math display">\[
+\frac{1}{n} \left( 1 + 2 \sum_{k=1}^\infty \rho_k(X)\, \rho_k(Y) \right) = \frac{1}{n}.
+\]</span> Idea: if we can transform <span class="math inline">\((X_t)\)</span> or <span class="math inline">\((Y_t)\)</span> into a white noise, then we may get rid of spurious correlation. This idea formally leads to the method prewhitening.</p>
 </section>
+<section id="prewhitening" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Prewhitening</h1>
+<p>Suppose <span class="math inline">\((X_t)\)</span> follows an ARMA(<span class="math inline">\(p,q\)</span>) <span class="math display">\[
+\Phi(B)\ X_t = \Theta(B)\ e_t.
+\]</span> Assume the MA part <span class="math inline">\(\Theta(B)\)</span> is invertible, then we have the invertible representation <span class="math display">\[
+e_t = \Theta(B)^{-1}\ \Phi(B)\ X_t = \Pi(B)\ X_t = \sum_{j=0}^{\infty} \pi_j X_{t-j},
+\]</span> where <span class="math inline">\(\Pi(B)\)</span> is called a <strong>prewhitening filter</strong>.</p>
+<p>This is the basic idea of Prewhitening: if we apply the prewhitening filter <span class="math inline">\(\Pi(B)\)</span> to <span class="math inline">\((X_t)\)</span>, we can theoretically get a white noise <span class="math inline">\((e_t)\)</span>. Then we can apply it simultaneously to both <span class="math inline">\(X_t\)</span> and <span class="math inline">\(Y_t\)</span>, <span class="math display">\[
+\Pi(B)\ X_t = e_t, \quad \Pi(B)\ Y_t = \widetilde{Y}_t.
+\]</span> <span class="math inline">\((X_t)\)</span> is transformed in to a white noise <span class="math inline">\((e_t)\)</span>, and <span class="math inline">\((Y_t)\)</span> is transformed in to a new time series <span class="math inline">\((\widetilde{Y}_t)\)</span>. The dependence between <span class="math inline">\((X_t, Y_t)\)</span> is preserved in <span class="math inline">\((e_t, \widetilde{Y}_t)\)</span>. Then we can look at the CCF between <span class="math inline">\((e_t, \widetilde{Y}_t)\)</span>, and the previous spurious correlation issue is solved since one of the series is white noise.</p>
+<p>In practice, the procedure can be briefly summarized as:</p>
+<ol type="1">
+<li>Make <span class="math inline">\((X_t), (Y_t)\)</span> both stationary (by taking difference <span class="math inline">\(\nabla^{d_1} \nabla_{s_1}^{D_1} X_t\)</span>, <span class="math inline">\(\nabla^{d_2} \nabla_{s_2}^{D_2} Y_t\)</span>).</li>
+<li>Fit an AR(<span class="math inline">\(p\)</span>) model to <span class="math inline">\((X_t)\)</span> (choose a large <span class="math inline">\(p\)</span>). Then the fitted AR filter <span class="math inline">\(\Phi(B)\)</span> can be approximately seen as the prewhitening filter <span class="math inline">\(\Pi(B)\)</span>.</li>
+<li>Apply <span class="math inline">\(\Phi(B)\)</span> to <span class="math inline">\((Y_t)\)</span>, to get <span class="math inline">\(\Phi(B)\ Y_t = \widetilde{Y}_t\)</span>.</li>
+<li>Estimate the CCF between <span class="math inline">\((\widetilde{X}_t, \widetilde{Y}_t)\)</span>.</li>
+</ol>
+<p><em>Note:</em> Theoretically, we have <span class="math inline">\(e_t \approx \Phi(B)\ X_t\)</span> in this framework. But in practice, we can only get <span class="math inline">\(\widetilde{X}_t = \Phi(B)\ X_t\)</span>, which is the resulted samples of <span class="math inline">\(X_t\)</span> after filtering.</p>
+<p><strong>Example.</strong> Consider the specific regression model <span class="math display">\[
+Y_t = \sum_{h=-\infty}^{+\infty} \beta_h X_{t-h} + Z_t \approx \sum_{h=-m_1}^{m_2} \beta_h X_{t-h} + Z_t,
+\]</span> where the model assumes <span class="math inline">\((Z_t)\)</span> is a white noise and <span class="math inline">\((Z_t)\)</span> is independent of <span class="math inline">\((X_t)\)</span>. The series <span class="math inline">\((X_t)\)</span> is not necessarily a white noise. The range from <span class="math inline">\(-m_1\)</span> to <span class="math inline">\(m_2\)</span> may be large, so we want to reduce it to a more “accurate” regression model given the observed data from <span class="math inline">\((X_t),(Y_t)\)</span>.</p>
+<p>We use the previous idea of prewhitening. Fit an AR model for <span class="math inline">\((X_t)\)</span> to get a prewhitening filter <span class="math inline">\(\Pi(B)\)</span>. Suppose this filter makes <span class="math display">\[
+\Phi(B)\ X_t = \widetilde{X}_t,\quad \Phi(B)\ Y_t = \widetilde{Y}_t,\quad \Phi(B)\ Z_t = \widetilde{Z}_t .
+\]</span> Then under this model, we should have <span class="math display">\[
+\widetilde{Y}_t \approx \sum_{h=-m_1}^{m_2} \beta_h \widetilde{X}_{t-h} + \widetilde{Z}_t.
+\]</span> Since <span class="math inline">\((\widetilde{X}_t)\)</span> is approximately a white noise, and <span class="math inline">\((\widetilde{X}_t)\)</span> is still independent of <span class="math inline">\((\widetilde{Z}_t)\)</span>, the theoretical CCF between <span class="math inline">\((\widetilde{X}_t)\)</span> and <span class="math inline">\((\widetilde{Y}_t)\)</span> is <span class="math display">\[
+\rho_k(\widetilde{X}, \widetilde{Y}) = \operatorname{corr}(\widetilde{X}_t, \widetilde{Y}_{t-k}) \approx \beta_{-k} \frac{\sigma_{\widetilde{X}}}{\sigma_{\widetilde{Y}}}.
+\]</span> If <span class="math inline">\(\beta_{-k}\)</span> is zero, then approximately we have <span class="math inline">\(\rho_k(\widetilde{X}, \widetilde{Y}) = 0\)</span>, so the sample CCF <span class="math inline">\(r_k(\widetilde{X}, \widetilde{Y}) \in \left[ \pm \frac{2}{\sqrt{n}} \right]\)</span> with 95% probability. (By our earlier analysis, spurious correlation is no longer a issue after prewhitening.)</p>
+<p>So we can look at the sample CCF between <span class="math inline">\((\widetilde{X}_t)\)</span> and <span class="math inline">\((\widetilde{Y}_t)\)</span>. If <span class="math inline">\(r_k(\widetilde{X}, \widetilde{Y}) \not\in \left[ \pm \frac{2}{\sqrt{n}} \right]\)</span>, then <span class="math inline">\(\beta_{-k}\)</span> is probably nonzero. In practice, we detect all the <span class="math inline">\(k\)</span> such that <span class="math inline">\(r_k(\widetilde{X}, \widetilde{Y})\)</span> is significantly nonzero (outside the interval <span class="math inline">\(\left[ \pm \frac{2}{\sqrt{n}} \right]\)</span>). If these <span class="math inline">\(k\)</span>’s are <span class="math inline">\(k_1,...,k_l\)</span>, then we keep the corresponding lags (be careful of the <span class="math inline">\(-k\)</span>) in the original regression model: <span class="math display">\[
+Y_t \sim \beta_{-k_1} X_{t+k_1} + \beta_{-k_2} X_{t+k_2} + \cdots + \beta_{-k_l} X_{t+k_l}.
+\]</span></p>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -785,6 +846,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./TSA-Lecture21.html" class="pagination-link" aria-label="Lecture 21">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 21</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./TSA-Lecture22-spurious.html" class="pagination-link" aria-label="R notebook: Advanced Topics">
+        <span class="nav-page-text">R notebook: Advanced Topics</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

@@ -8,7 +8,7 @@
 
 <meta name="author" content="Dr Sergey Kushnarev">
 
-<title>25 Spring 439/639 TSA: Lecture 3 – Lecture Notes</title>
+<title>25 Spring 439/639 TSA: Lecture 15 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./TSA-Lecture04.html" rel="next">
-<link href="./TSA-Lecture02.html" rel="prev">
+<link href="./TSA-Lecture16.html" rel="next">
+<link href="./TSA-Lecture14-model-specification.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -112,7 +112,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture03.html">Lecture 3</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture15.html">Lecture 15</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -163,7 +163,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture03.html" class="sidebar-item-text sidebar-link active">
+  <a href="./TSA-Lecture03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lecture 3</span></a>
   </div>
 </li>
@@ -253,7 +253,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture15.html" class="sidebar-item-text sidebar-link">
+  <a href="./TSA-Lecture15.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture 15</span></a>
   </div>
 </li>
@@ -351,18 +351,20 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#q-dependent-clt" id="toc-q-dependent-clt" class="nav-link active" data-scroll-target="#q-dependent-clt"><span class="header-section-number">1</span> <span class="math inline">\(q\)</span>-dependent CLT</a>
+  <li><a href="#method-of-moments-mom-for-other-models-and-other-parameters" id="toc-method-of-moments-mom-for-other-models-and-other-parameters" class="nav-link active" data-scroll-target="#method-of-moments-mom-for-other-models-and-other-parameters"><span class="header-section-number">1</span> Method of Moments (MoM) for other models and other parameters</a>
   <ul class="collapse">
-  <li><a href="#statement-of-the-theorem" id="toc-statement-of-the-theorem" class="nav-link" data-scroll-target="#statement-of-the-theorem"><span class="header-section-number">1.1</span> Statement of the theorem</a></li>
-  <li><a href="#sketch-of-the-proof" id="toc-sketch-of-the-proof" class="nav-link" data-scroll-target="#sketch-of-the-proof"><span class="header-section-number">1.2</span> Sketch of the proof</a></li>
+  <li><a href="#mom-for-ma1" id="toc-mom-for-ma1" class="nav-link" data-scroll-target="#mom-for-ma1"><span class="header-section-number">1.1</span> MoM for MA(<span class="math inline">\(1\)</span>)</a></li>
+  <li><a href="#mom-estimate-for-mu" id="toc-mom-estimate-for-mu" class="nav-link" data-scroll-target="#mom-estimate-for-mu"><span class="header-section-number">1.2</span> MoM estimate for <span class="math inline">\(\mu\)</span></a></li>
+  <li><a href="#mom-estimate-for-sigma_e2" id="toc-mom-estimate-for-sigma_e2" class="nav-link" data-scroll-target="#mom-estimate-for-sigma_e2"><span class="header-section-number">1.3</span> MoM estimate for <span class="math inline">\(\sigma_e^2\)</span></a></li>
   </ul></li>
-  <li><a href="#maq" id="toc-maq" class="nav-link" data-scroll-target="#maq"><span class="header-section-number">2</span> MA(<span class="math inline">\(q\)</span>)</a></li>
-  <li><a href="#general-linear-process" id="toc-general-linear-process" class="nav-link" data-scroll-target="#general-linear-process"><span class="header-section-number">3</span> General Linear Process</a>
+  <li><a href="#least-squares-estimation-conditional-ls" id="toc-least-squares-estimation-conditional-ls" class="nav-link" data-scroll-target="#least-squares-estimation-conditional-ls"><span class="header-section-number">2</span> Least-Squares Estimation (conditional LS)</a>
   <ul class="collapse">
-  <li><a href="#backshift-operator" id="toc-backshift-operator" class="nav-link" data-scroll-target="#backshift-operator"><span class="header-section-number">3.1</span> Backshift operator</a></li>
-  <li><a href="#glp-is-stationary" id="toc-glp-is-stationary" class="nav-link" data-scroll-target="#glp-is-stationary"><span class="header-section-number">3.2</span> GLP is stationary</a></li>
+  <li><a href="#example-ar1" id="toc-example-ar1" class="nav-link" data-scroll-target="#example-ar1"><span class="header-section-number">2.1</span> Example: AR(<span class="math inline">\(1\)</span>)</a></li>
+  <li><a href="#example-ar2" id="toc-example-ar2" class="nav-link" data-scroll-target="#example-ar2"><span class="header-section-number">2.2</span> Example: AR(<span class="math inline">\(2\)</span>)</a></li>
+  <li><a href="#example-ma1" id="toc-example-ma1" class="nav-link" data-scroll-target="#example-ma1"><span class="header-section-number">2.3</span> Example: MA(<span class="math inline">\(1\)</span>)</a></li>
+  <li><a href="#example-armapq" id="toc-example-armapq" class="nav-link" data-scroll-target="#example-armapq"><span class="header-section-number">2.4</span> Example: ARMA(<span class="math inline">\(p,q\)</span>)</a></li>
   </ul></li>
-  <li><a href="#ar1" id="toc-ar1" class="nav-link" data-scroll-target="#ar1"><span class="header-section-number">4</span> AR(<span class="math inline">\(1\)</span>)</a></li>
+  <li><a href="#maximum-likelihood-estimation-mle" id="toc-maximum-likelihood-estimation-mle" class="nav-link" data-scroll-target="#maximum-likelihood-estimation-mle"><span class="header-section-number">3</span> Maximum Likelihood Estimation (MLE)</a></li>
   </ul>
 </nav>
     </div>
@@ -371,7 +373,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">25 Spring 439/639 TSA: Lecture 3</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 15</h1>
 </div>
 
 
@@ -394,145 +396,231 @@ window.Quarto = {
 </header>
 
 
-<section id="q-dependent-clt" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> <span class="math inline">\(q\)</span>-dependent CLT</h1>
-<p>Last time we defined <span class="math inline">\(q\)</span>-dependent and <span class="math inline">\(q\)</span>-correlated time series.</p>
-<section id="statement-of-the-theorem" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="statement-of-the-theorem"><span class="header-section-number">1.1</span> Statement of the theorem</h2>
-<p><strong><span class="math inline">\(q\)</span>-dependent CLT:</strong> Let <span class="math inline">\((Y_t)\)</span> be a <span class="math inline">\(q\)</span>-dependent (<span class="math inline">\(q \geq 0\)</span>) stationary time series with <span class="math inline">\(\mu = \mathbb{E}[Y_t]\)</span> and <span class="math inline">\(\sigma^2 = Var(Y_t)\)</span>. Then as long as <span class="math display">\[
-\sigma^2 + 2\operatorname{Cov}(Y_1, Y_2) + \cdots + 2\operatorname{Cov}(Y_1, Y_{q+1}) &gt; 0,
-\]</span></p>
-<p>then <span class="math display">\[
-\frac{\sum_{i=1}^n Y_i - n\mu}{\sqrt{\mathrm{Var}\left(\sum_{i=1}^n Y_i\right)}} \xrightarrow{D} N(0, 1), \quad \text{as } n\to \infty,
-\]</span> or equivalently, <span class="math display">\[
-\frac{\overline{Y} - \mu}{\sqrt{\mathrm{Var}(\overline{Y})}} \xrightarrow{D} N(0, 1), \quad \text{as } n \to \infty.
-\]</span></p>
-<p><em>Remark:</em> the last statement can be loosely thought of as <span class="math inline">\(\overline{Y} \approx N(\mu, \mathrm{Var}(\overline{Y}))\)</span>.</p>
-</section>
-<section id="sketch-of-the-proof" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="sketch-of-the-proof"><span class="header-section-number">1.2</span> Sketch of the proof</h2>
-<p>Suppose <span class="math inline">\(n &gt; q\)</span>. Since <span class="math inline">\((Y_t)\)</span> is stationary, using ACVF we have <span class="math display">\[
+<section id="method-of-moments-mom-for-other-models-and-other-parameters" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Method of Moments (MoM) for other models and other parameters</h1>
+<p>Recall that in MoM (or GMoM), we solve <span class="math display">\[
 \begin{split}
-\operatorname{Var} \left( \sum_{i=1}^n Y_i \right) &amp;=
-    \sum_{i=1}^n \sum_{j=1}^n \operatorname{Cov}(Y_i, Y_j) = \sum_{i=1}^n \sum_{j=1}^n \gamma_{|i-j|} \\
-&amp;=n\gamma_0 + 2(n-1)\gamma_1 + 2(n-2)\gamma_2 + \cdots + 2\gamma_{n-1} \\
-&amp;= n\gamma_0 + 2\sum_{j=1}^q (n-j)\gamma_j
+\text{theoretical moment} &amp;= \text{sample moment} \\
+\text{or}\quad \text{theoretical ACF} &amp;= \text{sample ACF}
 \end{split}
-\]</span> where the last step is because <span class="math inline">\(\gamma_j = 0\)</span> for <span class="math inline">\(j &gt; q\)</span> (by <span class="math inline">\(q\)</span>-dependence). So <span class="math display">\[
-\mathrm{Var}(\overline{Y}) = \frac{1}{n^2} \mathrm{Var} \left( \sum_{i=1}^n Y_i \right)
-= \frac{1}{n} \gamma_0 + \frac{2}{n^2} \sum_{j=1}^{q} (n-j) \gamma_j .
-\]</span> As <span class="math inline">\(n \to \infty\)</span>, this variance <span class="math inline">\(\mathrm{Var}(\overline{Y}) \approx \frac{1}{n}(\sigma^2 + 2\operatorname{Cov}(Y_1, Y_2) + \cdots + 2\operatorname{Cov}(Y_1, Y_{q+1}))\)</span>, which goes to <span class="math inline">\(0\)</span> at the rate <span class="math inline">\(O(\frac{1}{n})\)</span>. This behavior looks similar to the standard CLT (with iid setting). Then, (following the idea of standard CLT) <span class="math display">\[
-\frac{\overline{Y} - \mu}{\sqrt{\mathrm{Var}(\overline{Y})}} \xrightarrow{D} N(0,1), \quad \text{as } n \to \infty.
+\]</span> where the theoretical moment <span class="math inline">\(\mu_k\)</span>, theoretical ACF <span class="math inline">\(\rho_k\)</span> are functions of the parameters to estimate (like the <span class="math inline">\(\phi_i\)</span>, <span class="math inline">\(\theta_i\)</span>), and the sample moment <span class="math inline">\(m_k\)</span>, sample ACF <span class="math inline">\(r_k\)</span> are functions of the observed samples <span class="math inline">\((Y_1,...,Y_n)\)</span>.</p>
+<section id="mom-for-ma1" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="mom-for-ma1"><span class="header-section-number">1.1</span> MoM for MA(<span class="math inline">\(1\)</span>)</h2>
+<p>Last time we used MoM for AR(<span class="math inline">\(p\)</span>). Let’s look at another example.</p>
+<p>Suppose <span class="math inline">\(Y_1, \dots, Y_n\)</span> are from an MA(<span class="math inline">\(1\)</span>) model <span class="math display">\[
+Y_t = e_t - \theta\, e_{t-1}.
+\]</span> Consider the GMoM method, we need to solve <span class="math display">\[
+\rho_1 = r_1 \implies -\frac{\theta}{1+\theta^2} = r_1 \implies r_1 \theta^2 + \theta + r_1 = 0.
+\]</span> If <span class="math inline">\(r_1=0\)</span>, we get <span class="math inline">\(\widehat{\theta}_\text{MOM}=0\)</span>. If <span class="math inline">\(r_1\ne 0\)</span>, we get <span class="math display">\[
+\theta_{1,2} = \frac{ -1 \pm \sqrt{1 - 4r_1^2} }{2r_1}
+\]</span> <strong>MoM estimator does not always exist.</strong> The theoretical ACF <span class="math inline">\(\rho_1\)</span> for MA(<span class="math inline">\(1\)</span>) always satisfy <span class="math inline">\(|\rho_1|\le \frac{1}{2}\)</span>, but the sample ACF may have <span class="math inline">\(|r_1| &gt; \frac{1}{2}\)</span>. If <span class="math inline">\(|r_1| &gt; \frac{1}{2}\)</span> happens (which depends on the randomness in observations), then we cannot find the MoM estimator in this scenario (since the solutions above are not real).</p>
+<p>Suppose <span class="math inline">\(0&lt;|r_1| &lt; \frac{1}{2}\)</span>, then we have two solutions for <span class="math inline">\(\theta\)</span>. In this case, we always have <span class="math display">\[
+\left| \frac{ -1 + \sqrt{1 - 4r_1^2} }{2r_1} \right| &lt;1&lt; \left| \frac{ -1 - \sqrt{1 - 4r_1^2} }{2r_1} \right|.
+\]</span> We choose the <span class="math inline">\(|\theta|&lt;1\)</span> one to make the estimated MA(<span class="math inline">\(1\)</span>) invertible. So for <span class="math inline">\(0&lt;|r_1|&lt;\frac{1}{2}\)</span>, we get <span class="math display">\[
+\widehat{\theta}_\text{MOM} = \frac{ -1 + \sqrt{1 - 4r_1^2} }{2r_1}.
 \]</span></p>
-<p><em>Remark:</em> the CLT can be even generalized to some time series that are not <span class="math inline">\(q\)</span>-dependent, as long as <span class="math inline">\(\gamma_k\)</span> decays to zero (as <span class="math inline">\(k\to \infty\)</span>) sufficiently fast.</p>
+<p>In general, for MA(<span class="math inline">\(q\)</span>), MoM method results in highly nonlinear equations with possibly many solutions, but only one <span class="math inline">\((\widehat{\theta}_1, \dots, \widehat{\theta}_q)\)</span> of them corresponds to an invertible model.</p>
+</section>
+<section id="mom-estimate-for-mu" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="mom-estimate-for-mu"><span class="header-section-number">1.2</span> MoM estimate for <span class="math inline">\(\mu\)</span></h2>
+<p>Suppose we want to estimate the mean of the time series, <span class="math inline">\(\mu\)</span>. <span class="math display">\[
+\widehat{\mu}_\text{MOM} = \frac{1}{n} \sum_{t=1}^{n} Y_t = \overline{Y}.
+\]</span></p>
+</section>
+<section id="mom-estimate-for-sigma_e2" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="mom-estimate-for-sigma_e2"><span class="header-section-number">1.3</span> MoM estimate for <span class="math inline">\(\sigma_e^2\)</span></h2>
+<p>Suppose we want to estimate the variance of the noise, <span class="math inline">\(\sigma_e^2\)</span>.</p>
+<p>The basic idea is:</p>
+<ol type="1">
+<li>Express <span class="math inline">\(\gamma_0\)</span> in terms of <span class="math inline">\(\phi_i\)</span>, <span class="math inline">\(\theta_i\)</span>, <span class="math inline">\(\rho_i\)</span> and <span class="math inline">\(\sigma_e^2\)</span></li>
+<li>Then we can solve <span class="math inline">\(\sigma_e^2\)</span> from step 1, i.e., express <span class="math inline">\(\sigma_e^2\)</span> in terms of <span class="math inline">\(\gamma_0\)</span>, <span class="math inline">\(\phi_i\)</span>, <span class="math inline">\(\theta_i\)</span>, <span class="math inline">\(\rho_i\)</span>.</li>
+<li>Obtain the MoM estimates <span class="math inline">\(\widehat{\phi}_i\)</span>, <span class="math inline">\(\widehat{\theta}_i\)</span> for the parameters <span class="math inline">\(\phi_i\)</span>’s and <span class="math inline">\(\theta_i\)</span>’s.</li>
+<li>From step 2, replace the theoretical parameters/ACF/ACVFs by the corresponding estimated/sample version to get the MoM estimate <span class="math inline">\(\widehat{\sigma}_e^2\)</span>. To be specific, we do the following plug-in: <span class="math display">\[
+\begin{split}
+&amp;\phi_i \to \widehat{\phi}_i, \quad \theta_i \to \widehat{\theta}_i, \quad \rho_i \to r_i, \\
+&amp;\text{and}\quad
+\gamma_0 \to \widehat{\gamma}_0 = s^2 = \frac{1}{n-1} \sum_{t=1}^{n} (Y_t - \overline{Y})^2.
+\end{split}
+\]</span></li>
+</ol>
+<p><strong>Example.</strong> Consider AR(<span class="math inline">\(p\)</span>): <span class="math display">\[
+Y_t - \phi_1 Y_{t-1} - \phi_2 Y_{t-2} - \cdots - \phi_p Y_{t-p}= e_t.
+\]</span> We first express <span class="math inline">\(\gamma_0\)</span> in terms of other parameters (including <span class="math inline">\(\sigma_e^2\)</span>) and ACFs. The <span class="math inline">\(0\)</span>-th YW equation is <span class="math display">\[
+\gamma_0 = \phi_1 \gamma_1 + \phi_2 \gamma_2 + \cdots + \phi_p \gamma_p + \sigma_e^2 = \gamma_0 (\phi_1 \rho_1 + \phi_2 \rho_2 + \cdots + \phi_p \rho_p) + \sigma_e^2.
+\]</span> So we can express <span class="math inline">\(\sigma_e^2\)</span> in terms of <span class="math inline">\(\gamma_0\)</span> and other parameters/ACFs <span class="math display">\[
+\sigma_e^2 = \gamma_0 \left( 1 - \phi_1 \rho_1 - \phi_2 \rho_2 - \cdots - \phi_p \rho_p \right).
+\]</span> By the plug-in rule we stated above, the MoM estimate for <span class="math inline">\(\sigma_e^2\)</span> is <span class="math display">\[
+\widehat{\sigma}_{e}^{2\, \text{MOM}} = s^2 \left( 1 - \widehat{\phi}_1^\text{MOM} r_1 - \widehat{\phi}_2^\text{MOM} r_2 - \cdots - \widehat{\phi}_p^\text{MOM} r_p \right).
+\]</span></p>
 </section>
 </section>
-<section id="maq" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> MA(<span class="math inline">\(q\)</span>)</h1>
-<p>MA(<span class="math inline">\(q\)</span>) stands for Moving Average of order <span class="math inline">\(q\)</span>.</p>
-<p><strong>MA(<span class="math inline">\(q\)</span>):</strong> An MA(<span class="math inline">\(q\)</span>) time series <span class="math inline">\((Y_t)\)</span> is defined as <span class="math display">\[
-Y_t = e_t - \theta_1 e_{t-1} - \theta_2 e_{t-2} - \cdots - \theta_q e_{t-q}
-\]</span> where <span class="math inline">\(e_t \sim IID(0, \sigma_e^2)\)</span>.</p>
-<p>Remarks:</p>
-<ul>
-<li>The coefficient for <span class="math inline">\(e_t\)</span> is always <span class="math inline">\(1\)</span>, while <span class="math inline">\(\theta_1,\dots,\theta_{q}\)</span> are unrestricted.</li>
-<li>This notation is same as C&amp;C textbook. Pay attention to the notations since some books and R/Python may use different conventions <span class="math inline">\(Y_t = e_t + \theta_1 e_{t-1} + \cdots + \theta_q e_{t-q}\)</span>.</li>
-<li>MA(<span class="math inline">\(0\)</span>) can be seen as <span class="math inline">\(Y_t=e_t\)</span>, which is the IID noise.</li>
-</ul>
-<p>In homework, you will show the ACVF of MA(<span class="math inline">\(q\)</span>): <span class="math display">\[
-\gamma_k =
+<section id="least-squares-estimation-conditional-ls" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Least-Squares Estimation (conditional LS)</h1>
+<p>The idea is to construct an objective function/loss function that is a sum of squares, then obtain the estimated parameters by minimizing this sum of squares.</p>
+<section id="example-ar1" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="example-ar1"><span class="header-section-number">2.1</span> Example: AR(<span class="math inline">\(1\)</span>)</h2>
+<p>Consider an AR(<span class="math inline">\(1\)</span>) with mean <span class="math inline">\(mu\)</span>: <span class="math display">\[
+(Y_t - \mu) = \phi (Y_{t-1} - \mu) + e_t, \quad e_t \sim \text{iid} (0, \sigma_e^2).
+\]</span> The goal is to estimate the parameters <span class="math inline">\(\phi\)</span> and <span class="math inline">\(\mu\)</span>. Given observations <span class="math inline">\((Y_1,...,Y_n)\)</span>, we can define the objective function <span class="math display">\[
+S_c(\phi, \mu) = \sum_{t=2}^{n} e_t^2 = \sum_{t=2}^{n} \left[ (Y_t - \mu) - \phi (Y_{t-1} - \mu) \right]^2
+\]</span> <em>Remark:</em> the subscript “c” stands for conditional. In this example, the summation starts from <span class="math inline">\(t=2\)</span>, so it can be thought as we are assuming/conditioning on <span class="math inline">\(e_1=0\)</span>. This explanation is not very satisfying here, since we can only compute <span class="math inline">\(e_2\)</span> to <span class="math inline">\(e_t\)</span> given <span class="math inline">\((Y_1,...,Y_n)\)</span> and the AR(<span class="math inline">\(1\)</span>) model. But the sense of “conditional” will be more apparent in the MA example later.</p>
+<p>The conditional LS estimator is the minimizer of the objective function <span class="math inline">\(S_c\)</span>, i.e., <span class="math display">\[
+\left( \widehat{\phi}_{\text{LS}},\, \widehat{\mu}_{\text{LS}} \right) = \underset{\phi,\,\mu}{\arg\min}\; S_c(\phi, \mu).
+\]</span> To minimize it, we take the partial derivatives, set them to zero, and solve the equations. <span class="math display">\[
+\begin{split}
+\frac{\partial S_c}{\partial \mu} &amp;= 2 \sum_{t=2}^{n} \left( Y_t - \mu - \phi (Y_{t-1} - \mu) \right) (-1 + \phi) ,\\
+\frac{\partial S_c}{\partial \phi} &amp;= 2 \sum_{t=2}^{n} \left( (Y_t - \mu) - \phi (Y_{t-1} - \mu) \right) \left( - Y_{t-1} + \mu \right) .
+\end{split}
+\]</span> We want to get a stationary AR(<span class="math inline">\(1\)</span>), so <span class="math inline">\(\phi\ne 1\)</span>. Then setting <span class="math inline">\(\frac{\partial S_c}{\partial \mu}=0\)</span> gives <span class="math display">\[
+\begin{split}
+&amp;\sum_{t=2}^{n} \left( Y_t - \mu - \phi (Y_{t-1} - \mu) \right) =0 \\
+&amp;\implies
+\left( \sum_{t=2}^{n} Y_t \right) - (n-1)\mu = \phi \left( \sum_{t=1}^{n-1} Y_t \right) - \phi (n-1) \mu,
+\end{split}
+\]</span> so the conditional LS estimator <span class="math inline">\(\left( \widehat{\phi}_{\text{LS}},\, \widehat{\mu}_{\text{LS}} \right)\)</span> satisfies <span class="math display">\[
+\widehat{\mu}_{\text{LS}} = \frac{  \sum_{t=2}^n Y_t  - \widehat{\phi}_{\text{LS}}  \left( \sum_{t=1}^{n-1} Y_t \right) }
+{ (n-1)(1 - \widehat{\phi}_{\text{LS}}) }
+= \frac{\frac{1}{n-1} \left( \sum_{t=2}^n Y_t \right) - \widehat{\phi}_{\text{LS}} \frac{1}{n-1} \left( \sum_{t=1}^{n-1} Y_t \right) }
+{ 1 - \widehat{\phi}_{\text{LS}}} \approx \overline{Y},
+\]</span> where the last step is because <span class="math inline">\(\frac{1}{n-1} \left( \sum_{t=2}^n Y_t \right) \approx \frac{1}{n-1} \left( \sum_{t=1}^{n-1} Y_t \right) \approx \frac{1}{n} \left( \sum_{t=1}^n Y_t \right) = \overline{Y}\)</span> when <span class="math inline">\(n\)</span> is large. For this phenomenon, we also say “<span class="math inline">\(\widehat{\mu}_{\text{LS}} \approx \overline{Y}\)</span> <strong>except for end effects</strong>”.</p>
+<p>Setting <span class="math inline">\(\frac{\partial S_c}{\partial \mu}=0\)</span> gives <span class="math display">\[
+\sum_{t=2}^{n} \left( (Y_t - \mu) - \phi (Y_{t-1} - \mu) \right) \left( - Y_{t-1} + \mu \right) =0.
+\]</span> Consider the large sample setting, where we just got <span class="math inline">\(\widehat{\mu}_{\text{LS}} \approx \overline{Y}\)</span>. Then <span class="math inline">\(\widehat{\phi}_{\text{LS}}\)</span> (approximately) satisfies <span class="math display">\[
+\begin{split}
+&amp;\sum_{t=2}^{n} \left( (Y_t - \overline{Y}) - \phi (Y_{t-1} - \overline{Y}) \right) \left( - Y_{t-1} + \overline{Y} \right) =0 \\
+&amp;\implies \sum_{t=2}^{n} (Y_t - \overline{Y})(Y_{t-1} - \overline{Y}) = \phi \sum_{t=2}^{n} (Y_{t-1} - \overline{Y})^2.
+\end{split}
+\]</span> So <span class="math inline">\(\widehat{\phi}_{\text{LS}}\)</span> (under large sample setting) is approximately <span class="math display">\[
+\widehat{\phi}_{\text{LS}} =
+\frac{\sum_{t=2}^{n} (Y_t - \overline{Y})(Y_{t-1} - \overline{Y})}{\sum_{t=2}^{n} (Y_{t-1} - \overline{Y})^2} \approx r_1.
+\]</span> So when sample size <span class="math inline">\(n\)</span> is large (except for end effects), the conditional LS estimator for AR(<span class="math inline">\(1\)</span>) is approximately <span class="math display">\[
+\widehat{\mu}_{\text{LS}} \approx \overline{Y},\quad \widehat{\phi}_{\text{LS}} \approx r_1 = \widehat{\phi}_{\text{MOM}}.
+\]</span> <strong>Remark:</strong> For comparison, last lecture we showed the MoM for AR(<span class="math inline">\(1\)</span>) is <span class="math inline">\(\widehat{\phi}_{\text{MOM}} = r_1\)</span>. So <span class="math inline">\(\widehat{\phi}_{\text{LS}} \approx \widehat{\phi}_{\text{MOM}}\)</span> when sample size <span class="math inline">\(n\)</span> is large.</p>
+</section>
+<section id="example-ar2" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="example-ar2"><span class="header-section-number">2.2</span> Example: AR(<span class="math inline">\(2\)</span>)</h2>
+<p>Consider an AR(<span class="math inline">\(2\)</span>) with mean <span class="math inline">\(mu\)</span>: <span class="math display">\[
+(Y_t - \mu) = \phi_1 (Y_{t-1} - \mu) + \phi_2 (Y_{t-2} - \mu) + e_t.
+\]</span> Given observations <span class="math inline">\((Y_1,...,Y_n)\)</span>, we define the objective function as <span class="math display">\[
+S_c(\phi_1,\phi_2, \mu) = \sum_{t=3}^{n} e_t^2 = \sum_{t=2}^{n} \left[ (Y_t - \mu) - \phi_1 (Y_{t-1} - \mu) - \phi_2 (Y_{t-2} - \mu) \right]^2.
+\]</span> It can be shown that, (similar to the previous AR(<span class="math inline">\(1\)</span>) example,) when <span class="math inline">\(n\)</span> is large, <span class="math display">\[
+\frac{\partial S_c}{\partial \mu} = 0 \overset{n \text{ large}}{\implies} \widehat{\mu}_{\text{LS}} \approx \overline{Y}
+\]</span> <span class="math display">\[
 \begin{cases}
-    0, &amp; \text{if } k &gt; q \\
-    \sigma_e^2 \sum_{j=0}^{q-k} \theta_j \theta_{j+k}, &amp; 0 \leq k \leq q
+\frac{\partial S_c}{\partial \phi_1} = 0 \\
+\frac{\partial S_c}{\partial \phi_2} = 0
 \end{cases}
-\qquad (\theta_0 = -1)
-\]</span> This result shows that an MA(<span class="math inline">\(q\)</span>) process is always <span class="math inline">\(q\)</span>-dependent. The reverse is also true, in the following sense.</p>
-<p><strong>Theorem (without proof):</strong> If <span class="math inline">\((Y_t)\)</span> is a stationary <span class="math inline">\(q\)</span>-correlated time series with mean <span class="math inline">\(0\)</span>, then there exists an uncorrelated stationary sequence <span class="math inline">\((\widetilde{e}_t)\)</span> and <span class="math inline">\(q\)</span> constants <span class="math inline">\(\widetilde{\theta}_1,\dots,\widetilde{\theta}_q\)</span> such that, if <span class="math inline">\(X_t\)</span> is constructed as <span class="math display">\[
-X_t = \widetilde{e}_t - \widetilde{\theta}_1 \widetilde{e}_{t-1} - \cdots - \widetilde{\theta}_q \widetilde{e}_{t-q} ,
-\]</span> then <span class="math inline">\((X_t)\)</span> will have the same ACVF as <span class="math inline">\((Y_t)\)</span>.</p>
-</section>
-<section id="general-linear-process" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> General Linear Process</h1>
-<p><strong>GLP(General Linear Process)</strong>: Let <span class="math inline">\((e_t) \sim IID(0, \sigma_e^2)\)</span>. A process <span class="math inline">\((Y_t)\)</span> is called <strong>GLP</strong> (mean <span class="math inline">\(0\)</span>) if <span class="math display">\[
-Y_t = \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}
-\]</span> where <span class="math inline">\(\psi_j\)</span> are constants such that <span class="math inline">\(\sum_{j=-\infty}^{+\infty} |\psi_j| &lt; \infty\)</span>. Explicitly, <span class="math display">\[
-Y_t = \cdots + \psi_{-2} e_{t+2} + \psi_{-1} e_{t+1} + \psi_0 e_t + \psi_1 e_{t-1} + \cdots .
-\]</span> <strong>Causality:</strong> If <span class="math inline">\(\psi_j = 0\)</span> for all <span class="math inline">\(j &lt; 0\)</span> in the GLP representation, then <span class="math display">\[
-Y_t = \psi_0 e_t + \psi_1 e_{t-1} + \dots = \sum_{j=0}^{\infty} \psi_j e_{t-j} .
-\]</span> In this case, <span class="math inline">\((Y_t)\)</span> is called a <strong>causal / future-independent process</strong>. Otherwise, if there exist nonzero <span class="math inline">\(\psi_j\)</span> for some <span class="math inline">\(j&lt;0\)</span>, <span class="math inline">\((Y_t)\)</span> is <strong>non-causal / future-dependent</strong>.</p>
-<section id="backshift-operator" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="backshift-operator"><span class="header-section-number">3.1</span> Backshift operator</h2>
-<p><strong>Definition:</strong> For a sequence <span class="math inline">\((y_t)\)</span>, the <strong>backshift operator</strong> <span class="math inline">\(B\)</span> is defined by <span class="math inline">\(B Y_t = Y_{t-1}\)</span>.</p>
-<p>Example: <span class="math inline">\(B^2 Y_t = B(Y_{t-1}) = Y_{t-2}\)</span>, <span class="math inline">\(B^k Y_t = Y_{t-k}\)</span> for <span class="math inline">\(k \ge 0\)</span>.</p>
-<p>The inverse of <span class="math inline">\(B\)</span> is considered as <strong>forwardshift</strong>: <span class="math inline">\(B^{-1} Y_t = Y_{t+1}\)</span>, <span class="math inline">\(B^{-2} Y_t = Y_{t+2}\)</span>, etc.</p>
-<p><strong>Definition:</strong> A <strong>linear filter</strong> is an operator defined as <span class="math display">\[
-\Psi(B) = \sum_{j=-\infty}^{+\infty} \psi_j B^j.
-\]</span> By this definition, the GLP process <span class="math inline">\(Y_t = \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\)</span> can be written as <span class="math inline">\(Y_t = \Psi(B) e_t\)</span>, since <span class="math display">\[
-\left(\sum_{j=-\infty}^{+\infty} \psi_j B^j\right) e_t
-= \sum_{j=-\infty}^{+\infty} \psi_j B^j e_t
-= \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j} = Y_t .
+\overset{n \text{ large}}{\implies}
+\begin{cases}
+r_1 \approx \widehat{\phi}_1^\text{LS} + \widehat{\phi}_2^\text{LS} r_1 \\
+r_2 \approx \widehat{\phi}_1^\text{LS} r_1 + \widehat{\phi}_2^\text{LS}
+\end{cases}
+\]</span> Note that the latter system (as equations for <span class="math inline">\((\widehat{\phi}_1^\text{LS}, \widehat{\phi}_2^\text{LS})\)</span>) is exactly same as the “sample YW equations” we saw in last lecture (see the AR(<span class="math inline">\(2\)</span>) or AR(<span class="math inline">\(p\)</span>) example of MoM). So the solution to the system above is same as the MoM estimator of AR(<span class="math inline">\(2\)</span>).</p>
+<p>So when sample size <span class="math inline">\(n\)</span> is large (except for end effects), the conditional LS estimator for AR(<span class="math inline">\(2\)</span>) is approximately <span class="math display">\[
+\widehat{\mu}_{\text{LS}} \approx \overline{Y} ,\quad \widehat{\phi}_1^{\text{LS}} \approx \widehat{\phi}_1^{\text{MOM}} ,\quad \widehat{\phi}_2^{\text{LS}} \approx \widehat{\phi}_2^{\text{MOM}}.
 \]</span></p>
 </section>
-<section id="glp-is-stationary" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="glp-is-stationary"><span class="header-section-number">3.2</span> GLP is stationary</h2>
-<p>In this part, we will derive the mean function, variance function, ACVF, ACF of a GLP. Then we can see that a GLP is stationary.</p>
-<ul>
-<li><p>Mean function <span class="math display">\[
-\mu_t = \mathbb{E} [Y_t] = \mathbb{E}\left[\sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\right]
-= \sum_{j=-\infty}^{+\infty} \psi_j \mathbb{E}[e_{t-j}] = 0.
-\]</span></p></li>
-<li><p>Variance function <span class="math display">\[
+<section id="example-ma1" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="example-ma1"><span class="header-section-number">2.3</span> Example: MA(<span class="math inline">\(1\)</span>)</h2>
+<p>Consider an MA(<span class="math inline">\(1\)</span>): <span class="math display">\[
+Y_t = e_t - \theta e_{t-1} .
+\]</span> From the previous examples, we know that we hope to construc some objective functions in the form <span class="math inline">\(S_c = \sum e_t^2\)</span>. The question is how to express these <span class="math inline">\(e_t\)</span> using observed data <span class="math inline">\((Y_1,...,Y_n)\)</span>.</p>
+<p>One idea: using the invertible (assuming <span class="math inline">\(|\theta|&lt;1\)</span>) representation of MA(<span class="math inline">\(1\)</span>), i.e., <span class="math inline">\(e_t = Y_t + \theta Y_{t-1} + \theta^2 Y_{t-2} + \cdots\)</span>. Given <span class="math inline">\((Y_1,...,Y_n)\)</span>, we only look at <span class="math inline">\(e_1\)</span> through <span class="math inline">\(e_n\)</span> and truncate these infinite sums. So we get <span class="math display">\[
+S_c(\theta) = \sum_{t=1}^n e_t^2= \left( Y_t + \theta Y_{t-1} + \theta^2 Y_{t-2} + \cdots + \theta^{t-1} Y_1 \right)^2.
+\]</span></p>
+<p>Another way to think about it: Assume <span class="math inline">\(e_0 =0\)</span>, then using the MA(<span class="math inline">\(1\)</span>) equation, we have <span class="math display">\[
 \begin{split}
-\operatorname{Var}(Y_t) &amp;= \operatorname{Var}\left(\sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\right)
-= \sum_{j=-\infty}^{+\infty} \psi_j^2 \operatorname{Var}(e_{t-j}) + \ 2 \sum_{i&lt;j} \psi_i \psi_j \operatorname{Cov}(e_{t-i}, e_{t-j}) = \sigma_e^2 \left( \sum_{j=-\infty}^{+\infty} \psi_j^2 \right)
+e_1 &amp;= \theta e_0 + Y_1 = Y_1, \\
+e_2 &amp;= \theta e_1 + Y_2 = Y_2 + \theta Y_1, \\
+e_3 &amp;= \theta e_2 + Y_3 = Y_3 + \theta Y_2 + \theta^2 Y_1, \\
+\cdots \\
+e_n &amp;= Y_n + \theta Y_{n-1} + \theta^2 Y_{n-2} + \cdots + \theta^{n-1} Y_1.
 \end{split}
-\]</span> which is a finite constant (see the following exercise).</p></li>
-</ul>
-<p><strong>Exercise:</strong> Show that <span class="math inline">\(\sum_{j=-\infty}^{+\infty} |\psi_j| &lt; \infty\)</span> implies <span class="math inline">\(\sum_{j=-\infty}^{+\infty} \psi_j^2 &lt; \infty\)</span> (i.e., absolute summability implies square summability/convergence).</p>
-<ul>
-<li><p>ACVF <span class="math display">\[
+\]</span> In this way, we can also construct the objective function <span class="math display">\[
+S_c(\theta) = \sum_{t=1}^n e_t^2= \left( Y_t + \theta Y_{t-1} + \theta^2 Y_{t-2} + \cdots + \theta^{t-1} Y_1 \right)^2.
+\]</span> And from the second way, we can see that the <span class="math inline">\(S_c\)</span> is a square of sum <strong>conditional on</strong> <span class="math inline">\(e_0 =0\)</span>. As we promised earlier, this example explains the “conditional” in the name of the method.</p>
+<p>After the construction of <span class="math inline">\(S_c\)</span>, the conditional LS method computes <span class="math inline">\(\widehat{\theta}_\text{LS} = \arg \min_\theta S_c(\theta)\)</span>. This is a highly nonlinear function (in fact it’s a high degree polynomial) of <span class="math inline">\(\theta\)</span>, so we can only solve it numerically (by software).</p>
+</section>
+<section id="example-armapq" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="example-armapq"><span class="header-section-number">2.4</span> Example: ARMA(<span class="math inline">\(p,q\)</span>)</h2>
+<p>Consider an ARMA(<span class="math inline">\(1,1\)</span>): <span class="math display">\[
+Y_t - \phi Y_{t-1} = e_t - \theta e_{t-1} .
+\]</span> Given observed data <span class="math inline">\((Y_1,...,Y_n)\)</span>, the idea to construct the objective function is similar to the MA(<span class="math inline">\(1\)</span>) example.</p>
+<p>Assume <span class="math inline">\(e_1 =0\)</span>, then <span class="math display">\[
 \begin{split}
-\operatorname{Cov}(Y_t, Y_{t+k}) &amp;= \mathbb{E}\left[Y_t Y_{t+k}\right] - \left(\mathbb{E} Y_t\right)\left(\mathbb{E} Y_{t+k}\right) = \mathbb{E}\left[Y_t Y_{t+k}\right]
-= \mathbb{E}\left[
-  \left( \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j} \right)
-  \left( \sum_{i=-\infty}^{+\infty} \psi_i e_{t+k-i} \right)
-\right] \\
-&amp; = \sum_{i=-\infty}^{+\infty} \sum_{j=-\infty}^{+\infty} \psi_i \psi_j \mathbb{E}[e_{t-j} e_{t+k-i}] .
+e_2 &amp;= \theta e_1 + Y_2 - \phi Y_1 = Y_2 - \phi Y_1 \\
+e_3 &amp;= \theta e_2 + Y_3 - \phi Y_2 = \cdots \\
+\cdots \\
+e_n &amp;= \theta e_{n-1} + Y_n - \phi Y_{n-1} = \cdots
 \end{split}
-\]</span> Note that <span class="math inline">\(\mathbb{E}[e_{t-j} e_{t+k-i}] = \mathbb{E}[e_{t-j}] \cdot \mathbb{E}[e_{t+k-i}] = 0\)</span> if <span class="math inline">\(i \neq j+k\)</span>, and <span class="math inline">\(\mathbb{E}[e_{t-j} e_{t+k-i}] = \sigma_e^2\)</span> if <span class="math inline">\(i=j+k\)</span>. So the ACVF depends only on the lag <span class="math inline">\(k\)</span>: <span class="math display">\[
-\gamma_k = \sum_{j=-\infty}^{+\infty} \psi_{k+j}\psi_j \sigma_e^2 .
-\]</span></p></li>
-<li><p>ACF <span class="math display">\[
-\rho_k = \frac{\gamma_k}{\gamma_0}
-= \frac{ \displaystyle\sum_{j=-\infty}^{+\infty} \psi_{k+j} \psi_j }
-      { \displaystyle\sum_{j=-\infty}^{+\infty} \psi_j^2 } .
-\]</span></p></li>
-</ul>
-<p><em>Remark:</em> If we want a GLP (<span class="math inline">\(Y_t\)</span>) with mean <span class="math inline">\(\mu\)</span>, then just add <span class="math inline">\(\mu\)</span>. Let <span class="math inline">\(Y_t = \mu + \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\)</span>. ACVF, ACF remain the same.</p>
+\]</span> So the <span class="math inline">\(e_2\)</span> through <span class="math inline">\(e_n\)</span> can be written in terms of <span class="math inline">\((Y_1,...,Y_n)\)</span>. The objective function is set to be <span class="math display">\[
+S_c(\phi, \theta) = \sum_{t=2}^n e_t^2
+\]</span> where <span class="math inline">\(e_2\)</span> through <span class="math inline">\(e_n\)</span> are defined recursively above. The conditional LS method then minimizes this function <span class="math inline">\(S_c(\phi, \theta)\)</span> (numerically).</p>
+<p><em>Remark:</em> The reason we assume <span class="math inline">\(e_1=0\)</span> is that we can make use of all the observed data. If we assume <span class="math inline">\(e_0=0\)</span> like the previous example, then we cannot compute <span class="math inline">\(e_1 = \theta e_0 + Y_1 - \phi Y_0\)</span> since <span class="math inline">\(Y_0\)</span> is not observed.</p>
+<p>In general, for ARMA(<span class="math inline">\(p,q\)</span>), we condition on <span class="math inline">\(e_p = e_{p-1} = \cdots = e_{p-q+1} = 0\)</span>, then define <span class="math display">\[
+S_c (\phi_1,...,\phi_p, \theta_1,...,\theta_q) = \sum_{t=p+1}^n e_t^2.
+\]</span> <em>Remark:</em> this covers the previous two examples MA(<span class="math inline">\(1\)</span>) (which can be seen as ARMA(<span class="math inline">\(0,1\)</span>)) and ARMA(<span class="math inline">\(1,1\)</span>).</p>
 </section>
 </section>
-<section id="ar1" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> AR(<span class="math inline">\(1\)</span>)</h1>
-<p>AR(<span class="math inline">\(1\)</span>) stands for Autoregressive time series of order <span class="math inline">\(1\)</span>.</p>
-<p><strong>Definition of AR(<span class="math inline">\(1\)</span>):</strong> Let <span class="math inline">\(\phi \in \mathbb{R}\)</span>, <span class="math inline">\(|\phi| &lt; 1\)</span>, and <span class="math inline">\((e_t) \sim \text{iid}(0, \sigma_e^2)\)</span>. Define <span class="math inline">\((Y_t)\)</span> as a stationary solution to: <span class="math display">\[
-Y_t = \phi Y_{t-1} + e_t.
-\]</span> <em>Remark:</em> (1) This looks like linear regression <span class="math inline">\(Y_t = \beta_0 + \beta_1 Y_{t-1} + e_t\)</span> with <span class="math inline">\(\beta_0 = 0\)</span>. (2) AR(<span class="math inline">\(1\)</span>) can be rewritten as <span class="math inline">\(Y_t - \phi Y_{t-1} = e_t\)</span>. In comparison, MA(<span class="math inline">\(1\)</span>) is <span class="math inline">\(Y_t = e_t - \theta e_{t-1}\)</span>.</p>
-<p>Assume <span class="math inline">\(Y_s\)</span> is independent of the future <span class="math inline">\(e_t\)</span> terms (for any <span class="math inline">\(t&gt;s\)</span>). We can write AR(<span class="math inline">\(1\)</span>) in a GLP.</p>
-<p>From the definition: <span class="math display">\[
+<section id="maximum-likelihood-estimation-mle" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Maximum Likelihood Estimation (MLE)</h1>
+<ul>
+<li>Pros: Use all the “data/information” (don’t assume something is zero like <span class="math inline">\(e_i=0\)</span>). Relevant for small datasets. We have distributional results on estimates</li>
+<li>Cons: No closed form solution. Numerical optimization is hard.</li>
+</ul>
+<p><strong>The idea of MLE:</strong> define the likelihood function of the parameters as the joint pdf of the observed data, <span class="math display">\[
+\underbrace{L \left(\text{parameters} \mid Y_1, Y_2, \ldots, Y_n \right)}_
+{\text{function of parameters}} \stackrel{\text{def}}{=}
+\underbrace{f\left(Y_1, Y_2, \ldots, Y_n \mid \text{parameters} \right)}_
+{\text{joint pdf of } (Y_1, \ldots, Y_n)}.
+\]</span> Then maximize the likelihood function <span class="math inline">\(L\)</span> over the paramters.</p>
+<p><strong>Main assumption:</strong> When we use MLE in time series, we assume <span class="math display">\[
+e_t \overset{iid}{\sim} \mathcal{N}(0, \sigma_e^2).
+\]</span> <em>Remark:</em> This enables us to write out the pdf of <span class="math inline">\((Y_1,...,Y_n)\)</span>. Since the general white noise setting does not require a specific distribution.</p>
+<p>Under this normality assumption, the pdf for a single <span class="math inline">\(e_t\)</span> is <span class="math display">\[
+f(e_t) = \left(2\pi \sigma_e^2 \right)^{-\frac{1}{2}} \exp\left( -\frac{e_t^2}{2 \sigma_e^2} \right) ,
+\]</span> and the joint pdf for <span class="math inline">\((e_1,...,e_n)\)</span> is <span class="math display">\[
+\prod_{t=1}^n \left[ \left(2\pi \sigma_e^2 \right)^{-\frac{1}{2}} \exp\left( -\frac{e_t^2}{2 \sigma_e^2} \right) \right]
+= \left(2\pi \sigma_e^2 \right)^{-\frac{n}{2}} \exp\left( -\frac{1}{2\sigma_e^2} \sum_{t=1}^n e_t^2 \right).
+\]</span></p>
+<p><strong>Example.</strong> Consider an AR(<span class="math inline">\(1\)</span>) with mean <span class="math inline">\(\mu\)</span>: <span class="math display">\[
+(Y_t - \mu) = \phi (Y_{t-1} - \mu) + e_t, \quad e_t \overset{iid}{\sim} \mathcal{N}(0, \sigma_e^2).
+\]</span> Suppose we observe <span class="math inline">\((Y_1,...,Y_n)\)</span>. The likelihood function of the parameters is defined as the joint pdf of <span class="math inline">\((Y_1,...,Y_n)\)</span>. For simplicity, we omit the dependence on parameters in the joint pdf of <span class="math inline">\((Y_1,...,Y_n)\)</span>: <span class="math display">\[
+\mathcal{L}(\phi,\mu, \sigma_e^2 \mid Y_1, Y_2, \ldots, Y_n)
+= f(Y_1, Y_2, \ldots, Y_n)
+= \underbrace{f(Y_2, Y_3, \ldots, Y_n \mid Y_1)}_{\text{(ii)}}
+\;
+\underbrace{f(Y_1)}_{\text{(i)}}.
+\]</span> For part (i), we need to find the pdf of <span class="math inline">\(Y_1\)</span>. Recall the GLP repesentation for AR(<span class="math inline">\(1\)</span>), we have <span class="math display">\[
 \begin{split}
-Y_t &amp;= \phi Y_{t-1} + e_t = \phi \left( \phi Y_{t-2} + e_{t-1} \right) + e_t \\
-    &amp;= \phi^2 Y_{t-2} + \phi e_{t-1} + e_t \\
-    &amp;= \phi^3 Y_{t-3} + \phi^2 e_{t-2} + \phi e_{t-1} + e_t \\
-    &amp;= \cdots \\
-    &amp;= \sum_{j=0}^n \phi^j e_{t-j} + \phi^{n+1} Y_{t-n-1} .
+Y_1 -\mu &amp;= e_1 + \psi_1 e_0 + \psi_2 e_{-1} + \psi_3 e_{-2} + \cdots \\
+&amp;= e_1 + \phi e_0 + \phi^2 e_{-1} + \phi^3 e_{-2} + \cdots .
 \end{split}
-\]</span> So <span class="math inline">\(Y_t - \sum_{j=0}^n \phi^j e_{t-j} = \phi^{n+1} Y_{t-n-1}\)</span>. Taking the variance gives <span class="math display">\[
-\mathrm{Var} \left( Y_t - \sum_{j=0}^n \phi^j e_{t-j} \right) = \phi^{2n+2} \mathrm{Var} (Y_{t-n-1}) .
-\]</span> By stationarity of <span class="math inline">\((Y_t)\)</span> and the assumption <span class="math inline">\(|\phi|&lt;1\)</span>, the term <span class="math inline">\(\phi^{2n+2} \mathrm{Var} (Y_{t-n-1}) = \phi^{2n+2} \gamma_0 \to 0\)</span> as <span class="math inline">\(n\to +\infty\)</span>. So <span class="math inline">\(\mathrm{Var} \left( Y_t - \sum_{j=0}^n \phi^j e_{t-j} \right)\)</span> also converges to <span class="math inline">\(0\)</span> as <span class="math inline">\(n\to \infty\)</span>. Then we have <span class="math display">\[
-Y_t = \lim_{n \to \infty} \sum_{j=0}^n \phi^j e_{t-j} = \sum_{j=0}^{\infty} \phi^j e_{t-j}
-\]</span> which is a GLP.</p>
-<p><em>Remark:</em> From our earlier discussion, this GLP is causal. It is not <span class="math inline">\(q\)</span>-dependent for any finite <span class="math inline">\(q\)</span> (for generic <span class="math inline">\(\phi\)</span>), this is called <span class="math inline">\(\infty\)</span>-dependent. Moreover, this GLP can be seen as an MA(<span class="math inline">\(\infty\)</span>).</p>
-<p>In summary, a stationary solution to AR(<span class="math inline">\(1\)</span>) with <span class="math inline">\(|\phi|&lt;1\)</span> is a causal GLP, and can be seen as an MA(<span class="math inline">\(\infty\)</span>).</p>
+\]</span> Since <span class="math inline">\(e_t \overset{iid}{\sim} \mathcal{N}(0, \sigma_e^2)\)</span>, we have <span class="math display">\[
+Y_1 \sim \mathcal{N} \left( \mu, \sum_{k=0}^{\infty} \phi^{2k} \sigma_e^2 \right) = \mathcal{N} \left( \mu, \frac{\sigma_e^2}{1 - \phi^2} \right).
+\]</span> So the pdf of <span class="math inline">\(Y_1\)</span> is <span class="math display">\[
+f(Y_1) = \left(2\pi \frac{\sigma_e^2}{1 - \phi^2}\right)^{-\frac{1}{2}}
+\exp \left( -\frac{1 - \phi^2}{2\sigma_e^2}(Y_1 - \mu)^2 \right).
+\]</span></p>
+<p>For part (ii), we need to find the joint pdf of <span class="math inline">\((Y_2,...,Y_n)\)</span> conditional on <span class="math inline">\(Y_1\)</span>. From the AR(<span class="math inline">\(1\)</span>) model, we know that <span class="math inline">\(Y_t \sim \mathcal{N}\left( \mu + \phi (Y_{t-1} - \mu),\, \sigma_e^2 \right)\)</span>, and <span class="math inline">\(Y_t\)</span> depends on <span class="math inline">\((Y_{t-1},Y_{t-2},...)\)</span> only through <span class="math inline">\(Y_{t-1}\)</span>. So we have <span class="math display">\[
+\begin{split}
+&amp; f(Y_2,\cdots,Y_n|Y_1) = \prod_{t=2}^n f(Y_t|Y_{t-1},\cdots,Y_1) = \prod_{t=2}^n f(Y_t|Y_{t-1}) = f(Y_2|Y_{1})\ f(Y_3|Y_{2}) \cdots f(Y_n|Y_{n-1})\\
+&amp;= \prod_{t=2}^n \left[ (2\pi \sigma_e^2)^{-1/2} \exp \left(-\frac{1}{2 \sigma_e^2} \left(Y_t - \mu - \phi (Y_{t-1}-\mu) \right)^2 \right) \right] \\
+&amp;= (2\pi \sigma_e^2)^{-\frac{n-1}{2}} \exp \left(-\frac{1}{2 \sigma_e^2} \underbrace{\sum_{t=2}^n \left(Y_t - \mu - \phi (Y_{t-1}-\mu) \right)^2}_{S_c(\phi,\mu)} \right) .
+\end{split}
+\]</span> <em>Note:</em> the square of sum in the last line is same as the conditional LS objective function for AR(<span class="math inline">\(1\)</span>).</p>
+<p>Combining part (i) and (ii): <span class="math display">\[
+\begin{split}
+&amp; \mathcal{L}(\phi,\mu, \sigma_e^2 \mid Y_1, Y_2, \ldots, Y_n) = \underbrace{f(Y_2, Y_3, \ldots, Y_n \mid Y_1)}_{\text{(ii)}} \ \underbrace{f(Y_1)}_{\text{(i)}} \\
+&amp;= \left(2\pi \sigma_e^2\right)^{-\frac{n}{2}} \left(1 - \phi^2\right)^{\frac{1}{2}}
+\exp \left[ -\frac{1}{2\sigma_e^2} S_c(\phi, \mu)
+    -\frac{1}{2\sigma_e^2} (1-\phi^2)(Y_1 - \mu)^2 \right] \\
+&amp;= \left(2\pi \sigma_e^2\right)^{-\frac{n}{2}} \left(1 - \phi^2\right)^{\frac{1}{2}}
+\exp \left[
+    -\frac{1}{2\sigma_e^2} S(\phi, \mu)
+\right] .
+\end{split}
+\]</span> where <span class="math inline">\(S(\phi,\mu) = S_c(\phi, \mu) + (1 - \phi^2)(Y_1 - \mu)^2\)</span>.</p>
 
 
 </section>
@@ -957,13 +1045,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./TSA-Lecture02.html" class="pagination-link" aria-label="Lecture 2">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 2</span>
+      <a href="./TSA-Lecture14-model-specification.html" class="pagination-link" aria-label="R notebook: Model Specification">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">R notebook: Model Specification</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./TSA-Lecture04.html" class="pagination-link" aria-label="Lecture 4">
-        <span class="nav-page-text">Lecture 4</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./TSA-Lecture16.html" class="pagination-link" aria-label="Lecture 16">
+        <span class="nav-page-text">Lecture 16</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

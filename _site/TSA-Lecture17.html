@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>Lecture Notes</title>
+<title>25 Spring 439/639 TSA: Lecture 17 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,6 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./TSA-Lecture17-model-diagnostics.html" rel="next">
+<link href="./TSA-Lecture16-parameter-estimation.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -67,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -80,9 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      Lecture Notes
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture17.html">Lecture 17</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -241,7 +271,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture17.html" class="sidebar-item-text sidebar-link">
+  <a href="./TSA-Lecture17.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture 17</span></a>
   </div>
 </li>
@@ -321,9 +351,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
+  <li><a href="#diagnostics" id="toc-diagnostics" class="nav-link active" data-scroll-target="#diagnostics"><span class="header-section-number">1</span> Diagnostics</a>
   <ul class="collapse">
-  <li><a href="#courses" id="toc-courses" class="nav-link" data-scroll-target="#courses">Courses</a></li>
+  <li><a href="#residual-analysis" id="toc-residual-analysis" class="nav-link" data-scroll-target="#residual-analysis"><span class="header-section-number">1.1</span> Residual analysis</a></li>
+  <li><a href="#overfitting" id="toc-overfitting" class="nav-link" data-scroll-target="#overfitting"><span class="header-section-number">1.2</span> Overfitting</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -333,13 +364,19 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lecture Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 17</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -350,18 +387,62 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome" class="level1">
-<h1>Welcome</h1>
-<p>This site hosts lecture notes for several courses I have taught or am currently teaching at the Applied Mathematics and Statistics department of Johns Hopkins University.</p>
-<section id="courses" class="level2">
-<h2 class="anchored" data-anchor-id="courses">Courses</h2>
+<section id="diagnostics" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Diagnostics</h1>
+<p>So far we have talked about model specification (find the model and <span class="math inline">\(p,q\)</span>), and parameter estimation (estimate <span class="math inline">\(\widehat{\phi}_i,\widehat{\theta}_j,\widehat{\mu},\widehat{\sigma}_e^2\)</span> for a given model). Our next step is diagnostics.</p>
+<section id="residual-analysis" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="residual-analysis"><span class="header-section-number">1.1</span> Residual analysis</h2>
+<p>In the parameter estimation step, we find the estimated parameters <span class="math inline">\(\widehat{\phi}_i,\widehat{\theta}_j,\widehat{\mu}\)</span> using the observed data <span class="math inline">\((Y_1,...,Y_n)\)</span>. Using the estimated parameters, we can compute the predicted/fitted values <span class="math inline">\(\widehat{Y}_t\)</span>.</p>
 <ul>
-<li><a href="tsa/index.html">Time Series Analysis</a></li>
-<li><a href="esl/index.html">Elements of Statistical Learning</a></li>
-<li><a href="bayes/index.html">Bayesian Statistics</a></li>
-<li><a href="asda1/index.html">Applied Statistics and Data Analysis I</a></li>
-<li><a href="asda2/index.html">Applied Statistics and Data Analysis II</a></li>
+<li>For AR(<span class="math inline">\(p\)</span>), the residuals are defined as the difference between observed <span class="math inline">\(Y_t\)</span> and fitted <span class="math inline">\(\widehat{Y}_t\)</span>: the fitted value for AR(<span class="math inline">\(p\)</span>) is just <span class="math display">\[
+\widehat{Y}_t = \widehat{\mu} + \widehat{\phi}_1 (Y_{t-1} - \widehat{\mu}) + \cdots + \widehat{\phi}_p (Y_{t-p} - \widehat{\mu}),
+\]</span> and the residual is <span class="math display">\[
+\widehat{e}_t =\text{observed value} - \text{fitted/predicted value} = Y_t - \widehat{Y}_t.
+\]</span></li>
+<li>For MA(<span class="math inline">\(q\)</span>) or ARMA(<span class="math inline">\(p,q\)</span>), we need to use the invertible representation of the model. The residuals are defined as <span class="math display">\[
+\widehat{e}_t = Y_t - \widehat{\pi}_1 Y_{t-1} - \widehat{\pi}_2 Y_{t-2} - \cdots,
+\]</span> where these <span class="math inline">\(\widehat{\pi}_k\)</span> are the coefficients of the invertible representation corresponding to the estimated parameters <span class="math inline">\(\{\widehat{\theta}_j\}\)</span> (and also <span class="math inline">\(\{\widehat{\phi}_i\}\)</span> for ARMA), i.e. <span class="math display">\[
+\widehat{\pi}_1 = \widehat{\pi}_1(\widehat{\phi}_i, \widehat{\theta}_j), \
+\widehat{\pi}_2 = \widehat{\pi}_2(\widehat{\phi}_i, \widehat{\theta}_j), \ \cdots.
+\]</span></li>
 </ul>
+<p>We “want” the residuals to be: independent, normal, mean zero, constant variance.</p>
+<p><strong>Tool 1: samplce ACF of the residuals.</strong> We can look at the samplce ACF of the residuals <span class="math inline">\(\widehat{e}_t\)</span>, <span class="math display">\[
+\widehat{r}_k = \widehat{\operatorname{corr}} (\widehat{e}_t, \widehat{e}_{t-k}).
+\]</span> <em>Note:</em> we use the notation <span class="math inline">\(\widehat{r}_k\)</span> for the sample ACF of <span class="math inline">\(\widehat{e}_t\)</span>. This is a very different thing from some similar terms we have seen in the lecture (like <span class="math inline">\(r_k = \widehat{\operatorname{corr}} (\widehat{Y}_t, \widehat{Y}_{t-k})\)</span>, the sample ACF of <span class="math inline">\(Y_t\)</span>; or <span class="math inline">\(\rho_k = \operatorname{corr} (\widehat{Y}_t, \widehat{Y}_{t-k})\)</span>, the theoretical ACF of <span class="math inline">\(Y_t\)</span>).</p>
+<p>If we think of <span class="math inline">\(\widehat{e}_t\)</span> as a white noise, then by our earlier results (see lecture 11), we should have <span class="math inline">\(\widehat{r}_k \approx N(0,\frac{1}{n})\)</span> approximately. <em>Note:</em> this is incorrect, since the correct sampling distribution of <span class="math inline">\(\widehat{e}_t\)</span> is very complicated (not simply a white noise), but we just use this white noise as a heuristic.</p>
+<p><strong>Tool 2: plot of the standardized residuals.</strong> We can plot <span class="math inline">\(\frac{\widehat{e}_t}{\widehat{\operatorname{sd}}(\widehat{e}_t)}\)</span>. From this plot, we can check the outliers, check whether they are mean zero or have constant values.</p>
+<p><strong>Tool 3: QQ plot or Shapiro–Wilk test.</strong> We can look at the QQ plot or use Shapiro–Wilk test to check the normality.</p>
+<p><strong>Tool 4: Ljung-Box test.</strong> This is a “portmanteau” test. It tests <span class="math inline">\(\operatorname{ACF}_k(\widehat{e}_t)=0\)</span> for all <span class="math inline">\(k\)</span> at once. To be specific, <span class="math display">\[
+H_0: \underbrace{\operatorname{ACF}_k(\widehat{e}_t)=0 \text{ for all } k&gt;0 }_
+{\text{suggests the fitted model is good}}
+\quad\text{vs.}\quad
+H_a: \underbrace{\operatorname{ACF}_k(\widehat{e}_t) \ne 0 \text{ for some } k&gt;0 }_
+{\text{we should adjust the model}} .
+\]</span> Let’s briefly introduce this test. The Ljung-Box test uses the following test statistic <span class="math display">\[
+Q_\text{LB} = n(n+2)\left( \frac{\widehat{r}_1^2}{n-1} + \frac{\widehat{r}_2^2}{n-2} + \cdots + \frac{\widehat{r}_K^2}{n-K} \right) ,
+\]</span> where <span class="math inline">\(K\)</span> is a parameter of the test. Usually, <span class="math inline">\(K\)</span> is chosen from <span class="math inline">\(5,6,...,30\)</span> such that <span class="math inline">\(\psi_j\approx 0\)</span> for <span class="math inline">\(j&gt;K\)</span> (<span class="math inline">\(\psi_j\)</span> is the coefficient from GLP representation). Under the null hypothesis <span class="math inline">\(H_0\)</span>, the test statistic <span class="math inline">\(Q_\text{LB}\)</span> asymptotically follows <span class="math inline">\(\chi^2_{K-p-q}\)</span>.</p>
+<p>In this test, a critical value (<span class="math inline">\(\text{c.v.}\)</span>) can be determined from this <span class="math inline">\(\chi^2\)</span> distribution.</p>
+<ul>
+<li>If <span class="math inline">\(Q_\text{LB} &gt; \text{c.v.}\)</span> (the p-value is small), we reject <span class="math inline">\(H_0\)</span> in favor of <span class="math inline">\(H_a\)</span>. <span class="math inline">\(H_a\)</span> suggests the <span class="math inline">\(\widehat{e}_t\)</span> are dependent, we need to update the model.</li>
+<li>If <span class="math inline">\(Q_\text{LB} \le \text{c.v.}\)</span> (the p-value is large), we do not reject <span class="math inline">\(H_0\)</span>. <span class="math inline">\(H_0\)</span> suggests the <span class="math inline">\(\widehat{e}_t\)</span> seems to be independent, so the model is fine.</li>
+</ul>
+</section>
+<section id="overfitting" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="overfitting"><span class="header-section-number">1.2</span> Overfitting</h2>
+<p>We already mentioned this idea in the previous lecture. Now we state it from a different perspective.</p>
+<p><strong>Example.</strong> Suppose AR(<span class="math inline">\(2\)</span>) is the correct model, but we overfit with AR(<span class="math inline">\(3\)</span>). We can still confirm AR(<span class="math inline">\(2\)</span>) over AR(<span class="math inline">\(3\)</span>) if</p>
+<ol type="1">
+<li>The parameter <span class="math inline">\(\phi_3\)</span> is not significant (in AR(<span class="math inline">\(3\)</span>) fitting).</li>
+<li>The estimated <span class="math inline">\(\widehat{\phi}_1,\widehat{\phi}_2\)</span> in AR(<span class="math inline">\(3\)</span>) are (almost) the same as the estimated value in AR(<span class="math inline">\(2\)</span>) (we also need to fit an AR(<span class="math inline">\(2\)</span>) for comparison). In addition, we can also look at their confidence intervals in both models, the corresponding CIs should overlap significantly.</li>
+</ol>
+<p>Similarly, we can also overfit an ARMA(<span class="math inline">\(2,1\)</span>) model, and compare it to AR(<span class="math inline">\(2\)</span>).</p>
+<p><em>Caution:</em> do not fit an ARMA(<span class="math inline">\(3,1\)</span>) model and compare it to AR(<span class="math inline">\(2\)</span>).</p>
+<p>In general, we can compare ARMA(<span class="math inline">\(p,q\)</span>) with ARMA(<span class="math inline">\(p+1,q\)</span>) or ARMA(<span class="math inline">\(p,q+1\)</span>) for model diagnostics, but not ARMA(<span class="math inline">\(p+1,q+1\)</span>). Overfitting ARMA(<span class="math inline">\(p+1,q+1\)</span>) to an ARMA(<span class="math inline">\(p,q\)</span>) leads to <strong>parameter redundancy/unidentifiability</strong>. This is because: suppose the correct model is an ARMA(<span class="math inline">\(p,q\)</span>) <span class="math display">\[
+\underbrace{\Phi(B)}_{\text{order } p} \ Y_t = \underbrace{\Theta(B)}_{\text{order } q} \ e_t,
+\]</span> then the following holds for any <span class="math inline">\(c\)</span> <span class="math display">\[
+\underbrace{(1-cB)\Phi(B)}_{\text{order } p+1} \ Y_t = \underbrace{(1-cB)\Theta(B)}_{\text{order } q+1} \ e_t,
+\]</span> so fitting ARMA(<span class="math inline">\(p+1,q+1\)</span>) for this <span class="math inline">\((Y_t)\)</span> is unidentifiable (parameters cannot be estimated, holds for any <span class="math inline">\(c\)</span>).</p>
 
 
 </section>
@@ -785,6 +866,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./TSA-Lecture16-parameter-estimation.html" class="pagination-link" aria-label="R notebook: Parameter Estimation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">R notebook: Parameter Estimation</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./TSA-Lecture17-model-diagnostics.html" class="pagination-link" aria-label="R notebook: Diagnostics">
+        <span class="nav-page-text">R notebook: Diagnostics</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
