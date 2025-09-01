@@ -1,0 +1,187 @@
+---
+title: "25 Spring 439/639 TSA: Lecture 20"
+author: "Dr Sergey Kushnarev"
+#date: "March 30, 2023"
+toc: true
+format: 
+    pdf:
+        documentclass: article
+        geometry: margin=1in
+#format: html
+---
+
+# EWMA
+
+EWMA stands for exponentially weighted moving average, which is a quick way to generate "forecasts". It is useful under some specific settings.
+
+EWMA basically do the following
+$$
+\widehat{Y}_t(1) = (1 - \theta) Y_t + \theta\, \widehat{Y}_{t-1}(1)
+$$
+which is linear combination of the observed $Y_t$ and the predicted value at the previous time $\widehat{Y}_{t-1}(1)$. The parameter $\theta$ in this method is often chosen ad hoc.
+
+EWMA can be useful in predicting IMA($1,1$). Consider a IMA($1,1$) (i.e. ARIMA($0,1,1$))
+$$
+\begin{split}
+&Y_t - Y_{t-1} = W_t, \quad W_t = e_t - \theta\, e_{t-1} ,\\
+&\text{i.e.,}\quad Y_t = Y_{t-1} + e_t - \theta\, e_{t-1}.
+\end{split}
+$$
+For invertible model, suppose it has an AR($\infty$) invertible representation
+$$
+e_t = \pi_0 Y_t + \pi_1 Y_{t-1} + \pi_2 Y_{t-2} + \cdots
+$$
+then $Y_{t+1}$ can be written as
+$$
+Y_{t+1} = e_{t+1} - \pi_1 Y_{t} - \pi_2 Y_{t-1} - \cdots.
+$$
+Using the similar truncation/approximation idea we used for MA/ARMA model (see examples in lecture 18,19), and taking the conditional expectation $\mathbb{E}[\cdot \mid Y_{1,...,t}]$, we get
+$$
+\widehat{Y}_t(1) = \mathbb{E}[Y_{t+1} \mid Y_{1,...,t}] = - \pi_1 Y_{t} - \pi_2 Y_{t-1} - \cdots - \pi_t Y_1 .
+$$
+So if we can find the coefficients $\pi_j$, then we can get $\widehat{Y}_t(1)$ by this method.
+
+*Sidenote:* for ARIMA($p,d,q$), the coefficients $\pi_j$ in the invertible representation satisfy the following recursive formula
+$$
+\pi_j =
+\begin{cases}
+    \displaystyle\sum_{i=1}^{\min(j,q)} \theta_i\, \pi_{j-i} - \widetilde{\phi}_j, & \text{if } 1 \leq j \leq p+d \\
+    \displaystyle\sum_{i=1}^{\min(j,q)} \theta_i\, \pi_{j-i}, & \text{if } j > p+d
+\end{cases}
+$$
+where $1-\widetilde{\phi}_1 x -\cdots - \widetilde{\phi}_{p+d} x^{p+d} = (1-\phi_1 x -\cdots - \phi_{p} x^{p}) (1-x)^d$ is the AR polynomial of the ARMA($p+d,q$) corresponding to the original ARIMA($p,d,q$). And $\pi_0=1$.
+
+For our IMA($1,1$) (i.e. ARIMA($0,1,1$)) setting,
+$$
+Y_t - Y_{t-1} = e_t - \theta\, e_{t-1},
+$$
+we can either use the previous general recursion formula, or just plug $e_t = \sum_{j=0}^\infty \pi_j Y_{t-j}$ into the IMA($1,1$), to get the following
+$$
+\pi_0 =1, \text{and }\pi_j= (\theta -1) \theta^{j-1} \text{ for } j\ge 1.
+$$
+Then use the earlier result, we get
+$$
+\begin{split}
+\widehat{Y}_t(1) &= - \pi_1 Y_{t} - \pi_2 Y_{t-1} - \cdots - \pi_t Y_1 \\
+&= (1-\theta) Y_t + (1-\theta)\theta\, Y_{t-1} + (1-\theta)\theta^2 Y_{t-2} + \cdots + (1-\theta)\theta^{t-1} Y_1 \\
+&= (1-\theta) Y_t+ \theta \underbrace{\left[ (1-\theta) Y_{t-1} + (1-\theta)\theta Y_{t-2} + \cdots + (1-\theta)\theta^{t-2} Y_1 \right]}_{\widehat{Y}_{t-1}(1)}.
+\end{split}
+$$
+So we reached the EWMA formula we introduced at the beginning:
+$$
+\widehat{Y}_t(1) = (1 - \theta) Y_t + \theta\, \widehat{Y}_{t-1}(1).
+$$
+We can also rewrite it as
+$$
+\widehat{Y}_t(1) = \underbrace{\widehat{Y}_{t-1}(1)}_{\text{forecast}} + (1 - \theta) \underbrace{\left( Y_t -\widehat{Y}_{t-1}(1) \right)}_{\text{forecast error}} ,
+$$
+which can be seen as the forecast for $Y_t$ at time $t-1$, plus the forecast error (after we observed the actual $Y_t$) multiplied by a smoothing factor $(1-\theta)$.
+
+*FYI:* there are some other smoothing forecast methods, like Holt and Holt-Winters exponential moving average (double and triple exponential weighted moving average).
+
+# Seasonal ARIMA (SARIMA)
+
+We combined AR and MA into the mixed model ARMA, and generalized to ARIMA. SARIMA is a further generalization of ARIMA.
+
+**Example 1: seasonal MA.** Consider the model
+$$
+Y_t = e_t - \Theta e_{t-12}.
+$$
+This model is seasonal MA of order $1$ with seasonal period $12$, denoted by $\operatorname{MA}(1)_{12}$.
+
+*Note:* the equation for this model can also be seen as an $\operatorname{MA}(12)$ with $\theta_{12} = \Theta$ and $\theta_1=\cdots =\theta_{11}=0$. But $\operatorname{MA}(12)$ allows the parameters $\theta_1,...,\theta_{11}$ to be nonzero. So $\operatorname{MA}(12)$ is "too large" for this model. Instead, $\operatorname{MA}(1)_{12}$ is the correct model to characterize it.
+
+Similar to the MA model, we can derive the ACVF and ACF for $\operatorname{MA}(1)_{12}$:
+$$
+\begin{cases}
+\gamma_0 = (1+\Theta^2) \sigma_e^2 \\
+\gamma_{12} = -\Theta \sigma_e^2 \\
+\gamma_k = 0,\text{ if } k\ne 0,12
+\end{cases}
+$$
+$$
+\begin{cases}
+\rho_0 = 1 \\
+\rho_{12} = \frac{-\Theta}{1+\Theta^2} \\
+\rho = 0,\text{ if } k\ne 0,12
+\end{cases}
+$$
+**Exercise:** verify the ACVF and ACF above.
+
+In general, the seasonal MA model $\operatorname{MA}(Q)_{s}$ with order $Q$ and seasonal period $s$, has the equation
+$$
+Y_t = e_t - \Theta_1 e_{t-s} - \Theta_2 e_{t-2s} - \cdots - \Theta_Q e_{t-Qs} .
+$$
+The MA polynomial is of order $Qs$:
+$$
+\Theta(x) = 1 - \Theta_1 x^s - \Theta_2 x^{2s} - \cdots - \Theta_Q x^{Qs} .
+$$
+
+**Example 2: seasonal AR.** Consider the $\operatorname{AR}(1)_{12}$ model (seasonal AR of order $1$ with seasonal period $12$)
+$$
+Y_t = \Phi Y_{t-12} + e_t .
+$$
+The causality condition for $\operatorname{AR}(1)_{12}$ is $|\Phi|<1$. *Note:* The AR polynomial is $1-\Phi x^{12}$ which has $12$ roots. All the roots have the same modulus $|\Phi|^{-\frac{1}{12}}$. So the roots are outside the unit disk if (and only if) $|\Phi|<1$.
+
+We can find that $\rho_0=1, \rho_{12}=\Phi, \rho_{24}=\Phi^2,...$. The ACF for $\operatorname{AR}(1)_{12}$ is
+$$
+\begin{cases}
+\rho_{12 \cdot k} = \Phi^k, &\text{for integer } k\ge 0 \\
+\rho_n = 0, &\text{ if } n\ne 12k
+\end{cases}
+$$
+**Exercise:** verify the ACF above.
+
+In general, the seasonal AR model $\operatorname{AR}(P)_{s}$ with order $P$ and seasonal period $s$, has the equation
+$$
+Y_t = \Phi_1 Y_{t-s} + \Phi_2 Y_{t-2s} + \dots + \Phi_P Y_{t-Ps} + e_t.
+$$
+The AR polynomial is of order $Ps$:
+$$
+\Phi(x) = 1 - \Phi_1 x^{s} - \dots - \Phi_P x^{Ps}.
+$$
+**Seasonal ARMA.** Similar to $\operatorname{ARMA}(p,q)$, we can also combine $\operatorname{AR}(P)_{s}$ and $\operatorname{MA}(Q)_{s}$ into $\operatorname{ARMA}(P,Q)_{s}$. (The seasonal period $s$ for AR part and MA part are the same.)
+
+# Multiplicative seasonal ARMA model
+
+We can combine a nonseasonal $\operatorname{ARMA}(p,q)$ and a seasonal $\operatorname{ARMA}(P,Q)_{s}$ together by multiplying the AR/MA polynomials. This multiplicative seasonal ARMA model is denoted as $\operatorname{ARMA} (p,q)\times (P,Q)_{s}$:
+$$
+\operatorname{ARMA} \underbrace{(p,q)}_{\text{nonseasonal}} \times \underbrace{(P,Q)_{s}}_{\text{seasonal}}.
+$$
+It is still in the ARMA form, with the following AR polynomial and MA polynomial
+$$
+\begin{split}
+&\text{AR polynomial:}\quad \underbrace{\phi(x)}_{\text{order } p} \cdot \underbrace{\Phi(x)}_{\text{order } Ps} \\
+&\text{MA polynomial:}\quad \underbrace{\theta(x)}_{\text{order } q} \cdot \underbrace{\Theta(x)}_{\text{order } Qs}
+\end{split}
+$$
+where $\phi(x)$, $\Phi(x)$ are the AR polynomials of $\operatorname{ARMA}(p,q)$ and $\operatorname{ARMA}(P,Q)_{s}$ respectively, and similarly $\theta(x)$, $\Theta(x)$ are MA polynomials.
+
+**Example.** Consider an $\operatorname{ARMA} (0,1)\times (1,0)_{12}$. Then the AR polynomial and MA polynomial are
+$$
+\begin{split}
+&\text{AR polynomial:}\quad 1\cdot (1-\Phi x^{12}) \\
+&\text{MA polynomial:}\quad (1-\theta x) \cdot 1
+\end{split}
+$$
+So the equation for $\operatorname{ARMA} (0,1)\times (1,0)_{12}$ is
+$$
+\begin{split}
+&\left(1 - \Phi B^{12}\right) Y_t = \left(1 - \theta B\right)\, e_t ,\\
+&\text{i.e.,}\quad Y_t - \Phi Y_{t-12} = e_t - \theta e_{t-1} .
+\end{split}
+$$
+For this model, (assume it is causal,) we can find $\gamma_0=\frac{1+\theta^2}{1-\Phi^2} \sigma_e^2$, $\gamma_1 = \frac{-\theta}{1-\Phi^2} \sigma_e^2$, $\gamma_{12}= \Phi\gamma_0$, $\gamma_{11}=\gamma_{13}= \Phi\gamma_1$,$\dots$. The ACVF is
+$$
+\begin{cases}
+\gamma_{12\cdot k} = \frac{1+\theta^2}{1-\Phi^2} \Phi^k \sigma_e^2, &\text{for integer } k\ge 0\\
+\gamma_{12\cdot k \pm 1} = \frac{-\theta}{1-\Phi^2} \Phi^k \sigma_e^2, &\text{for integer } k\ge 0 \\
+\gamma_n = 0, &\text{ if } n\ne 12k,12k\pm 1
+\end{cases}
+$$
+**Exercise:** derive the ACF above. (Hint: you can use YW method; or write it as a GLP.)
+
+
+
+
+

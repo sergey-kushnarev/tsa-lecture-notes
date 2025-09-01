@@ -1,0 +1,14 @@
+---
+title: "Lecture Notes"
+---
+
+# Welcome
+
+This site hosts lecture notes for several courses I have taught or am currently teaching at the Applied Mathematics and Statistics department of Johns Hopkins University.
+
+## Courses
+- [Time Series Analysis](tsa/index.html)
+- [Elements of Statistical Learning](esl/index.html)
+- [Bayesian Statistics](bayes/index.html)
+- [Applied Statistics and Data Analysis I](asda1/index.html)
+- [Applied Statistics and Data Analysis II](asda2/index.html)
