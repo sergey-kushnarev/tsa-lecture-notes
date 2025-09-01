@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>About these Notes – Lecture Notes</title>
+<title>25 Spring 439/639 TSA: Lecture 11 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./TSA-Lecture01.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./TSA-Lecture12.html" rel="next">
+<link href="./TSA-Lecture10.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -69,11 +70,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./about.html">About</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture11.html">Lecture 11</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -115,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link active">
+  <a href="./about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
@@ -193,7 +223,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture11.html" class="sidebar-item-text sidebar-link">
+  <a href="./TSA-Lecture11.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture 11</span></a>
   </div>
 </li>
@@ -316,19 +346,43 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#more-transformations-of-time-series" id="toc-more-transformations-of-time-series" class="nav-link active" data-scroll-target="#more-transformations-of-time-series"><span class="header-section-number">1</span> More transformations of time series</a></li>
+  <li><a href="#roadmap-ahead" id="toc-roadmap-ahead" class="nav-link" data-scroll-target="#roadmap-ahead"><span class="header-section-number">2</span> Roadmap ahead</a></li>
+  <li><a href="#bartletts-theorem" id="toc-bartletts-theorem" class="nav-link" data-scroll-target="#bartletts-theorem"><span class="header-section-number">3</span> Bartlett’s Theorem</a>
+  <ul class="collapse">
+  <li><a href="#example-white-noise" id="toc-example-white-noise" class="nav-link" data-scroll-target="#example-white-noise"><span class="header-section-number">3.1</span> Example: white noise</a></li>
+  <li><a href="#example-ar1" id="toc-example-ar1" class="nav-link" data-scroll-target="#example-ar1"><span class="header-section-number">3.2</span> Example: AR(<span class="math inline">\(1\)</span>)</a></li>
+  <li><a href="#example-ma1" id="toc-example-ma1" class="nav-link" data-scroll-target="#example-ma1"><span class="header-section-number">3.3</span> Example: MA(<span class="math inline">\(1\)</span>)</a></li>
+  <li><a href="#example-maq" id="toc-example-maq" class="nav-link" data-scroll-target="#example-maq"><span class="header-section-number">3.4</span> Example: MA(<span class="math inline">\(q\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#hypothesis-testing-for-maq" id="toc-hypothesis-testing-for-maq" class="nav-link" data-scroll-target="#hypothesis-testing-for-maq"><span class="header-section-number">4</span> Hypothesis Testing for MA(<span class="math inline">\(q\)</span>)</a></li>
+  <li><a href="#brief-introduction-to-partial-autocorrelation-function-pacf" id="toc-brief-introduction-to-partial-autocorrelation-function-pacf" class="nav-link" data-scroll-target="#brief-introduction-to-partial-autocorrelation-function-pacf"><span class="header-section-number">5</span> Brief introduction to Partial Autocorrelation Function (PACF)</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About these Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 11</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -339,50 +393,165 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="instructor" class="level1">
-<h1>Instructor</h1>
-<p><strong>Dr Sergey Kushnarev</strong><br>
-Senior Lecturer, AMS JHU</p>
+<section id="more-transformations-of-time-series" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> More transformations of time series</h1>
+<p>The goal of transformation is to make the time series “more” stationary, and/or make the time series a normal process (if possible). Last time we already introduced <strong>Variance Stabilizing Transformation</strong> (under certain settings).</p>
+<p>Another option: <strong>Box–Cox transformations</strong>, transforming <span class="math inline">\(y\)</span> to <span class="math inline">\(g(y)\)</span> as follows <span class="math display">\[
+g(y) =
+\begin{cases}
+  \dfrac{y^\lambda - 1}{\lambda}, &amp; \lambda \neq 0 \\
+  \log y, &amp; \lambda = 0
+\end{cases}
+\]</span></p>
+<p><strong>Exercise:</strong> Show <span class="math inline">\(\lim_{\lambda \to 0} \frac{y^\lambda - 1}{\lambda} = \log y\)</span>.</p>
+<p>The <span class="math inline">\(\lambda\)</span> in Box–Cox transformation above is chosen via an MLE approach. See R notebook later.</p>
+<p>Another common way is to <strong>take the difference of logarithm</strong>, i.e., log-differences. This can be practically useful in specific applications.</p>
+<p>In finance, suppose the time series <span class="math inline">\((Y_t)\)</span> can be written as follows <span class="math display">\[
+Y_t = Y_{t-1} + X_t \cdot Y_{t-1} = Y_{t-1}\left(1 + X_t \right).
+\]</span> So <span class="math inline">\((X_t)\)</span> is the percentage change of <span class="math inline">\((Y_t)\)</span>, and we have <span class="math display">\[
+\log Y_t = \log Y_{t-1} + \log(1 + X_t).
+\]</span> Then the log-difference, (or the log-returns, the returns) of <span class="math inline">\((Y_t)\)</span> is <span class="math display">\[
+\nabla \log Y_t = \log Y_t - \log Y_{t-1} = \log(1 + X_t) \approx X_t
+\]</span> where the last step is because the percentage change <span class="math inline">\(X_t\)</span> is usually small in finance. (<em>Note:</em> <span class="math inline">\(X_t\)</span> can be positive or negative, but close to <span class="math inline">\(0\)</span>.) And in practice, the time series <span class="math inline">\((X_t)\)</span> is usually stationary. So taking the transformation <span class="math inline">\(\nabla \log Y_t\)</span> gives a more stationary time series.</p>
+<p>Summary: to make a time series more stationary, we can consider differencing, variance stabilizing transformation, taking logarithm, Box-Cox transformations, and combination of these.</p>
 </section>
-<section id="about" class="level1">
-<h1>About</h1>
-<p>This website is a collection of lecture notes from courses I have taught or am currently teaching.<br>
-The notes are typeset in <a href="https://quarto.org/">Quarto</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a>.</p>
-<section id="current-courses" class="level2">
-<h2 class="anchored" data-anchor-id="current-courses">Current Courses</h2>
-<ul>
-<li><p><strong>Time Series Analysis (TSA)</strong><br>
-Lecture notes: <a href="https://sergey-kushnarev.github.io/tsa-lecture-notes/">TSA Lecture Notes</a><br>
-Based on Cryer and Chen’s <em>Time Series Analysis: With Applications in R</em>, 2nd edition.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Stationarity, ARMA/ARIMA/SARIMA models, forecasting.</p></li>
-<li><p><strong>Bayesian Statistics</strong><br>
-Notes: Bayesian Notes <em>To be posted</em> Based on Peter Hoff’s <em>A First Course in Bayesian Statistical Methods</em>.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Conjugate priors, Gibbs sampling, Metropolis-Hastings, model comparison, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis I</strong><br>
-Notes: ASDA1 <em>To be posted</em> Based on Kutner, Nachtsheim, Neter, and Li’s <em>Applied Linear Statistical Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Simple and multiple linear regression, ANOVA, model selection, diagnostics, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis II</strong><br>
-Notes: ASDA2 <em>To be posted</em> Based on Alan Agresti’s book <em>Foundations of Linear and Generalized Linear Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Linear regression, logistic regression, Poisson regression, GLMs.</p></li>
-<li><p><strong>Elements of Statistical Learning</strong> Notes: ESL <em>To be posted</em> Based on Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani’s <em>An Introduction to Statistical Learning in R</em>, 2nd edition. Audience: Advanced undergraduates and master’s students. Topics: Supervised/unsupervised learning, model assessment, regularization, tree-based methods, etc.</p></li>
-</ul>
+<section id="roadmap-ahead" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Roadmap ahead</h1>
+<p>So far in this course, we already studied models for time series (we mainly studied ARIMA(<span class="math inline">\(p,d,q\)</span>)).</p>
+<p>In the next module of this course, we will look at the following topics: Suppose we observe <span class="math inline">\(( y_1, y_2, \dots, y_n)\)</span>,</p>
+<ol type="1">
+<li><p><strong>Model Specification:</strong> determine the best/ the most appropriate <span class="math inline">\(( p, d, q )\)</span> in the model, based on sample ACF or sample PACF.</p></li>
+<li><p><strong>Fit the selected model or Parameter Estimation:</strong> using MLE, LS, MoM, etc.</p></li>
+<li><p><strong>Diagnostic:</strong> analyze the residuals.</p></li>
+<li><p><strong>Forecasting</strong></p></li>
+</ol>
 </section>
-<section id="a-note-on-the-material" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-the-material">A Note on the Material</h2>
-<p>These notes are designed as <strong>teaching resources</strong> and not polished textbooks.</p>
-<p>They include: - Theory, examples and proofs - Code snippets and exercises</p>
-<p>Feedback is always welcome — feel free to suggest improvements or point out typos via GitHub.</p>
+<section id="bartletts-theorem" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Bartlett’s Theorem</h1>
+<p>First, recall the sample ACF for observed <span class="math inline">\((Y_1,...,Y_n)\)</span>: (see lecture 9) <span class="math display">\[
+\widehat{\rho}_k = r_k = \frac{
+  \displaystyle\sum_{t = k+1}^{n} \left( Y_t - \overline{Y} \right) \left( Y_{t-k} - \overline{Y} \right)
+}{
+  \displaystyle\sum_{t=1}^{n} \left( Y_t - \overline{Y} \right)^2
+} .
+\]</span> <em>Remark:</em> The theoretical ACF <span class="math inline">\(\rho_k\)</span> of a given time series model is a non-random number (but it can be unknown). The sample ACF <span class="math inline">\(r_k\)</span>, defined above, is a random variable if we think <span class="math inline">\((Y_1,...,Y_n)\)</span> as a random realization of a time series model. So the sample ACF <span class="math inline">\(r_k\)</span> follows a certain sampling distribution (which depends on the underlying time series model).</p>
+<p>The <strong>Bartlett’s Theorem</strong> (see equation (6.1.2) in Cryan and Chan) says, for a fixed <span class="math inline">\(m\)</span>, the sampling (joint) distribution of <span class="math inline">\((r_1,...,r_m)\)</span> approaches a multivariate normal distribution as <span class="math inline">\(n\to \infty\)</span>, i.e., <span class="math display">\[
+\vec r \sim \operatorname{MVN}(\vec\rho, \frac{1}{n}C), \quad \text{as } n\to \infty,
+\]</span> <span class="math display">\[
+\text{where}\quad
+\vec{r} =
+\begin{bmatrix}
+r_1 \\
+r_2 \\
+\vdots \\
+r_m
+\end{bmatrix}
+,\quad
+\vec{\rho} =
+\begin{bmatrix}
+\rho_1 \\
+\rho_2 \\
+\vdots \\
+\rho_m
+\end{bmatrix} ,
+\]</span> <span class="math inline">\(n\)</span> is the sample size of observations (of the time series), and the matrix <span class="math inline">\(C\)</span> is an <span class="math inline">\(m\times m\)</span> matrix. The full detailed formula for <span class="math inline">\(C\)</span> can be found in equation (6.1.2) in Cryan and Chan. (<em>Note:</em> In general, <span class="math inline">\(C\)</span> is not diagonal.)</p>
+<p>In particular, the diagonal entries of <span class="math inline">\(C\)</span> are <span class="math display">\[
+c_{ii} = \sum_{k=-\infty}^{+\infty}
+\left( \rho_{k+i}^2 + \rho_{k-i} \rho_{k+i} -
+4 \rho_i \rho_k \rho_{k+i} + 2 \rho_i^2 \rho_k^2 \right).
+\]</span> Then the Bartlett’s Theorem implies that, as <span class="math inline">\(n\to \infty\)</span>, <span class="math display">\[
+r_i \sim \mathcal{N} \left( \rho_i, \frac{1}{n} c_{ii} \right).
+\]</span></p>
+<section id="example-white-noise" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="example-white-noise"><span class="header-section-number">3.1</span> Example: white noise</h2>
+<p>Suppose <span class="math inline">\(Y_t \sim \operatorname{WN}(0, \sigma^2)\)</span>, then <span class="math display">\[
+\rho_0 = 1, \text{ and } \rho_i = 0 \text{ for } i \geq 1.
+\]</span> Let’s look at <span class="math display">\[
+c_{ii} = \sum_{k=-\infty}^{+\infty} \left( \rho_{k+i}^2 + \rho_{k-i} \rho_{k+i} - 4 \rho_i \rho_k \rho_{k+i} + 2 \rho_i^2 \rho_k^2 \right).
+\]</span> If <span class="math inline">\(i\ge 1\)</span>, then <span class="math inline">\(\rho_i=0\)</span>, <span class="math inline">\(c_{ii} = \sum_{k=-\infty}^{+\infty} \left( \rho_{k+i}^2 + \rho_{k-i} \rho_{k+i} \right)\)</span>. Also note that <span class="math inline">\(\rho_{k-i} \rho_{k+i} =0\)</span> for any <span class="math inline">\(k\)</span>, and <span class="math inline">\(\sum_{k=-\infty}^{+\infty} \rho_{k+i}^2 = \rho_0^2 =1\)</span>, so <span class="math inline">\(c_{ii}= 1\)</span>.</p>
+<p>By Bartlett’s Theorem, for any fixed <span class="math inline">\(i\ge 1\)</span>, <span class="math inline">\(r_i \sim N(0, \frac{1}{n})\)</span> (when sample size <span class="math inline">\(n\)</span> is large). Using this result, we can construct 95% CI for <span class="math inline">\(\rho_i\)</span> (for this example): <span class="math display">\[
+\left[ r_i - \frac{2}{\sqrt{n}}, r_i + \frac{2}{\sqrt{n}} \right].
+\]</span> We can also compute <span class="math inline">\(c_{00}\)</span>. If <span class="math inline">\(i=0\)</span>, then <span class="math inline">\(c_{ii} = \sum_{k=-\infty}^{+\infty} \left( \rho_{k+i}^2 + \rho_{k}^2 - 4  \rho_k^2 + 2 \rho_k^2 \right) = 0\)</span>. By a similar statement from Bartlett’s Theorem, <span class="math inline">\(Var(r_0) = 0\)</span>. This is not a surprise since the sample ACF at lag <span class="math inline">\(0\)</span>, i.e.&nbsp;<span class="math inline">\(r_0\)</span>, is always <span class="math inline">\(1\)</span>.</p>
 </section>
-<section id="license" class="level2">
-<h2 class="anchored" data-anchor-id="license">License</h2>
-<p>Content is © 2025 Sergey Kushnarev unless otherwise noted. You may share or adapt the materials for non-commercial purposes with attribution.</p>
+<section id="example-ar1" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="example-ar1"><span class="header-section-number">3.2</span> Example: AR(<span class="math inline">\(1\)</span>)</h2>
+<p>Suppose <span class="math inline">\((Y_t)\)</span> follows AR(<span class="math inline">\(1\)</span>), then <span class="math display">\[
+\rho_k = \phi^k \text{ for } k \geq 0, \text{ and } \rho_k = \phi^{|k|} \text{ for } k &lt; 0.
+\]</span> Using the <span class="math inline">\(c_{ii}\)</span> formula from Bartlett’s Theorem, we can derive that: (for large <span class="math inline">\(n\)</span>) <span class="math display">\[
+\operatorname{Var}(r_i) = \frac{c_{ii}}{n} = \frac{1}{n} \left[
+    \frac{(1 + \phi^2)(1 - \phi^{2i})}{1 - \phi^2} - 2i\, \phi^{2i} \right].
+\]</span> In particular, when <span class="math inline">\(i=1\)</span>, we have <span class="math inline">\(\operatorname{Var}(r_1) = \frac{1-\phi^2}{n}\)</span>. So if <span class="math inline">\(\phi\)</span> is close to <span class="math inline">\(\pm 1\)</span>, then <span class="math inline">\(r_1\)</span> is a very precise estimate of <span class="math inline">\(\rho_1\)</span>.</p>
+<p>If the lag <span class="math inline">\(i\)</span> is very large, then <span class="math inline">\(\operatorname{Var}(r_i) \approx \frac{1}{n} \cdot \frac{1+ \phi^2}{1- \phi^2}\)</span>. So if <span class="math inline">\(\phi\)</span> is close to <span class="math inline">\(\pm 1\)</span>, then for large <span class="math inline">\(i\)</span>, <span class="math inline">\(r_i\)</span> is not a precise estimate of <span class="math inline">\(\rho_i\)</span> (in the sense that the variance is very large).</p>
+</section>
+<section id="example-ma1" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="example-ma1"><span class="header-section-number">3.3</span> Example: MA(<span class="math inline">\(1\)</span>)</h2>
+<p>Suppose <span class="math inline">\((Y_t)\)</span> follows MA(<span class="math inline">\(1\)</span>), then <span class="math display">\[
+\rho_0 = 1, \quad
+\rho_1 = \rho_{-1} \neq 0, \quad \text{and }
+\rho_k = 0 \text{ for } |k| \geq 2.
+\]</span> For <span class="math inline">\(c_{11}\)</span>, we have <span class="math display">\[
+\begin{split}
+c_{11} &amp;= \sum_{k=-\infty}^{+\infty} \left( \rho_{k+1}^2 + \rho_{k-1} \rho_{k+1} - 4 \rho_1 \rho_k \rho_{k+1} + 2 \rho_1^2 \rho_k^2 \right) \\
+&amp;= (\rho_0^2 + 2\rho_1^2) + (\rho_{-1} \rho_1) - 4\rho_1(\rho_{-1}\rho_0+ \rho_0 \rho_1) + 2\rho_1^2 (\rho_0^2 + 2\rho_1^2)\\
+&amp;= 1 + 2\rho_1^2 + \rho_1^2 - 4\rho_1^2 - 4\rho_1^2 + 2\rho_1^2 + 4\rho_1^4 \\
+&amp;=  1 - 3\rho_1^2 + 4\rho_1^4.
+\end{split}
+\]</span> By Bartlett’s Theorem, we have the following (for large <span class="math inline">\(n\)</span>) <span class="math display">\[
+r_1 \sim \mathcal{N}\left( \rho_1,\ \frac{1 - 3\rho_1^2 + 4\rho_1^4}{n} \right).
+\]</span></p>
+<p>For <span class="math inline">\(i\ge 2\)</span>, we can also derive that <span class="math display">\[
+c_{ii}= 1+ 2\rho_1^2, \quad  r_i \sim \mathcal{N}\left(0,\ \frac{1 + 2\rho_1^2}{n}\right).
+\]</span> <strong>Exercise:</strong> verify that <span class="math inline">\(c_{ii}= 1+ 2\rho_1^2\)</span> for any <span class="math inline">\(i\ge 2\)</span> (under the MA(<span class="math inline">\(1\)</span>) setting).</p>
+</section>
+<section id="example-maq" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="example-maq"><span class="header-section-number">3.4</span> Example: MA(<span class="math inline">\(q\)</span>)</h2>
+<p>For MA(<span class="math inline">\(q\)</span>), we can show that: (for large <span class="math inline">\(n\)</span>) <span class="math display">\[
+r_i \sim \mathcal{N}\left(0,\ \frac{1 + 2\sum_{j=1}^q \rho_j^2}{n}\right), \text{ for any lag } i\ge q+1,
+\]</span> which is similar to the <span class="math inline">\(i\ge 2\)</span> case in MA(<span class="math inline">\(1\)</span>).</p>
+</section>
+</section>
+<section id="hypothesis-testing-for-maq" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Hypothesis Testing for MA(<span class="math inline">\(q\)</span>)</h1>
+<p>We want to do hypothesis testing in the following form <span class="math display">\[
+H_0 : \text{series is } \operatorname{MA}(q) \quad \text{vs.} \quad H_a : \text{series is not } \operatorname{MA}(q).
+\]</span> For example, let’s first look at the hypothesis testing for MA(<span class="math inline">\(1\)</span>): <span class="math display">\[
+H_0 : \text{series is } \operatorname{MA}(1) \quad \text{vs.} \quad H_a : \text{series is not } \operatorname{MA}(1).
+\]</span> By the earlier results from this lecture, under <span class="math inline">\(H_0\)</span>, i.e.&nbsp;MA(<span class="math inline">\(1\)</span>), <span class="math display">\[
+r_i \sim \mathcal{N}\left(0, \frac{1 + 2\rho_1^2}{n}\right), \quad \text{for any } i \geq 2.
+\]</span> So under <span class="math inline">\(H_0\)</span>, with 95% probability, <span class="math display">\[
+r_i \in \left[ -\frac{2}{\sqrt{n}} \sqrt{1 + 2\rho_1^2},\ \frac{2}{\sqrt{n}} \sqrt{1 + 2\rho_1^2} \right],
+\]</span> and approximately, with 95% probability, <span class="math display">\[
+r_i \in \left[ -\frac{2}{\sqrt{n}} \sqrt{1 + 2r_1^2},\ \frac{2}{\sqrt{n}} \sqrt{1 + 2r_1^2} \right].
+\]</span> So we construct the rejection region <span class="math display">\[
+|r_i| &gt; \frac{2}{\sqrt{n}} \sqrt{1 + 2r_1^2}, \text{ for } i\ge 2.
+\]</span> For example if <span class="math inline">\(|r_2| &gt; \frac{2}{\sqrt{n}} \sqrt{1 + 2r_1^2}\)</span>, then reject <span class="math inline">\(H_0\)</span>. (<em>Note:</em> we may have access to multiple sample ACFs <span class="math inline">\((r_2, r_3, ...)\)</span>, rather than just one single <span class="math inline">\(r_2\)</span>. We can use them collectively to reject <span class="math inline">\(H_0\)</span>.)</p>
+<p>If the <span class="math inline">\(H_0\)</span> of the previous hypothesis testing, i.e.&nbsp;MA(<span class="math inline">\(1\)</span>) is rejected, then we turn to the next hypothesis testing: <span class="math display">\[
+H_0 : \text{series is } \operatorname{MA}(2) \quad \text{vs.} \quad H_a : \text{series is not } \operatorname{MA}(2).
+\]</span> We can use a similar analysis to derive the rejection region (see the earlier example of MA(<span class="math inline">\(q\)</span>) in this lecture) for this hypothesis testing. The rejection region for <span class="math inline">\(H_0\)</span> (series is MA(<span class="math inline">\(2\)</span>)) is <span class="math display">\[
+|r_i| &gt; \frac{2}{\sqrt{n}} \sqrt{1 + 2r_1^2+ 2r_2^2}, \text{ for } i\ge 3.
+\]</span> We can repeat this process until we fail to reject a hypothesis that the series is an MA(<span class="math inline">\(q\)</span>) (for some <span class="math inline">\(q\)</span>).</p>
+<p>Example: Assume we observe a sample with <span class="math inline">\(n = 100\)</span>, and the sample ACFs are <span class="math inline">\(r_1 = 0.5\)</span>, <span class="math inline">\(r_2 = 0.4\)</span>, <span class="math inline">\(r_3 = 0.4\)</span>, <span class="math inline">\(r_4 = 0.3\)</span>. Suppose we want to hypothesis testing to determine an MA(<span class="math inline">\(q\)</span>) model for this sample.</p>
+<p>We start with testing whether it is white noise (i.e.&nbsp;MA(<span class="math inline">\(0\)</span>)). For white noise, <span class="math inline">\(r_i \in [-\frac{2}{\sqrt{n}}, \frac{2}{\sqrt{n}}]\)</span> for all <span class="math inline">\(i\ge 1\)</span> with 95% probability. (The rejection region for white noise is <span class="math inline">\(|r_i| &gt; \frac{2}{\sqrt{n}} = 0.2\)</span> for <span class="math inline">\(i\ge 1\)</span>.) We reject the white noise using the observed sample ACFs <span class="math inline">\(r_1,r_2,r_3,r_4\)</span>.</p>
+<p>For testing MA(<span class="math inline">\(1\)</span>): the rejection region is <span class="math display">\[
+|r_i| &gt; \frac{2}{\sqrt{n}} \sqrt{1 + 2 r_1^2}
+= \frac{2}{10} \sqrt{1 + 2 \cdot 0.5^2}
+= 0.2 \sqrt{1.5}
+\approx 0.245, \quad \text{for } i\ge 2.
+\]</span> So we reject the MA(<span class="math inline">\(1\)</span>) using the observed sample ACFs <span class="math inline">\(r_2,r_3,r_4\)</span>. Next, test MA(<span class="math inline">\(2\)</span>).</p>
+<p><strong>Exercise:</strong> finish this testing process for this example.</p>
+</section>
+<section id="brief-introduction-to-partial-autocorrelation-function-pacf" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Brief introduction to Partial Autocorrelation Function (PACF)</h1>
+<p>Motivation: We just saw that one can test if a process is an MA(<span class="math inline">\(q\)</span>) for a specific <span class="math inline">\(q\)</span> using the sample ACFs. A natural question is, can we determine the order <span class="math inline">\(p\)</span> of AR(<span class="math inline">\(p\)</span>) from the sample ACFs? The answer is no. And we need to look at Partial ACF (PACF) to determine the order <span class="math inline">\(p\)</span> of AR(<span class="math inline">\(p\)</span>). The sample PACF can help us determine the order of AR(<span class="math inline">\(p\)</span>).</p>
+<p>The notation of <strong>Partial Autocorrelation Function (PACF)</strong> is <span class="math inline">\(\phi_{kk}\)</span>, which denotes the partial autocorrelation at lag <span class="math inline">\(k\)</span>. e will see several different definitions in the next lecture. Here is one way to define it. <span class="math display">\[
+\phi_{kk} \overset{\text{def}}{=} \operatorname{corr} \left(
+    Y_t,\ Y_{t-k} \ \middle\vert \ Y_{t-1},\, Y_{t-2},\, \dots,\, Y_{t-k+1} \right).
+\]</span> This means, <span class="math inline">\(\phi_{kk}\)</span> is the <strong>conditional correlation</strong> between <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_{t-k}\)</span> <strong>conditional on</strong> all intermediate values <span class="math inline">\(Y_{t-1}, Y_{t-2}, \dots, Y_{t-k+1}\)</span>.</p>
+<p>Example: consider the AR(<span class="math inline">\(1\)</span>) process, <span class="math inline">\(Y_t = \phi Y_{t-1}+ e_t\)</span> (with <span class="math inline">\(\phi \ne 0\)</span>). We can show that <span class="math inline">\(\phi_{11} = \rho_1 \ne 0\)</span>, and <span class="math inline">\(\phi_{kk}=0\)</span> for any lag <span class="math inline">\(k\ge 2\)</span>.</p>
+<p>In general, for AR(<span class="math inline">\(p\)</span>), the PACF at lags <span class="math inline">\(1\)</span> through <span class="math inline">\(p\)</span> can be nonzero, and PACF at lags <span class="math inline">\(k\ge p+1\)</span> are all zero.</p>
+<p><em>Remark:</em> for any time series (not necessarily special models like ARIMA), the definition itself contains two special cases. For <span class="math inline">\(k=0\)</span>, <span class="math inline">\(\phi_{00}\)</span> is always <span class="math inline">\(1\)</span> by definition. For <span class="math inline">\(k=1\)</span>, the conditional correlation reduces to an unconditional correlation, so <span class="math inline">\(\phi_{11}= \operatorname{corr} \left(Y_t, Y_{t-1} \right)\)</span>, and <span class="math inline">\(\phi_{11}= \rho_1\)</span> assuming stationarity.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -805,13 +974,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Home">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Home</span>
+      <a href="./TSA-Lecture10.html" class="pagination-link" aria-label="Lecture 10">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 10</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./TSA-Lecture01.html" class="pagination-link" aria-label="Lecture 1">
-        <span class="nav-page-text">Lecture 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./TSA-Lecture12.html" class="pagination-link" aria-label="Lecture 12">
+        <span class="nav-page-text">Lecture 12</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

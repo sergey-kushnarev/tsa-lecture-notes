@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>About these Notes – Lecture Notes</title>
+<title>25 Spring 439/639 TSA: Lecture 12 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./TSA-Lecture01.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./TSA-Lecture13.html" rel="next">
+<link href="./TSA-Lecture11.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -69,11 +70,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./about.html">About</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture12.html">Lecture 12</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -115,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link active">
+  <a href="./about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
@@ -199,7 +229,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture12.html" class="sidebar-item-text sidebar-link">
+  <a href="./TSA-Lecture12.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture 12</span></a>
   </div>
 </li>
@@ -316,19 +346,40 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#partial-autocorrelation-function-pacf" id="toc-partial-autocorrelation-function-pacf" class="nav-link active" data-scroll-target="#partial-autocorrelation-function-pacf"><span class="header-section-number">1</span> Partial Autocorrelation Function (PACF)</a>
+  <ul class="collapse">
+  <li><a href="#definition-1" id="toc-definition-1" class="nav-link" data-scroll-target="#definition-1"><span class="header-section-number">1.1</span> Definition 1</a></li>
+  <li><a href="#definition-2" id="toc-definition-2" class="nav-link" data-scroll-target="#definition-2"><span class="header-section-number">1.2</span> Definition 2</a></li>
+  <li><a href="#definition-3" id="toc-definition-3" class="nav-link" data-scroll-target="#definition-3"><span class="header-section-number">1.3</span> Definition 3</a></li>
+  </ul></li>
+  <li><a href="#durbinlevinson-recursion" id="toc-durbinlevinson-recursion" class="nav-link" data-scroll-target="#durbinlevinson-recursion"><span class="header-section-number">2</span> Durbin–Levinson Recursion</a></li>
+  <li><a href="#sample-pacf" id="toc-sample-pacf" class="nav-link" data-scroll-target="#sample-pacf"><span class="header-section-number">3</span> Sample PACF</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About these Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 12</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -339,50 +390,212 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="instructor" class="level1">
-<h1>Instructor</h1>
-<p><strong>Dr Sergey Kushnarev</strong><br>
-Senior Lecturer, AMS JHU</p>
+<section id="partial-autocorrelation-function-pacf" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Partial Autocorrelation Function (PACF)</h1>
+<section id="definition-1" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="definition-1"><span class="header-section-number">1.1</span> Definition 1</h2>
+<p>Last time, we introduced one definition of the partial autocorrelation function (partial ACF, PACF) <span class="math inline">\(\phi_{kk}\)</span>.</p>
+<p><strong>Definition 1:</strong> <span class="math display">\[
+\phi_{kk} = \operatorname{corr} \left(
+    Y_t,\ Y_{t-k} \ \middle\vert \ Y_{t-1},\, Y_{t-2},\, \dots,\, Y_{t-k+1} \right).
+\]</span> From this definition, it’s easy to show that: For AR(<span class="math inline">\(1\)</span>) process, <span class="math inline">\(Y_t = \phi Y_{t-1}+ e_t\)</span>, <span class="math inline">\(\phi_{11} = \rho_1\)</span>, and <span class="math inline">\(\phi_{kk}=0\)</span> for any lag <span class="math inline">\(k\ge 2\)</span>.</p>
 </section>
-<section id="about" class="level1">
-<h1>About</h1>
-<p>This website is a collection of lecture notes from courses I have taught or am currently teaching.<br>
-The notes are typeset in <a href="https://quarto.org/">Quarto</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a>.</p>
-<section id="current-courses" class="level2">
-<h2 class="anchored" data-anchor-id="current-courses">Current Courses</h2>
+<section id="definition-2" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="definition-2"><span class="header-section-number">1.2</span> Definition 2</h2>
+<p><strong>Definition 2:</strong> <span class="math display">\[
+\phi_{kk} = \mathrm{corr}(\operatorname{Res}_t, \operatorname{Res}_{t-k}),
+\]</span> where <span class="math inline">\(\operatorname{Res}_t\)</span> = residual from (linear) regressing <span class="math inline">\(Y_t\)</span> on <span class="math inline">\(Y_{t-1}, \dots, Y_{t-k+1}\)</span>, and <span class="math inline">\(\operatorname{Res}_{t-k}\)</span> = residual from (linear) regressing <span class="math inline">\(Y_{t-k}\)</span> on <span class="math inline">\(Y_{t-1}, \dots, Y_{t-k+1}\)</span>. So <span class="math inline">\(\operatorname{Res}_t\)</span> and <span class="math inline">\(\operatorname{Res}_{t-k}\)</span> are the unexplained variation in <span class="math inline">\(Y_t\)</span>, <span class="math inline">\(Y_{t-k}\)</span> after “partialling out” the effect of <span class="math inline">\(Y_{t-1}, \dots, Y_{t-k+1}\)</span> (i.e., “controlling for” <span class="math inline">\(Y_{t-1}, \dots, Y_{t-k+1}\)</span>).</p>
+<p>Let’s look at the AR(<span class="math inline">\(1\)</span>) example <span class="math inline">\(Y_t = \phi Y_{t-1}+ e_t\)</span> again. To find <span class="math inline">\(\phi_{22}\)</span>, we need to regress <span class="math inline">\(Y_t\)</span> on <span class="math inline">\(Y_{t-1}\)</span>, and regress <span class="math inline">\(Y_{t-2}\)</span> on <span class="math inline">\(Y_{t-1}\)</span>.</p>
+<p>So we need to find <span class="math inline">\(a, b\)</span> by minimizing <span class="math display">\[
+\min_{a} \mathbb{E}\left( Y_t - a Y_{t-1} \right)^2,\quad
+\min_{b} \mathbb{E}\left( Y_{t-2} - b Y_{t-1} \right)^2,
+\]</span> then <span class="math inline">\(\operatorname{Res}_t = Y_t - \widehat{Y}_t\)</span> and <span class="math inline">\(\operatorname{Res}_{t-k}= Y_{t-2} -\widehat{Y}_{t-2}\)</span>, where <span class="math inline">\(\widehat{Y}_t = a Y_{t-1}\)</span>, <span class="math inline">\(\widehat{Y}_{t-2} = b Y_{t-1}\)</span>.</p>
+<p>To solve <span class="math inline">\(\min_{a} \mathbb{E}\left( Y_t - a Y_{t-1} \right)^2\)</span>, we take the derivative of the objective function: <span class="math display">\[
+\frac{\partial}{\partial a} \, \mathbb{E}\left[ \left( Y_t - a Y_{t-1} \right)^2 \right]
+= -2 \mathbb{E}\left[ \left( Y_t - a Y_{t-1} \right) Y_{t-1} \right]
+\]</span> Set the derivative equal to <span class="math inline">\(0\)</span> gives <span class="math display">\[
+\mathbb{E}\left[ \left( Y_t - a Y_{t-1} \right) Y_{t-1} \right] = 0 \implies \gamma_1 - a \gamma_0 = 0
+\implies a = \frac{\gamma_1}{\gamma_0} = \rho_1 = \phi.
+\]</span> To solve <span class="math inline">\(\min_{b} \mathbb{E}\left( Y_{t-2} - b Y_{t-1} \right)^2\)</span>, we take the derivative of the objective function: <span class="math display">\[
+\frac{\partial}{\partial b} \mathbb{E}\left( Y_{t-2} - b Y_{t-1} \right)^2 = -2 \mathbb{E}\left[ \left( Y_{t-2} - b Y_{t-1} \right) Y_{t-1} \right]
+\]</span> Set the derivative equal to <span class="math inline">\(0\)</span> gives <span class="math display">\[
+\mathbb{E}\left[ \left( Y_{t-2} - b Y_{t-1} \right) Y_{t-1} \right] = 0
+\implies \gamma_1 - b \gamma_0 = 0 \implies b = \frac{\gamma_1}{\gamma_0} = \rho_1 = \phi.
+\]</span> Then we get <span class="math display">\[
+\phi_{22} = \mathrm{corr}(\operatorname{Res}_t, \operatorname{Res}_{t-2}) = \mathrm{corr}(Y_t - \phi Y_{t-1}, Y_{t-2} -\phi Y_{t-1}) = \mathrm{corr}(e_t, Y_{t-2} -\phi Y_{t-1}) =0.
+\]</span> In general, for AR(<span class="math inline">\(p\)</span>), the PACF at lags <span class="math inline">\(1\)</span> through <span class="math inline">\(p\)</span> can be nonzero, and PACF at lags <span class="math inline">\(k\ge p+1\)</span> are all zero. And we also have the following results.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>MA(<span class="math inline">\(q\)</span>)</th>
+<th>AR(<span class="math inline">\(p\)</span>)</th>
+<th>ARMA(<span class="math inline">\(p,q\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ACF</td>
+<td>cuts off after <span class="math inline">\(q\)</span></td>
+<td>exponential decay</td>
+<td>exponential decay</td>
+</tr>
+<tr class="even">
+<td>PACF</td>
+<td>exponential decay</td>
+<td>cuts off after <span class="math inline">\(p\)</span></td>
+<td>exponential decay</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="definition-3" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="definition-3"><span class="header-section-number">1.3</span> Definition 3</h2>
+<p>We also have an alternative, “computational” definition of <span class="math inline">\(\phi_{kk}\)</span>. The idea is to fit an AR(<span class="math inline">\(k\)</span>) model to the stationary time series <span class="math inline">\((Y_t)\)</span> of our interest, i.e, fit the linear regression to <span class="math inline">\((Y_t)\)</span>: <span class="math display">\[
+Y_t = \phi_{k1} Y_{t-1} + \phi_{k2} Y_{t-2} + \cdots + \phi_{kk} Y_{t-k} + \epsilon,
+\]</span> or in other words, find <span class="math inline">\(\phi_{k1},\phi_{k2},\dots,\phi_{kk}\)</span> to minimize <span class="math display">\[
+\min_{\phi_{k1},\phi_{k2},\dots,\phi_{kk}} \mathbb{E}\left( Y_t - \phi_{k1} Y_{t-1} - \phi_{k2} Y_{t-2} - \cdots - \phi_{kk} Y_{t-k} \right)^2 .
+\]</span></p>
+<p><strong>Definition 3</strong> (We claim without proof that:) For stationary <span class="math inline">\((Y_t)\)</span>, its PACF at lag <span class="math inline">\(k\)</span>, i.e.&nbsp;<span class="math inline">\(\phi_{kk}\)</span>, is same as the fitted value of <span class="math inline">\(\phi_{kk}\)</span> in the <span class="math inline">\((\phi_{k1},\phi_{k2},\dots,\phi_{kk})\)</span> from the regression (namely, AR(<span class="math inline">\(k\)</span>) fitting) above.</p>
+<p>In other words, <strong><span class="math inline">\(\phi_{kk}\)</span> is the last <span class="math inline">\(\phi_{kj}\)</span> term in the AR(<span class="math inline">\(k\)</span>) approximation to <span class="math inline">\((Y_t)\)</span></strong>.</p>
+<p>From this definition, we can show the following fact: the solution <span class="math inline">\((\phi_{k1},\phi_{k2},\dots,\phi_{kk})\)</span> to the regression above must satisfy <span class="math display">\[
+\Gamma_k \ \vec\phi_k = \vec\gamma_k,
+\]</span> <span class="math display">\[
+\text{where}\quad
+\Gamma_k = \begin{bmatrix}
+\gamma_0 &amp; \gamma_1 &amp; \cdots &amp; \gamma_{k-1} \\
+\gamma_1 &amp; \gamma_0 &amp; \cdots &amp; \gamma_{k-2} \\
+\vdots &amp; \vdots &amp;        &amp; \vdots \\
+\gamma_{k-1} &amp; \gamma_{k-2} &amp; \cdots &amp; \gamma_0
+\end{bmatrix},\quad
+\vec\phi_k = \begin{bmatrix}
+\phi_{k1} \\
+\phi_{k2} \\
+\vdots \\
+\phi_{kk}
+\end{bmatrix},\quad
+\vec\gamma_k = \begin{bmatrix}
+\gamma_1 \\
+\gamma_2 \\
+\vdots \\
+\gamma_k
+\end{bmatrix}.
+\]</span> <em>Note:</em> the derivation for <span class="math inline">\(\Gamma_k \ \vec\phi_k = \vec\gamma_k\)</span> is very similar to the AR(<span class="math inline">\(1\)</span>) example after Definition 2.</p>
+<p>So now we know the PACF <span class="math inline">\(\phi_{kk}\)</span> is the last entry of <span class="math inline">\(\Gamma_k^{-1}\ \vec\gamma_k\)</span>. Inverting a <span class="math inline">\(k\times k\)</span> matrix <span class="math inline">\(\Gamma_k\)</span> can be computationally expensive. Instead, we can use Durbin–Levinson Recursion (we will get to it soon) to directly calculate the entries of <span class="math inline">\(\Gamma_k^{-1}\ \vec\gamma_k\)</span> without computing matrix inverse.</p>
+<p>From this Definition 3 and the fact above, we can also intuitively see the PACF behavior for AR(<span class="math inline">\(p\)</span>) that we mentioned earlier. Suppose <span class="math inline">\((Y_n)\)</span> is an AR(<span class="math inline">\(p\)</span>), <span class="math inline">\(Y_t = \phi_{1} Y_{t-1} + \phi_{2} Y_{t-2} + \cdots + \phi_{p} Y_{t-p} + e_t\)</span> where <span class="math inline">\(\phi_1,...,\phi_p\)</span> are the true parameters of the AR(<span class="math inline">\(p\)</span>). To get PACF <span class="math inline">\(\phi_{kk}\)</span>, we need to fit an AR(<span class="math inline">\(k\)</span>)-like linear regression for <span class="math inline">\(Y_t\)</span>. If <span class="math inline">\(k\ge p\)</span>, then intuitively, <span class="math display">\[
+\begin{split}
+\text{fitting a regression model}\quad &amp; Y_t = \phi_{k1} Y_{t-1} + \phi_{k2} Y_{t-2} + \cdots + \phi_{kk} Y_{t-k} + \epsilon, \\
+\text{for an }\operatorname{AR}(p)\quad &amp; Y_t = \phi_{1} Y_{t-1} + \phi_{2} Y_{t-2} + \cdots + \phi_{p} Y_{t-p} + e_t,
+\end{split}
+\]</span> should give us the fitted value <span class="math inline">\((\phi_{k1},\phi_{k2},\dots,\phi_{kk}) = (\phi_1,...,\phi_p,0,...,0)\)</span>. So we have the following results for AR(<span class="math inline">\(p\)</span>).</p>
 <ul>
-<li><p><strong>Time Series Analysis (TSA)</strong><br>
-Lecture notes: <a href="https://sergey-kushnarev.github.io/tsa-lecture-notes/">TSA Lecture Notes</a><br>
-Based on Cryer and Chen’s <em>Time Series Analysis: With Applications in R</em>, 2nd edition.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Stationarity, ARMA/ARIMA/SARIMA models, forecasting.</p></li>
-<li><p><strong>Bayesian Statistics</strong><br>
-Notes: Bayesian Notes <em>To be posted</em> Based on Peter Hoff’s <em>A First Course in Bayesian Statistical Methods</em>.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Conjugate priors, Gibbs sampling, Metropolis-Hastings, model comparison, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis I</strong><br>
-Notes: ASDA1 <em>To be posted</em> Based on Kutner, Nachtsheim, Neter, and Li’s <em>Applied Linear Statistical Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Simple and multiple linear regression, ANOVA, model selection, diagnostics, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis II</strong><br>
-Notes: ASDA2 <em>To be posted</em> Based on Alan Agresti’s book <em>Foundations of Linear and Generalized Linear Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Linear regression, logistic regression, Poisson regression, GLMs.</p></li>
-<li><p><strong>Elements of Statistical Learning</strong> Notes: ESL <em>To be posted</em> Based on Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani’s <em>An Introduction to Statistical Learning in R</em>, 2nd edition. Audience: Advanced undergraduates and master’s students. Topics: Supervised/unsupervised learning, model assessment, regularization, tree-based methods, etc.</p></li>
+<li>If <span class="math inline">\(k=p\)</span>, then <span class="math inline">\(\phi_{pp} = \phi_{p}\)</span>.</li>
+<li>If <span class="math inline">\(k\ge p+1\)</span>, i.e.&nbsp;<span class="math inline">\(k&gt;p\)</span>, then <span class="math inline">\(\phi_{kk} = 0\)</span>.</li>
 </ul>
+<p><em>Remark:</em> For AR(<span class="math inline">\(p\)</span>) and <span class="math inline">\(k\ge p\)</span>, the statement <span class="math inline">\((\phi_{k1},\phi_{k2},\dots,\phi_{kk}) = (\phi_1,...,\phi_p,0,...,0)\)</span> can be verified by showing that it is indeed a solution to <span class="math inline">\(\Gamma_k \ \vec\phi_k = \vec\gamma_k\)</span>. The derivation reduces to YW equations for AR(<span class="math inline">\(p\)</span>).</p>
 </section>
-<section id="a-note-on-the-material" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-the-material">A Note on the Material</h2>
-<p>These notes are designed as <strong>teaching resources</strong> and not polished textbooks.</p>
-<p>They include: - Theory, examples and proofs - Code snippets and exercises</p>
-<p>Feedback is always welcome — feel free to suggest improvements or point out typos via GitHub.</p>
 </section>
-<section id="license" class="level2">
-<h2 class="anchored" data-anchor-id="license">License</h2>
-<p>Content is © 2025 Sergey Kushnarev unless otherwise noted. You may share or adapt the materials for non-commercial purposes with attribution.</p>
+<section id="durbinlevinson-recursion" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Durbin–Levinson Recursion</h1>
+<p>As we mentioned earlier, although the PACF <span class="math inline">\(\phi_{kk}\)</span> can be characterized as the last entry of <span class="math inline">\(\Gamma_k^{-1}\ \vec\gamma_k\)</span>, it can be expensive to compute <span class="math inline">\(\Gamma_k^{-1}\)</span>. We can use Durbin–Levinson Recursion to directly calculate the entries of <span class="math inline">\(\Gamma_k^{-1}\ \vec\gamma_k\)</span> without computing matrix inverse. (<em>Remark:</em> the basic idea is to utilize the special structure of the matrix <span class="math inline">\(\Gamma_k\)</span> and the vector <span class="math inline">\(\vec\gamma_k\)</span> to compute <span class="math inline">\(\Gamma_k^{-1}\ \vec\gamma_k\)</span>.)</p>
+<p><strong>Durbin–Levinson Recursion (DLR)</strong>: Define <span class="math inline">\(\phi_{00} = 1\)</span>. For <span class="math inline">\(l \geq 0\)</span>, define <span class="math display">\[
+\begin{cases}
+\phi_{l+1,\ l+1} &amp;=\  \frac{ \gamma_{l+1} - \sum_{j=1}^{l} \phi_{l,\, j}\, \gamma_{l+1-j} }
+                           { \gamma_0 - \sum_{j=1}^{l} \phi_{l,\, j}\, \gamma_j }
+                  = \frac{ \rho_{l+1} - \sum_{j=1}^{l} \phi_{l,\, j}\, \rho_{l+1-j} }
+                           { 1 - \sum_{j=1}^{l} \phi_{l,\, j}\, \rho_j }\\
+\phi_{l+1,\, j} &amp;=\ \phi_{l,\, j} - \phi_{l+1,\, l+1}\, \phi_{l,\, l+1-j} \qquad \text{for } 1 \le j \le l
+\end{cases}
+\]</span> <em>Note:</em> For the first formula, we can use it either in terms of <span class="math inline">\(\gamma_k\)</span> or <span class="math inline">\(\rho_k\)</span>.</p>
+<p>DLR is useful because we do not need to compute the inverse of a certain (large) matrix.</p>
+<p><strong>Example:</strong> Find PACF for an AR(<span class="math inline">\(1\)</span>) via DLR. Consider the AR(<span class="math inline">\(1\)</span>) process <span class="math inline">\(Y_t = c Y_{t-1} + \epsilon_t\)</span> with <span class="math inline">\(|c| &lt; 1\)</span>, so we know <span class="math inline">\(\rho_k = c^k\)</span>. To do DLR, we first let <span class="math inline">\(l=1\)</span> to compute <span class="math inline">\(\phi_{11}\)</span>: <span class="math display">\[
+\phi_{11} = \frac{\rho_1 - 0}{1 - 0} = \rho_1 = c.
+\]</span> Then let <span class="math inline">\(l=1\)</span> in DLR to compute <span class="math inline">\(\phi_{22},\phi_{21}\)</span>: <span class="math display">\[
+\phi_{22} = \frac{\rho_2 - \phi_{11} \rho_1}{1 - \phi_{11} \rho_1}
+          = \frac{\rho_2 - \rho_1^2}{1 - \rho_1^2} = \frac{c^2 - c^2}{1 - c^2} = 0,
+\]</span> <span class="math display">\[
+\phi_{21} = \phi_{11} - \phi_{22} \phi_{11} = \rho_1 - 0 \cdot \rho_1 = \rho_1 = c.
+\]</span> Letting <span class="math inline">\(l=1\)</span> in DLR gives <span class="math inline">\(\phi_{33},\phi_{32},\phi_{31}\)</span>. For example, <span class="math display">\[
+\phi_{33} = \frac{\rho_3 - \left( \phi_{21} \rho_2 + \phi_{22} \rho_1 \right)}
+    {1 - \left( \phi_{21} \rho_1 + \phi_{22} \rho_2 \right)}
+= \frac{c^3 - \left(c \cdot c^2 + 0 \cdot c \right)}{1 - \left( c \cdot c + 0 \cdot c^2 \right)} = 0.
+\]</span> <strong>Exercise:</strong> (1) Find <span class="math inline">\(\phi_{44}\)</span>. (2) Use induction to prove that <span class="math inline">\(\phi_{kk}=0\)</span> for all <span class="math inline">\(k\ge 2\)</span>, and <span class="math inline">\(\phi_{k1}=c\)</span> for all <span class="math inline">\(k\ge 1\)</span>.</p>
+</section>
+<section id="sample-pacf" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Sample PACF</h1>
+<p><strong>Method 1</strong></p>
+<p>(Similar to the idea of sample ACF) We can get sample PACF <span class="math inline">\(\widehat{\phi}_{kk}\)</span> by using the sample ACF <span class="math inline">\(\widehat{\rho}_k = r_k\)</span> in place of the theoretical ACF <span class="math inline">\(\rho_k\)</span> in the DLR formula.</p>
+<p><strong>Method 2</strong></p>
+<p>Alternatively, we can also modify the equation <span class="math inline">\(\Gamma_k \ \vec\phi_k = \vec\gamma_k\)</span> into an empirical version <span class="math inline">\(\widehat{R}_k \ \widehat{\vec\phi}_k = \widehat{\vec\rho}_k\)</span> to get the solution <span class="math inline">\(\widehat{\vec\phi}_k = \widehat{R}_k^{-1}\ \widehat{\vec\rho}_k\)</span>, and take its last entry to get <span class="math inline">\(\widehat{\phi}_{kk}\)</span>. To be specific, recall that the theoretical PACF satisfies <span class="math display">\[
+\Gamma_k \ \vec\phi_k = \vec\gamma_k,\quad
+\text{where}\quad
+\Gamma_k = \begin{bmatrix}
+\gamma_0 &amp; \gamma_1 &amp; \cdots &amp; \gamma_{k-1} \\
+\gamma_1 &amp; \gamma_0 &amp; \cdots &amp; \gamma_{k-2} \\
+\vdots &amp; \vdots &amp;        &amp; \vdots \\
+\gamma_{k-1} &amp; \gamma_{k-2} &amp; \cdots &amp; \gamma_0
+\end{bmatrix},\quad
+\vec\phi_k = \begin{bmatrix}
+\phi_{k1} \\
+\phi_{k2} \\
+\vdots \\
+\phi_{kk}
+\end{bmatrix},\quad
+\vec\gamma_k = \begin{bmatrix}
+\gamma_1 \\
+\gamma_2 \\
+\vdots \\
+\gamma_k
+\end{bmatrix}.
+\]</span> Dividing both sides by <span class="math inline">\(\gamma_0\)</span> transforms the ACVF into ACF: <span class="math display">\[
+\begin{bmatrix}
+\rho_0 &amp; \rho_1 &amp; \cdots &amp; \rho_{k-1} \\
+\rho_1 &amp; \rho_0 &amp; \cdots &amp; \rho_{k-2} \\
+\vdots &amp; \vdots &amp;        &amp; \vdots \\
+\rho_{k-1} &amp; \rho_{k-2} &amp; \cdots &amp; \rho_0
+\end{bmatrix}
+\begin{bmatrix}
+\phi_{k1} \\
+\phi_{k2} \\
+\vdots \\
+\phi_{kk}
+\end{bmatrix}
+= \begin{bmatrix}
+\rho_1 \\
+\rho_2 \\
+\vdots \\
+\rho_k
+\end{bmatrix}.
+\]</span> Then we use the sample ACF <span class="math inline">\(\widehat{\rho}_k = r_k\)</span> in place of the theoretical ACF <span class="math inline">\(\rho_k\)</span> to get the following equation. Solving this equation gives the sample PACF. <span class="math display">\[
+\widehat{R}_k \ \widehat{\vec\phi}_k = \widehat{\vec\rho}_k,\quad
+\text{where}\quad
+\widehat{R}_k = \begin{bmatrix}
+r_0 &amp; r_1 &amp; \cdots &amp; r_{k-1} \\
+r_1 &amp; r_0 &amp; \cdots &amp; r_{k-2} \\
+\vdots &amp; \vdots &amp;        &amp; \vdots \\
+r_{k-1} &amp; r_{k-2} &amp; \cdots &amp; r_0
+\end{bmatrix},\quad
+\widehat{\vec\phi}_k = \begin{bmatrix}
+\widehat{\phi}_{k1} \\
+\widehat{\phi}_{k2} \\
+\vdots \\
+\widehat{\phi}_{kk}
+\end{bmatrix},\quad
+\widehat{\vec\rho}_k = \begin{bmatrix}
+r_1 \\
+r_2 \\
+\vdots \\
+r_k
+\end{bmatrix}.
+\]</span> <em>Remark:</em> We just mentioned that <span class="math inline">\(\widehat{\vec\phi}_k = \widehat{R}_k^{-1}\ \widehat{\vec\rho}_k\)</span>. The matrix <span class="math inline">\(\widehat{R}_k\)</span> defined above is indeed invertible, which is guaranteed by the particular way (and details) we used to construct the sample ACF <span class="math inline">\(r_k\)</span> in lecture 9. In fact, we remarked in lecture 9 that our construction of <span class="math inline">\(r_k\)</span> makes the “sample ACF matrix” invertible, and this matrix is nothing but the <span class="math inline">\(\widehat{R}_k\)</span> we have just seen.</p>
+<p>The theoretical PACF <span class="math inline">\(\phi_{kk}\)</span> of a given time series model is a non-random number (but it can be unknown). The sample PACF <span class="math inline">\(\widehat{\phi}_{kk}\)</span> is a random variable determined by the observed data (and the observations are random). So the sample PACF <span class="math inline">\(\widehat{\phi}_{kk}\)</span> follows a certain sampling distribution that depends on the underlying time series model.</p>
+<p>For an AR(<span class="math inline">\(p\)</span>) process, the sampling distribution of <span class="math inline">\(\widehat{\phi}_{kk}\)</span> is <span class="math display">\[
+\widehat{\phi}_{kk} \sim \mathcal{N}\left(0, \frac{1}{n}\right), \quad \text{for all }k \geq p + 1.
+\]</span> So if we want to test whether a time series is an AR(<span class="math inline">\(p\)</span>), we can use the following rejection region <span class="math display">\[
+\left| \widehat{\phi}_{kk} \right| &gt; \frac{2}{\sqrt{n}}
+\]</span> for sample PACFs with lag <span class="math inline">\(k \geq p + 1\)</span>.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -805,13 +1018,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Home">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Home</span>
+      <a href="./TSA-Lecture11.html" class="pagination-link" aria-label="Lecture 11">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 11</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./TSA-Lecture01.html" class="pagination-link" aria-label="Lecture 1">
-        <span class="nav-page-text">Lecture 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./TSA-Lecture13.html" class="pagination-link" aria-label="Lecture 13">
+        <span class="nav-page-text">Lecture 13</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

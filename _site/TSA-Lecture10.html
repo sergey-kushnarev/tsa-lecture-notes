@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>About these Notes – Lecture Notes</title>
+<title>25 Spring 439/639 TSA: Lecture 10 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./TSA-Lecture01.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./TSA-Lecture11.html" rel="next">
+<link href="./TSA-Lecture09.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -69,11 +70,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./about.html">About</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture10.html">Lecture 10</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -115,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link active">
+  <a href="./about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
@@ -187,7 +217,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture10.html" class="sidebar-item-text sidebar-link">
+  <a href="./TSA-Lecture10.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture 10</span></a>
   </div>
 </li>
@@ -316,19 +346,46 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#more-on-arimapdq" id="toc-more-on-arimapdq" class="nav-link active" data-scroll-target="#more-on-arimapdq"><span class="header-section-number">1</span> More on ARIMA(<span class="math inline">\(p,d,q\)</span>)</a>
+  <ul class="collapse">
+  <li><a href="#review-the-previous-example" id="toc-review-the-previous-example" class="nav-link" data-scroll-target="#review-the-previous-example"><span class="header-section-number">1.1</span> Review the previous example</a></li>
+  <li><a href="#ar-and-ma-polynomial-for-arimapdq" id="toc-ar-and-ma-polynomial-for-arimapdq" class="nav-link" data-scroll-target="#ar-and-ma-polynomial-for-arimapdq"><span class="header-section-number">1.2</span> AR and MA polynomial for ARIMA(<span class="math inline">\(p,d,q\)</span>)</a></li>
+  <li><a href="#overdifferencing" id="toc-overdifferencing" class="nav-link" data-scroll-target="#overdifferencing"><span class="header-section-number">1.3</span> Overdifferencing</a></li>
+  </ul></li>
+  <li><a href="#arfimapdq" id="toc-arfimapdq" class="nav-link" data-scroll-target="#arfimapdq"><span class="header-section-number">2</span> ARFIMA(<span class="math inline">\(p,d,q\)</span>)</a></li>
+  <li><a href="#glp-like-glp-representation-of-arimapdq" id="toc-glp-like-glp-representation-of-arimapdq" class="nav-link" data-scroll-target="#glp-like-glp-representation-of-arimapdq"><span class="header-section-number">3</span> GLP-like (“GLP”) representation of ARIMA(<span class="math inline">\(p,d,q\)</span>)</a>
+  <ul class="collapse">
+  <li><a href="#the-corresponding-non-stationary-armapdq-for-arimapdq" id="toc-the-corresponding-non-stationary-armapdq-for-arimapdq" class="nav-link" data-scroll-target="#the-corresponding-non-stationary-armapdq-for-arimapdq"><span class="header-section-number">3.1</span> The corresponding non-stationary ARMA(<span class="math inline">\(p+d,q\)</span>) for ARIMA(<span class="math inline">\(p,d,q\)</span>)</a></li>
+  <li><a href="#glp-representation-of-arima011" id="toc-glp-representation-of-arima011" class="nav-link" data-scroll-target="#glp-representation-of-arima011"><span class="header-section-number">3.2</span> “GLP” representation of ARIMA(<span class="math inline">\(0,1,1\)</span>)</a></li>
+  <li><a href="#glp-representation-of-arima110" id="toc-glp-representation-of-arima110" class="nav-link" data-scroll-target="#glp-representation-of-arima110"><span class="header-section-number">3.3</span> “GLP” representation of ARIMA(<span class="math inline">\(1,1,0\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#transformations-of-time-series" id="toc-transformations-of-time-series" class="nav-link" data-scroll-target="#transformations-of-time-series"><span class="header-section-number">4</span> Transformations of time series</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About these Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 10</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -339,50 +396,160 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="instructor" class="level1">
-<h1>Instructor</h1>
-<p><strong>Dr Sergey Kushnarev</strong><br>
-Senior Lecturer, AMS JHU</p>
+<section id="more-on-arimapdq" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> More on ARIMA(<span class="math inline">\(p,d,q\)</span>)</h1>
+<p>Last time, we introduced ARIMA(<span class="math inline">\(p,d,q\)</span>), a model for non-stationary time series. If <span class="math inline">\(Y_t \sim \operatorname{ARIMA}(p, d, q)\)</span>, taking difference <span class="math inline">\(d\)</span> times gives a stationary time series <span class="math inline">\(W_t = \nabla^d Y_t \sim \operatorname{ARMA}(p, q)\)</span>.</p>
+<section id="review-the-previous-example" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="review-the-previous-example"><span class="header-section-number">1.1</span> Review the previous example</h2>
+<p>Let’s take another look at the random walk + noise example from last lecture. <span class="math display">\[
+Y_t = X_t + \eta_t = \sum_{j=1}^t e_j + \eta_t, \quad \eta_t \sim \mathrm{iid}(0,\sigma_\eta^2),\quad e_t \sim \mathrm{iid}(0,\sigma_e^2)
+\]</span> where <span class="math inline">\((X_t)\)</span> is a random walk, <span class="math inline">\((\eta_t)\)</span> is a sequence of noise, and <span class="math inline">\((\eta_t)\)</span> is independent of <span class="math inline">\((e_t)\)</span>. Taking the difference gives <span class="math display">\[
+\begin{split}
+W_t = \nabla Y_t
+    = e_t + \eta_t - \eta_{t-1}.
+\end{split}
+\]</span> We can verify <span class="math inline">\((W_t)\)</span> is stationary: <span class="math display">\[
+\mathbb{E} W_t = \mathbb{E} \left[ e_t + \eta_t - \eta_{t-1} \right] = 0 ,
+\]</span> <span class="math display">\[
+\operatorname{Var} (W_t) = \operatorname{Var} \left( e_t + \eta_t - \eta_{t-1} \right) = \sigma_e^2 + 2 \sigma_\eta^2
+\qquad \text{(by independence)},
+\]</span> <span class="math display">\[
+\gamma_1 = \operatorname{Cov}(W_t, W_{t-1})
+= \operatorname{Cov}\left( e_t + \eta_t - \eta_{t-1},\, e_{t-1} + \eta_{t-1} - \eta_{t-2} \right)
+= -\operatorname{Cov}(\eta_{t-1}, \eta_{t-1}) = -\sigma_\eta^2 ,
+\]</span> <span class="math display">\[
+\gamma_k = \operatorname{Cov}(W_t, W_{t-k})
+= \operatorname{Cov}\left( e_t + \eta_t - \eta_{t-1},\, e_{t-k} + \eta_{t-k} - \eta_{t-k-1} \right) = 0, \quad \text{for all } k \geq 2.
+\]</span> So <span class="math inline">\((W_t)\)</span> is stationary. Then by the reasoning from last time, there exist an uncorrelated stationary process <span class="math inline">\((\widetilde{\epsilon}_t)\)</span> (think of <span class="math inline">\(\left( \widetilde{e}_t \right) \sim \text{iid}\left(0, \widetilde{\sigma}_e^2\right)\)</span>) and a constant <span class="math inline">\(\widetilde{\theta}\)</span> such that <span class="math display">\[
+W_t = \widetilde{e}_t - \widetilde{\theta}\,\widetilde{e}_{t-1}
+\sim \text{MA}(1) \implies Y_t \sim \mathrm{IMA}(1,1) = \mathrm{ARIMA}(0,1,1).
+\]</span></p>
 </section>
-<section id="about" class="level1">
-<h1>About</h1>
-<p>This website is a collection of lecture notes from courses I have taught or am currently teaching.<br>
-The notes are typeset in <a href="https://quarto.org/">Quarto</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a>.</p>
-<section id="current-courses" class="level2">
-<h2 class="anchored" data-anchor-id="current-courses">Current Courses</h2>
+<section id="ar-and-ma-polynomial-for-arimapdq" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="ar-and-ma-polynomial-for-arimapdq"><span class="header-section-number">1.2</span> AR and MA polynomial for ARIMA(<span class="math inline">\(p,d,q\)</span>)</h2>
+<p>If <span class="math inline">\(Y_t \sim \operatorname{ARIMA}(p, d, q)\)</span>, then <span class="math inline">\(W_t = \nabla^d Y_t \sim \operatorname{ARMA}(p, q)\)</span>. So it can be characterized by the AR polynomial <span class="math inline">\(\Phi(x)\)</span> and MA polynomial <span class="math inline">\(\Theta(x)\)</span>: <span class="math display">\[
+\Phi(B) W_t = \Theta(B) e_t .
+\]</span> Note that <span class="math inline">\(W_t = (1-B)^d Y_t\)</span>, we have <span class="math display">\[
+\Phi(B)\, (1-B)^d\, Y_t = \Theta(B) \, e_t .
+\]</span> So <span class="math inline">\(\Phi^*(x) = \Phi(x)\ (1-x)^d\)</span> can be seen as an AR polynomial for <span class="math inline">\(Y_t\)</span>. <strong>Assume <span class="math inline">\((W_t)\)</span> is causal</strong>, then <span class="math inline">\(\Phi^*(x)\)</span> has <span class="math inline">\(p+d\)</span> roots, with <span class="math inline">\(z=1\)</span> repeated <span class="math inline">\(d\)</span> times and the other <span class="math inline">\(p\)</span> roots (i.e.&nbsp;the roots of <span class="math inline">\(\Phi(x)\)</span>) are all outside the unit disk.</p>
+</section>
+<section id="overdifferencing" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="overdifferencing"><span class="header-section-number">1.3</span> Overdifferencing</h2>
+<p>In reality, usually <span class="math inline">\(d=1\)</span> or <span class="math inline">\(d=2\)</span>. If <span class="math inline">\(d\)</span> is too large, this is called overdifferencing, and it has the following issues:</p>
 <ul>
-<li><p><strong>Time Series Analysis (TSA)</strong><br>
-Lecture notes: <a href="https://sergey-kushnarev.github.io/tsa-lecture-notes/">TSA Lecture Notes</a><br>
-Based on Cryer and Chen’s <em>Time Series Analysis: With Applications in R</em>, 2nd edition.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Stationarity, ARMA/ARIMA/SARIMA models, forecasting.</p></li>
-<li><p><strong>Bayesian Statistics</strong><br>
-Notes: Bayesian Notes <em>To be posted</em> Based on Peter Hoff’s <em>A First Course in Bayesian Statistical Methods</em>.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Conjugate priors, Gibbs sampling, Metropolis-Hastings, model comparison, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis I</strong><br>
-Notes: ASDA1 <em>To be posted</em> Based on Kutner, Nachtsheim, Neter, and Li’s <em>Applied Linear Statistical Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Simple and multiple linear regression, ANOVA, model selection, diagnostics, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis II</strong><br>
-Notes: ASDA2 <em>To be posted</em> Based on Alan Agresti’s book <em>Foundations of Linear and Generalized Linear Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Linear regression, logistic regression, Poisson regression, GLMs.</p></li>
-<li><p><strong>Elements of Statistical Learning</strong> Notes: ESL <em>To be posted</em> Based on Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani’s <em>An Introduction to Statistical Learning in R</em>, 2nd edition. Audience: Advanced undergraduates and master’s students. Topics: Supervised/unsupervised learning, model assessment, regularization, tree-based methods, etc.</p></li>
+<li>Leads to more complicated than necessary models.</li>
+<li>Leads to non-invertible models.</li>
 </ul>
+<p>For example, consider the random walk <span class="math inline">\(Y_t = \sum_{i=1}^t e_i\)</span>. <span class="math inline">\((Y_t)\)</span> is non-stationary. Take the difference: <span class="math display">\[
+W_t = \nabla Y_t = Y_t - Y_{t-1}
+= \sum_{i=1}^{t} e_i - \sum_{i=1}^{t-1} e_i = e_t .
+\]</span> So <span class="math inline">\(W_t\)</span> can by modeled by an MA(<span class="math inline">\(0\)</span>), which is stationary (and invertible). If we take the difference one more time: <span class="math display">\[
+Z_t = \nabla^2 Y_t = W_t - W_{t-1}= e_t - e_{t-1} \sim \mathrm{MA}(1)
+\]</span> Although it can still be modeled by an ARMA model MA(<span class="math inline">\(1\)</span>), but it is more complicated than MA(<span class="math inline">\(0\)</span>), and this MA(<span class="math inline">\(1\)</span>) above is not invertible (since <span class="math inline">\(|\theta|=1\)</span>).</p>
 </section>
-<section id="a-note-on-the-material" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-the-material">A Note on the Material</h2>
-<p>These notes are designed as <strong>teaching resources</strong> and not polished textbooks.</p>
-<p>They include: - Theory, examples and proofs - Code snippets and exercises</p>
-<p>Feedback is always welcome — feel free to suggest improvements or point out typos via GitHub.</p>
 </section>
-<section id="license" class="level2">
-<h2 class="anchored" data-anchor-id="license">License</h2>
-<p>Content is © 2025 Sergey Kushnarev unless otherwise noted. You may share or adapt the materials for non-commercial purposes with attribution.</p>
+<section id="arfimapdq" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> ARFIMA(<span class="math inline">\(p,d,q\)</span>)</h1>
+<p>This part will not be tested, just for your information. The FI in ARFIMA stands for fractionally integrated (recall that the letter I in ARIMA stands for integrated).</p>
+<p>For a real number <span class="math inline">\(d\in (0, 0.5)\)</span>, we can define the operator <span class="math inline">\(\nabla^d\)</span> by a series <span class="math display">\[
+\nabla^d := (1 - B)^d = \sum_{i=0}^{\infty} b_i\, B^i
+\]</span> where the coefficients <span class="math inline">\(\{b_i\}\)</span> are determined by <span class="math inline">\(d\)</span>.</p>
+<p>It can be used in modelling long-range dependencies. It has slow decaying ACFs (polynomially, not exponentially).</p>
+</section>
+<section id="glp-like-glp-representation-of-arimapdq" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> GLP-like (“GLP”) representation of ARIMA(<span class="math inline">\(p,d,q\)</span>)</h1>
+<p>As we discussed earlier,<br>
+<span class="math display">\[
+Y_t \sim \operatorname{ARIMA}(p, d, q)
+\implies
+Y_t \sim \text{a non-stationary } \operatorname{ARMA}(p+d, q)
+\]</span> since <span class="math display">\[
+\Phi(B)\ \nabla^d Y_t = \Theta(B) e_t \implies \Phi(B)\, (1-B)^d\, Y_t = \Theta(B) \, e_t .
+\]</span> For a non-stationary time series, we cannot get a GLP representation (because GLP is stationary.) But we will try to derive a similar form of GLP for ARIMA(<span class="math inline">\(p,d,q\)</span>) processes, to get a sense of the ACF behavior.</p>
+<section id="the-corresponding-non-stationary-armapdq-for-arimapdq" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="the-corresponding-non-stationary-armapdq-for-arimapdq"><span class="header-section-number">3.1</span> The corresponding non-stationary ARMA(<span class="math inline">\(p+d,q\)</span>) for ARIMA(<span class="math inline">\(p,d,q\)</span>)</h2>
+<p>Example: Suppose <span class="math inline">\(Y_t \sim \operatorname{ARIMA}(p, 1, q)\)</span>. Let <span class="math inline">\(W_t = \nabla Y_t\)</span>, then <span class="math inline">\(W_t \sim \operatorname{ARMA}(p, q)\)</span>, so <span class="math display">\[
+W_t - \phi_1 W_{t-1} - \cdots - \phi_p W_{t-p} = e_t - \theta_1 e_{t-1} - \cdots - \theta_q e_{t-q}.
+\]</span> <span class="math display">\[
+(Y_t - Y_{t-1}) - \phi_1 (Y_{t-1} - Y_{t-2}) - \phi_2 (Y_{t-2} - Y_{t-3}) - \cdots
+- \phi_p (Y_{t-p} - Y_{t-p-1}) = e_t - \theta_1 e_{t-1} - \cdots - \theta_q e_{t-q}.
+\]</span> <span class="math display">\[
+Y_t
+- (1 + \phi_1) Y_{t-1}
+- (\phi_2 - \phi_1) Y_{t-2}
+- \cdots
+- (\phi_p - \phi_{p-1}) Y_{t-p}
++ \phi_p Y_{t-p-1}
+= e_t - \theta_1 e_{t-1} - \cdots - \theta_q e_{t-q}.
+\]</span> As we already know, the last equation above is an ARMA(<span class="math inline">\(p+1,q\)</span>), but not stationary. Indeed, its AR polynomial is <span class="math display">\[
+\begin{split}
+\Phi^*(x) &amp;= 1 - (1 + \phi_1)x - (\phi_2 - \phi_1)x^2 - \cdots - (\phi_p - \phi_{p-1})x^p + \phi_p x^{p+1} = (1 - x)\left(1 - \phi_1 x - \phi_2 x^2 - \cdots - \phi_p x^p \right)
+\end{split}
+\]</span> which has a root <span class="math inline">\(z=1\)</span>.</p>
+</section>
+<section id="glp-representation-of-arima011" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="glp-representation-of-arima011"><span class="header-section-number">3.2</span> “GLP” representation of ARIMA(<span class="math inline">\(0,1,1\)</span>)</h2>
+<p>As we mentioned before, we cannot really derive a GLP representation for a non-stationary process. Some steps in the following analysis are not rigorous. Keep in mind that the big idea is to get a sense of the ACF behavior through an analogous way of GLP.</p>
+<p>Suppose <span class="math inline">\(Y_t \sim \operatorname{ARIMA}(0, 1, 1)\)</span>, with <span class="math inline">\(\nabla Y_t = e_t - \theta e_{t-1}\)</span>. Then <span class="math inline">\(Y_t - Y_{t-1} = e_t - \theta\, e_{t-1}\)</span>. So <span class="math display">\[
+\begin{split}
+Y_t &amp;= Y_{t-1} + e_t - \theta\, e_{t-1} = Y_{t-2} + e_{t-1} - \theta\, e_{t-2} + e_t - \theta\, e_{t-1} \\
+&amp; = Y_{t-2} + e_t + (1-\theta)\, e_{t-1} - \theta\, e_{t-2} \\
+&amp;= \cdots = Y_{t-m} + e_t + (1-\theta)\, e_{t-1} + \ldots + (1-\theta)\, e_{t-m+1} - \theta\, e_{t-m} \\
+&amp; \approx e_t + \sum_{j=1}^{\infty} (1-\theta) e_{t-j}
+\end{split}
+\]</span> where the last step is not rigorous, but can be thought as: <span class="math inline">\(Y_{t-m} \to 0\)</span> as <span class="math inline">\(m \to \infty\)</span> (assuming the process started at zero).</p>
+<p>The last line above <span class="math inline">\(e_t + \sum_{j=1}^{\infty} (1-\theta) e_{t-j}\)</span> looks like a GLP, but it is not a GLP because <span class="math inline">\(\sum_{j=1}^{\infty} |1-\theta|\)</span> diverges (assuming <span class="math inline">\(\theta\neq 1\)</span>), the condition <span class="math inline">\(\sum |\psi_j| &lt; \infty\)</span> fails.</p>
+<p>One can also show that : <span class="math display">\[
+\operatorname{Var}(Y_t) =
+\left[1 + \theta^2 + (1-\theta)^2 (t+m)\right]\sigma_e^2
+\qquad (\text{which grows linearly in } t),
+\]</span> and the following results (not rigorous) for moderate <span class="math inline">\(k\)</span> and large <span class="math inline">\(t\)</span> <span class="math display">\[
+\rho_{t, t-k} =
+\frac{[1 - \theta + \theta^2 + (1-\theta)^2 (t + m - k)] \sigma_e^2}
+     {\sqrt{ \operatorname{Var}(Y_t) \operatorname{Var}(Y_{t-k}) } }
+\approx
+\frac{(1-\theta)^2 (t+m)\, \sigma_e^2}
+     {\sqrt{ (1-\theta)^2 (t+m) \cdot (1-\theta)^2 (t+m-k) }\, \sigma_e^2}
+\approx 1 .
+\]</span> So for an IMA(<span class="math inline">\(1,1\)</span>) process, the ACF <span class="math inline">\(\rho_{t, t-k} \approx 1\)</span> for moderate <span class="math inline">\(k\)</span> and large <span class="math inline">\(t\)</span>, which behaves similar to a random walk (for large <span class="math inline">\(t\)</span>). If we plot the time series, it will exhibit wandering behavior (RW-like).</p>
+</section>
+<section id="glp-representation-of-arima110" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="glp-representation-of-arima110"><span class="header-section-number">3.3</span> “GLP” representation of ARIMA(<span class="math inline">\(1,1,0\)</span>)</h2>
+<p>Suppose <span class="math inline">\(Y_t \sim \operatorname{ARIMA}(1, 1, 0)\)</span>, with <span class="math inline">\(Y_{t} - Y_{t-1} - \phi ( Y_{t-1} - Y_{t-2} ) = e_t\)</span>. So <span class="math display">\[
+Y_{t} = (1 + \phi) Y_{t-1} - \phi Y_{t-2} + e_t
+\]</span> which is a non-stationary AR(<span class="math inline">\(2\)</span>).</p>
+<p>As before, we suppose there is a “GLP” representation <span class="math inline">\(Y_t = \psi_0 e_t + \psi_1 e_{t-1} + \psi_2 e_{t-2} + \cdots\)</span>. Plug into the non-stationary AR(<span class="math inline">\(2\)</span>) above: <span class="math display">\[
+\left( \psi_0 e_t + \psi_1 e_{t-1} + \psi_2 e_{t-2} + \cdots \right) =
+(1+\phi)\left( \psi_0 e_{t-1} + \psi_1 e_{t-2} + \psi_2 e_{t-3} + \cdots \right)
+- \phi \left( \psi_0 e_{t-2} + \psi_1 e_{t-3} + \psi_2 e_{t-4} + \cdots \right)
++ e_t
+\]</span> Comparing the coefficients of <span class="math inline">\(e_{t-k}\)</span>: <span class="math display">\[
+\begin{cases}
+\psi_0 = 1\\
+\psi_1 = (1+\phi)\psi_0 \\
+\psi_k = (1+\phi)\psi_{k-1} - \phi\psi_{k-2} \quad \text{for } k\ge 2
+\end{cases}
+\]</span> which gives <span class="math display">\[
+\psi_k = 1 + \phi + \cdots + \phi^k = \frac{1-\phi^{k+1}}{1-\phi},\quad \text{for any } k\ge 0.
+\]</span> <strong>Exercise:</strong> verify this result.</p>
+<p>As we expected, this “GLP” is not a GLP, since the condition <span class="math inline">\(\sum |\psi_j| &lt; \infty\)</span> fails.</p>
+</section>
+</section>
+<section id="transformations-of-time-series" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Transformations of time series</h1>
+<p>Suppose a time series <span class="math inline">\((Y_t)\)</span> satisfies <span class="math inline">\(\mathbb{E} Y_t = \mu_t\)</span> and <span class="math inline">\(\operatorname{Var} (Y_t) \approx \mu_t^2 \cdot \sigma^2\)</span> (the latter implies <span class="math inline">\(\operatorname{SD}(Y_t) \approx \mu_t \cdot \sigma\)</span>). Also assume <span class="math inline">\((Y_t)\)</span> is positive. A useful transformation for this type of time series is taking the logarithm: <span class="math display">\[
+\widetilde{Y}_t = \log Y_t.
+\]</span></p>
+<p>This transformation has some nice property. First, using Taylor Series, we have the approximation <span class="math inline">\(\log y \approx y_0 + \log'(y_0) \cdot (y - y_0)\)</span>. Replace <span class="math inline">\(y\)</span> with <span class="math inline">\(Y_t\)</span>, and let <span class="math inline">\(y_0= \mu_t\)</span>: <span class="math display">\[
+\log Y_t \approx \mu_t + \frac{1}{\mu_t} (Y_t - \mu_t).
+\]</span> Since <span class="math inline">\(\mu_t\)</span> is a non-random constant, <span class="math display">\[
+\operatorname{Var}(\log Y_t) \approx \operatorname{Var} \left[ \frac{1}{\mu_t} (Y_t - \mu_t) \right]
+= \frac{1}{\mu_t^2} \operatorname{Var}(Y_t)
+= \frac{1}{\mu_t^2} \cdot \mu_t^2 \cdot \sigma^2
+= \sigma^2 = \text{constant}.
+\]</span> So the variance of <span class="math inline">\(\log Y_t\)</span> is approximately the constant <span class="math inline">\(\sigma^2\)</span>. For this reason, we call this transformation <span class="math inline">\(\widetilde{Y}_t = \log Y_t\)</span> (under the setting above) <strong>Variance Stabilizing Transformation</strong>.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -805,13 +972,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Home">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Home</span>
+      <a href="./TSA-Lecture09.html" class="pagination-link" aria-label="Lecture 9">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 9</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./TSA-Lecture01.html" class="pagination-link" aria-label="Lecture 1">
-        <span class="nav-page-text">Lecture 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./TSA-Lecture11.html" class="pagination-link" aria-label="Lecture 11">
+        <span class="nav-page-text">Lecture 11</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

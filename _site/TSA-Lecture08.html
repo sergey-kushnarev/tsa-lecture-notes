@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>About these Notes – Lecture Notes</title>
+<title>25 Spring 439/639 TSA: Lecture 8 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./TSA-Lecture01.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./TSA-Lecture08-regression-methods.html" rel="next">
+<link href="./TSA-Lecture07-plots.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -69,11 +70,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./about.html">About</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture08.html">Lecture 8</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -115,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link active">
+  <a href="./about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
@@ -169,7 +199,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture08.html" class="sidebar-item-text sidebar-link">
+  <a href="./TSA-Lecture08.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture 8</span></a>
   </div>
 </li>
@@ -316,19 +346,45 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#trends" id="toc-trends" class="nav-link active" data-scroll-target="#trends"><span class="header-section-number">1</span> Trends</a></li>
+  <li><a href="#estimate-the-sample-mean-of-a-time-series" id="toc-estimate-the-sample-mean-of-a-time-series" class="nav-link" data-scroll-target="#estimate-the-sample-mean-of-a-time-series"><span class="header-section-number">2</span> Estimate the sample mean of a time series</a>
+  <ul class="collapse">
+  <li><a href="#example-ma1" id="toc-example-ma1" class="nav-link" data-scroll-target="#example-ma1"><span class="header-section-number">2.1</span> Example: MA(<span class="math inline">\(1\)</span>)</a></li>
+  <li><a href="#example-ar1" id="toc-example-ar1" class="nav-link" data-scroll-target="#example-ar1"><span class="header-section-number">2.2</span> Example: AR(<span class="math inline">\(1\)</span>)</a></li>
+  <li><a href="#example-random-walk" id="toc-example-random-walk" class="nav-link" data-scroll-target="#example-random-walk"><span class="header-section-number">2.3</span> Example: random walk</a></li>
+  </ul></li>
+  <li><a href="#different-models-of-trend-and-stochastic-components" id="toc-different-models-of-trend-and-stochastic-components" class="nav-link" data-scroll-target="#different-models-of-trend-and-stochastic-components"><span class="header-section-number">3</span> Different models of trend and stochastic components</a></li>
+  <li><a href="#regression-methods" id="toc-regression-methods" class="nav-link" data-scroll-target="#regression-methods"><span class="header-section-number">4</span> Regression methods</a>
+  <ul class="collapse">
+  <li><a href="#linear-trend" id="toc-linear-trend" class="nav-link" data-scroll-target="#linear-trend"><span class="header-section-number">4.1</span> Linear trend</a></li>
+  <li><a href="#some-other-regression-models" id="toc-some-other-regression-models" class="nav-link" data-scroll-target="#some-other-regression-models"><span class="header-section-number">4.2</span> Some other regression models</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About these Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 8</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -339,47 +395,159 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="instructor" class="level1">
-<h1>Instructor</h1>
-<p><strong>Dr Sergey Kushnarev</strong><br>
-Senior Lecturer, AMS JHU</p>
-</section>
-<section id="about" class="level1">
-<h1>About</h1>
-<p>This website is a collection of lecture notes from courses I have taught or am currently teaching.<br>
-The notes are typeset in <a href="https://quarto.org/">Quarto</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a>.</p>
-<section id="current-courses" class="level2">
-<h2 class="anchored" data-anchor-id="current-courses">Current Courses</h2>
+<section id="trends" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Trends</h1>
+<p>So far, we considered models for stationary time series AR(<span class="math inline">\(p\)</span>), MA(<span class="math inline">\(q\)</span>), ARMA(<span class="math inline">\(p,q\)</span>). These models can be used for the (stationary) stochastic component in observed time series.</p>
+<p>(Assume the underlying distribution of <span class="math inline">\((Y_t)\)</span> is stationary. See Wold’s decomposition theorem from earlier lectures.) For an observed time series <span class="math inline">\((Y_t)\)</span>, it can be represented as a sum of two parts: <span class="math display">\[
+\underbrace{Y_t}_{observed} = \underbrace{\mu_t}_{deterministic} + \underbrace{X_t}_{stochastic} .
+\]</span></p>
 <ul>
-<li><p><strong>Time Series Analysis (TSA)</strong><br>
-Lecture notes: <a href="https://sergey-kushnarev.github.io/tsa-lecture-notes/">TSA Lecture Notes</a><br>
-Based on Cryer and Chen’s <em>Time Series Analysis: With Applications in R</em>, 2nd edition.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Stationarity, ARMA/ARIMA/SARIMA models, forecasting.</p></li>
-<li><p><strong>Bayesian Statistics</strong><br>
-Notes: Bayesian Notes <em>To be posted</em> Based on Peter Hoff’s <em>A First Course in Bayesian Statistical Methods</em>.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Conjugate priors, Gibbs sampling, Metropolis-Hastings, model comparison, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis I</strong><br>
-Notes: ASDA1 <em>To be posted</em> Based on Kutner, Nachtsheim, Neter, and Li’s <em>Applied Linear Statistical Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Simple and multiple linear regression, ANOVA, model selection, diagnostics, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis II</strong><br>
-Notes: ASDA2 <em>To be posted</em> Based on Alan Agresti’s book <em>Foundations of Linear and Generalized Linear Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Linear regression, logistic regression, Poisson regression, GLMs.</p></li>
-<li><p><strong>Elements of Statistical Learning</strong> Notes: ESL <em>To be posted</em> Based on Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani’s <em>An Introduction to Statistical Learning in R</em>, 2nd edition. Audience: Advanced undergraduates and master’s students. Topics: Supervised/unsupervised learning, model assessment, regularization, tree-based methods, etc.</p></li>
+<li><span class="math inline">\(\{X_t\}\)</span> is a stationary stochastic component. We may fit a model (like AR(<span class="math inline">\(p\)</span>), MA(<span class="math inline">\(q\)</span>), ARMA(<span class="math inline">\(p,q\)</span>)) for it.</li>
+<li><span class="math inline">\(\{\mu_t\}\)</span> is a deterministic component. And it is often non-stationary (which reduces to non-constant, since it is deterministic). It may reflect the trend, or trend combined with seasonality.</li>
+</ul>
+<p>The idea to deal with <span class="math inline">\((Y_t)\)</span>:</p>
+<ul>
+<li>first estimate <span class="math inline">\(\mu_t\)</span> with <span class="math inline">\(\widehat{\mu}_t\)</span>,</li>
+<li>estimate <span class="math inline">\(X_t\)</span> by <span class="math inline">\(\widehat{X}_t = Y_t - \widehat{\mu}_t\)</span>.</li>
+</ul>
+<p>Then we can fit any of the stationary time series models (like AR(<span class="math inline">\(p\)</span>), MA(<span class="math inline">\(q\)</span>), ARMA(<span class="math inline">\(p,q\)</span>)) to the estimated residuals <span class="math inline">\(\widehat{X}_t\)</span>.</p>
+</section>
+<section id="estimate-the-sample-mean-of-a-time-series" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Estimate the sample mean of a time series</h1>
+<p>The simplest case of a trend is constant <span class="math inline">\(\{\mu_t\}\)</span>, i.e.&nbsp;<span class="math inline">\(\mu_t = \mu\)</span> for all <span class="math inline">\(t\)</span>. Under this setting, we can estimate <span class="math inline">\(\mu\)</span> by the sample mean (of observed <span class="math inline">\({Y_t}_{t=1}^n\)</span>) <span class="math inline">\(\overline{Y} = \frac{1}{n} \sum_{t=1}^n Y_t\)</span>.</p>
+<p>Under some nice conditions, we have the CLT type of limiting distribution <span class="math display">\[
+\overline{Y} \xrightarrow{D} \mathcal{N}\left(\mu, \operatorname{Var}(\overline{Y})\right)
+\]</span> <em>Note:</em> Be careful this only holds under certain nice conditions. The classic CLT requires <span class="math inline">\(Y_t\)</span> are iid. We also showed the <span class="math inline">\(q\)</span>-dependent CLT in earlier lectures. And the conditions in <span class="math inline">\(q\)</span>-dependent CLT can also be relaxed to <span class="math inline">\(\sum_{t=-\infty}^{+\infty} \rho_t &lt; \infty\)</span></p>
+<p>In homework, you already showed the variance formula for <span class="math inline">\(\overline{Y}\)</span> (<strong>for stationary <span class="math inline">\((Y_t)\)</span></strong>): <span class="math display">\[
+\operatorname{Var}(\overline{Y}) = \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \rho_k \right] .
+\]</span> If <span class="math inline">\((Y_t)\)</span> is iid: <span class="math inline">\(\rho_k=0\)</span> for all <span class="math inline">\(k\ne 0\)</span>, so it recovers the result <span class="math inline">\(\operatorname{Var}(\overline{Y}) = \frac{1}{n}\operatorname{Var}(Y_t) = \frac{\gamma_0}{n}\)</span>.</p>
+<p>If <span class="math inline">\((Y_t)\)</span> is <span class="math inline">\(q\)</span>-dependent: <span class="math inline">\(\rho_k=0\)</span> for all <span class="math inline">\(k&gt;q\)</span>, so <span class="math inline">\(\operatorname{Var}(\overline{Y}) = \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^q \left( 1 - \frac{k}{n} \right) \rho_k \right]\)</span>.</p>
+<p>If <span class="math inline">\(\sum_{k=-\infty}^{+\infty} \rho_k &lt; \infty\)</span>: then for large <span class="math inline">\(n\)</span>, we have the approximation result <span class="math display">\[
+\operatorname{Var}(\overline{Y}) = \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \rho_k \right] \approx \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^{+\infty} \rho_k \right] = \frac{\gamma_0}{n} \left( \sum_{k=-\infty}^{+\infty} \rho_k \right) .
+\]</span></p>
+<section id="example-ma1" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="example-ma1"><span class="header-section-number">2.1</span> Example: MA(<span class="math inline">\(1\)</span>)</h2>
+<p>MA(<span class="math inline">\(1\)</span>) time series are all <span class="math inline">\(q\)</span>-dependent with <span class="math inline">\(q=1\)</span>. Consider an MA(<span class="math inline">\(1\)</span>) with <span class="math inline">\(\theta= \frac{1}{2}\)</span>: <span class="math display">\[
+Y_t = e_t - \frac{1}{2} e_{t-1}.
+\]</span> We have <span class="math display">\[
+\rho_1 = \frac{-\theta}{1 + \theta^2}
+= \frac{-\frac{1}{2}}{1 + \frac{1}{4}}
+= -\frac{2}{5}, \quad \rho_k=0 \text{ for } k\ge 2.
+\]</span> Then <span class="math display">\[
+\begin{split}
+\operatorname{Var}(\overline{Y}) &amp;= \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \rho_k \right] = \frac{\gamma_0}{n} \left( 1+ 2\left( 1-\frac{1}{n}\right)\rho_1 \right) \\
+&amp;= \frac{\gamma_0}{n} \left( 1+ 2\left( 1-\frac{1}{n}\right)(-0.4) \right) \\
+&amp;\approx \frac{\gamma_0}{n}(1-2\cdot 0.4) = \frac{\gamma_0}{5n} \quad (\text{for large }n)
+\end{split}
+\]</span> So for large <span class="math inline">\(n\)</span>, <span class="math inline">\(\operatorname{Var}(\overline{Y})\)</span> is approximately <span class="math inline">\(5\)</span> times smaller than the variance of the iid case.</p>
+<p>(<em>Note:</em> this is a mean-reverting time series.)</p>
+<p>Since <span class="math inline">\((Y_t)\)</span> is <span class="math inline">\(q\)</span>-dependent (with <span class="math inline">\(q=1\)</span>), the <span class="math inline">\(q\)</span>-dependent CLT works. So we know <span class="math inline">\(\overline{Y}\)</span> is approximately normally distributed for large <span class="math inline">\(n\)</span>. Then we can construct confidence interval for <span class="math inline">\(\mu\)</span>: <span class="math display">\[
+\mu\in \left[\overline{Y} \pm 2\sqrt{\operatorname{Var}(\overline{Y})} \right] = \left[\overline{Y} \pm 2\sqrt{\frac{\gamma_0}{5n}} \right], \text{ with prob } 95\% .
+\]</span></p>
+</section>
+<section id="example-ar1" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="example-ar1"><span class="header-section-number">2.2</span> Example: AR(<span class="math inline">\(1\)</span>)</h2>
+<p>Consider a causal AR(<span class="math inline">\(1\)</span>) (with <span class="math inline">\(|\phi|&lt;1\)</span>): <span class="math display">\[
+Y_t - \phi Y_{t-1} = e_t .
+\]</span> For causal AR(<span class="math inline">\(1\)</span>), we have <span class="math inline">\(\rho_k = \phi^k\)</span> (for <span class="math inline">\(k\ge 0\)</span>). So <span class="math display">\[
+\operatorname{Var}(\overline{Y}) = \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \rho_k \right] = \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \phi^k \right].
+\]</span> For large <span class="math inline">\(n\)</span>, we have the following approximation <span class="math display">\[
+\operatorname{Var}(\overline{Y}) = \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \phi^k \right] \approx \frac{\gamma_0}{n} \left[ 1 + 2 \sum_{k=1}^\infty \phi^k \right] = \frac{\gamma_0}{n} \frac{1+\phi}{1-\phi}.
+\]</span> <strong>Exercise:</strong> verify the last step <span class="math inline">\(1 + 2 \sum_{k=1}^\infty \phi^k = \frac{1+\phi}{1-\phi}\)</span>.</p>
+<p>For example, if <span class="math inline">\(\phi=0.9\)</span>, then <span class="math inline">\(\frac{1+\phi}{1-\phi}=19 \approx 20\)</span>, so for large <span class="math inline">\(n\)</span>, <span class="math inline">\(\operatorname{Var}(\overline{Y}) \approx \frac{20 \gamma_0}{n}\)</span> which is approximately <span class="math inline">\(20\)</span> times larger than the variance of the iid case.</p>
+<p><em>Remark:</em> This example is a ``mean-avoiding” time series. We can compare it with the previous MA(<span class="math inline">\(1\)</span>) with <span class="math inline">\(\theta=0.5\)</span> example which we remarked as a mean-reverting time series, and we got <span class="math inline">\(\operatorname{Var}(\overline{Y}) \approx 0.2\cdot \frac{\gamma_0}{n}\)</span>. If we look at the formula for <span class="math inline">\(\operatorname{Var}(\overline{Y})\)</span>, the main difference is from the ACFs. In last example, <span class="math inline">\(\rho_1= -0.4\)</span> is negative and <span class="math inline">\(\rho_k=0\)</span> for <span class="math inline">\(k\ge2\)</span>, which made <span class="math inline">\(\left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \phi^k \right] \approx 0.2\)</span>. In this example, <span class="math inline">\(\rho_k =0.9^k\)</span> gives <span class="math inline">\(\left[ 1 + 2 \sum_{k=1}^n \left( 1 - \frac{k}{n} \right) \phi^k \right] \approx 20\)</span>.</p>
+</section>
+<section id="example-random-walk" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="example-random-walk"><span class="header-section-number">2.3</span> Example: random walk</h2>
+<p>Consider the random walk model <span class="math display">\[
+Y_1=e_1, \quad Y_t = Y_{t-1} + e_t, \quad e_t \sim \mathrm{iid}(0,\sigma_e^2).
+\]</span> Suppose we still want to look at the sample mean <span class="math inline">\(\overline{Y}\)</span>. Note that the random walk <span class="math inline">\((Y_t)\)</span> is not stationary, the earlier formula for <span class="math inline">\(\operatorname{Var}(\overline{Y})\)</span> cannot be applied here. We can directly calculate the variance. Note that <span class="math inline">\(Y_1 = e_1\)</span>, <span class="math inline">\(Y_2 = e_1+e_2\)</span>,… <span class="math display">\[
+\begin{split}
+\operatorname{Var}(\overline{Y}) &amp;= \frac{1}{n^2} \operatorname{Var}\left( \sum_{t=1}^n Y_t \right)
+= \frac{1}{n^2} \operatorname{Var}\left( \sum_{t=1}^n \sum_{j=1}^t e_j \right) \\
+&amp;= \frac{1}{n^2} \operatorname{Var} \left( \sum_{t=1}^n (n-t+1) e_t \right) = \frac{1}{n^2} \sum_{t=1}^n (n-t+1)^2 \sigma_e^2 \\
+&amp;= \frac{\sigma_e^2}{n^2} \sum_{j=1}^n j^2 = \sigma_e^2\cdot \frac{n (n+1)(2n+1)}{6 n^2} \to \infty, \text{ as } n\to\infty
+\end{split}
+\]</span> So as the sample size increases, we are less and less certain about the mean of a random walk.</p>
+</section>
+</section>
+<section id="different-models-of-trend-and-stochastic-components" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Different models of trend and stochastic components</h1>
+<p>Here are some examples of different models.</p>
+<ul>
+<li>Additive model (deterministic + stochastic component) <span class="math display">\[
+Y_t = \mu_t+X_t.
+\]</span></li>
+<li>Additive model (trend + seasonality + stochastic component) <span class="math display">\[
+Y_t = T_t + S_t + X_t.
+\]</span></li>
+<li>Multiplicative model <span class="math display">\[
+Y_t = \mu_t X_t, \text{ or } Y_t = T_t S_t X_t.
+\]</span> By taking the logarithm, it can be transformed into additive model <span class="math inline">\(\log Y_t = \log \mu_t+ \log X_t\)</span> or <span class="math inline">\(\log Y_t = \log T_t + \log S_t + \log X_t\)</span></li>
+<li>Mixture of additive and multiplicative model <span class="math display">\[
+Y_t = T_t S_t + X_t, \text{ or } Y_t = (T_t + S_t) X_t.
+\]</span></li>
 </ul>
 </section>
-<section id="a-note-on-the-material" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-the-material">A Note on the Material</h2>
-<p>These notes are designed as <strong>teaching resources</strong> and not polished textbooks.</p>
-<p>They include: - Theory, examples and proofs - Code snippets and exercises</p>
-<p>Feedback is always welcome — feel free to suggest improvements or point out typos via GitHub.</p>
+<section id="regression-methods" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Regression methods</h1>
+<p>Idea: Suppose <span class="math inline">\(Y_t = \mu_t+X_t\)</span>. Fit a regression model for <span class="math inline">\(\mu_t\)</span> and estimate <span class="math inline">\(\widehat{\mu}_t\)</span> using the observed time series <span class="math inline">\((Y_t)\)</span> via regression methods. Extract <span class="math inline">\(\widehat{X}_t = Y_t - \widehat{\mu}_t\)</span>, which can be seen as the prediction of unobserved stochastic component <span class="math inline">\((X_t)\)</span>. Then we can model <span class="math inline">\((\widehat{X}_t)\)</span> by a stationary time series model.</p>
+<section id="linear-trend" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="linear-trend"><span class="header-section-number">4.1</span> Linear trend</h2>
+<p>Consider the linear regression model. Assume <span class="math display">\[
+\mu_t = \beta_0 + \beta_1 t.
+\]</span> <span class="math inline">\(\left( Y_t \right)_{t=1}^n\)</span> are observed data. To estimate <span class="math inline">\(\mu_t\)</span> via linear regression, we can minimize the objective function <span class="math display">\[
+Q(\beta_0, \beta_1) = \sum_{t=1}^n \left( Y_t - \beta_0 - \beta_1 t \right)^2.
+\]</span> Solve the equations <span class="math display">\[
+\begin{cases}
+0= \frac{\partial Q}{\partial \beta_0}
+= -2 \sum_{t=1}^n \left( Y_t - \beta_0 - \beta_1 t \right)  \\
+0=\frac{\partial Q}{\partial \beta_1}
+= -2 \sum_{t=1}^n \left( Y_t - \beta_0 - \beta_1 t \right) t
+\end{cases}
+\]</span> we get the minimizer <span class="math inline">\((\widehat{\beta}_0,\, \widehat{\beta}_1) = \underset{\beta_0,\beta_1}{\arg\min} Q(\beta_0, \beta_1)\)</span> is <span class="math display">\[
+\widehat{\beta}_1 = \frac{\sum_{t=1}^n (Y_t - \overline{Y}) (t - \overline{t})}{\sum_{t=1}^n (t - \overline{t})^2},
+\quad
+\widehat{\beta}_0 = \overline{Y} - \widehat{\beta}_1 \overline{t}.
+\]</span> Then the estimated linear trend is <span class="math display">\[
+\widehat{\mu}_t = \widehat{\beta}_0 + \widehat{\beta}_1 t.
+\]</span></p>
 </section>
-<section id="license" class="level2">
-<h2 class="anchored" data-anchor-id="license">License</h2>
-<p>Content is © 2025 Sergey Kushnarev unless otherwise noted. You may share or adapt the materials for non-commercial purposes with attribution.</p>
+<section id="some-other-regression-models" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="some-other-regression-models"><span class="header-section-number">4.2</span> Some other regression models</h2>
+<ul>
+<li>Quadratic trend: Assume</li>
+</ul>
+<p><span class="math display">\[
+\mu_t = \beta_0 + \beta_1 t + \beta_2 t^2
+= \begin{bmatrix} 1 &amp; t &amp; t^2 \end{bmatrix}
+  \begin{bmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \end{bmatrix}
+\]</span> This is a special case of polynomial trends. Any polynomial trend can be estimated via linear regression.</p>
+<ul>
+<li>Cosine trend: Assume</li>
+</ul>
+<p><span class="math display">\[
+\mu_t = \beta_0 + \beta_1 \cos \left( \frac{2\pi}{f} t \right)
++ \beta_2 \sin \left( \frac{2\pi}{f} t \right)
+\]</span> where <span class="math inline">\(f\)</span> is frequency.</p>
+<ul>
+<li>Seasonal/Cyclical trend: Assume <span class="math inline">\(\mu_t\)</span> is periodic. For example, suppose <span class="math inline">\(t\)</span> denotes the month, and we assume ``the means are the same for the same months”, i.e., <span class="math display">\[
+\begin{split}
+&amp;\mu_1 = \mu_{13} = \mu_{25} = \mu_{1+12k} \quad (\text{Jan}) \\
+&amp;\mu_2 = \mu_{14} = \mu_{2+12k} \quad (\text{Feb}) \\
+&amp;\cdots \\
+&amp;\mu_{12} = \mu_{24}= \mu_{12k} \quad (\text{Dec})
+\end{split}
+\]</span> To estimate <span class="math inline">\((\mu_1,...,\mu_{12})\)</span>, we can fit the following linear regression using the observed <span class="math inline">\((Y_t)\)</span> <span class="math display">\[
+Y_t = \beta_1 X_{\mathrm{Jan}} + \beta_2 X_{\mathrm{Feb}} + \cdots + \beta_{12} X_{\mathrm{Dec}} + \varepsilon_t
+\]</span> where the indicator/dummy variables <span class="math inline">\(X_{\mathrm{month}}\)</span> are defined as <span class="math display">\[
+X_{\mathrm{Jan}} =
+\begin{cases}
+1,&amp; \text{if } t \text{ is January}\\
+0,&amp; \text{otherwise}
+\end{cases}
+\]</span> After solving this linear regression, we get estimates <span class="math inline">\((\widehat{\beta}_1,...,\widehat{\beta}_{12})\)</span>. Then we let <span class="math inline">\((\widehat{\mu}_1,...,\widehat{\mu}_{12}) = (\widehat{\beta}_1,...,\widehat{\beta}_{12})\)</span>.</li>
+</ul>
 
 
 </section>
@@ -805,13 +973,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Home">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Home</span>
+      <a href="./TSA-Lecture07-plots.html" class="pagination-link" aria-label="R notebook: Plots">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">R notebook: Plots</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./TSA-Lecture01.html" class="pagination-link" aria-label="Lecture 1">
-        <span class="nav-page-text">Lecture 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./TSA-Lecture08-regression-methods.html" class="pagination-link" aria-label="R notebook: Regression Methods">
+        <span class="nav-page-text">R notebook: Regression Methods</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

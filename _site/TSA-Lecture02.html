@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>About these Notes – Lecture Notes</title>
+<title>25 Spring 439/639 TSA: Lecture 2 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./TSA-Lecture01.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./TSA-Lecture03.html" rel="next">
+<link href="./TSA-Lecture01.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -69,11 +70,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./about.html">About</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture02.html">Lecture 2</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -115,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link active">
+  <a href="./about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
@@ -127,7 +157,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture02.html" class="sidebar-item-text sidebar-link">
+  <a href="./TSA-Lecture02.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture 2</span></a>
   </div>
 </li>
@@ -316,19 +346,47 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#stationarity" id="toc-stationarity" class="nav-link active" data-scroll-target="#stationarity"><span class="header-section-number">1</span> Stationarity</a>
+  <ul class="collapse">
+  <li><a href="#strict-stationarity" id="toc-strict-stationarity" class="nav-link" data-scroll-target="#strict-stationarity"><span class="header-section-number">1.1</span> Strict stationarity</a></li>
+  <li><a href="#properties-of-strict-stationarity" id="toc-properties-of-strict-stationarity" class="nav-link" data-scroll-target="#properties-of-strict-stationarity"><span class="header-section-number">1.2</span> Properties of strict stationarity</a></li>
+  <li><a href="#weak-stationarity" id="toc-weak-stationarity" class="nav-link" data-scroll-target="#weak-stationarity"><span class="header-section-number">1.3</span> Weak stationarity</a></li>
+  </ul></li>
+  <li><a href="#some-examples" id="toc-some-examples" class="nav-link" data-scroll-target="#some-examples"><span class="header-section-number">2</span> Some examples</a>
+  <ul class="collapse">
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">2.1</span> Example 1</a></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">2.2</span> Example 2</a></li>
+  <li><a href="#clarification-on-some-notations-and-concepts" id="toc-clarification-on-some-notations-and-concepts" class="nav-link" data-scroll-target="#clarification-on-some-notations-and-concepts"><span class="header-section-number">2.3</span> Clarification on some notations and concepts</a></li>
+  <li><a href="#more-examples-details-omitted" id="toc-more-examples-details-omitted" class="nav-link" data-scroll-target="#more-examples-details-omitted"><span class="header-section-number">2.4</span> More examples (details omitted)</a></li>
+  <li><a href="#example-3" id="toc-example-3" class="nav-link" data-scroll-target="#example-3"><span class="header-section-number">2.5</span> Example 3</a></li>
+  </ul></li>
+  <li><a href="#q-dependent-clt" id="toc-q-dependent-clt" class="nav-link" data-scroll-target="#q-dependent-clt"><span class="header-section-number">3</span> <span class="math inline">\(q\)</span>-dependent CLT</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About these Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 2</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -339,50 +397,164 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="instructor" class="level1">
-<h1>Instructor</h1>
-<p><strong>Dr Sergey Kushnarev</strong><br>
-Senior Lecturer, AMS JHU</p>
+<section id="stationarity" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Stationarity</h1>
+<section id="strict-stationarity" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="strict-stationarity"><span class="header-section-number">1.1</span> Strict stationarity</h2>
+<p>Lecture 1: A time series is strictly stationary if all finite dimensional joint distributions are time invariant, i.e., <span class="math display">\[
+F_{Y_{t_1}, \dots, Y_{t_n}} = F_{Y_{t_1 -k}, \dots, Y_{t_n -k}}, \quad \forall n, \forall t_1,\dots,t_n, \forall k.
+\]</span></p>
 </section>
-<section id="about" class="level1">
-<h1>About</h1>
-<p>This website is a collection of lecture notes from courses I have taught or am currently teaching.<br>
-The notes are typeset in <a href="https://quarto.org/">Quarto</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a>.</p>
-<section id="current-courses" class="level2">
-<h2 class="anchored" data-anchor-id="current-courses">Current Courses</h2>
+<section id="properties-of-strict-stationarity" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="properties-of-strict-stationarity"><span class="header-section-number">1.2</span> Properties of strict stationarity</h2>
+<p>Suppose <span class="math inline">\((Y_t)\)</span> is a strictly stationary time series.</p>
 <ul>
-<li><p><strong>Time Series Analysis (TSA)</strong><br>
-Lecture notes: <a href="https://sergey-kushnarev.github.io/tsa-lecture-notes/">TSA Lecture Notes</a><br>
-Based on Cryer and Chen’s <em>Time Series Analysis: With Applications in R</em>, 2nd edition.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Stationarity, ARMA/ARIMA/SARIMA models, forecasting.</p></li>
-<li><p><strong>Bayesian Statistics</strong><br>
-Notes: Bayesian Notes <em>To be posted</em> Based on Peter Hoff’s <em>A First Course in Bayesian Statistical Methods</em>.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Conjugate priors, Gibbs sampling, Metropolis-Hastings, model comparison, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis I</strong><br>
-Notes: ASDA1 <em>To be posted</em> Based on Kutner, Nachtsheim, Neter, and Li’s <em>Applied Linear Statistical Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Simple and multiple linear regression, ANOVA, model selection, diagnostics, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis II</strong><br>
-Notes: ASDA2 <em>To be posted</em> Based on Alan Agresti’s book <em>Foundations of Linear and Generalized Linear Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Linear regression, logistic regression, Poisson regression, GLMs.</p></li>
-<li><p><strong>Elements of Statistical Learning</strong> Notes: ESL <em>To be posted</em> Based on Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani’s <em>An Introduction to Statistical Learning in R</em>, 2nd edition. Audience: Advanced undergraduates and master’s students. Topics: Supervised/unsupervised learning, model assessment, regularization, tree-based methods, etc.</p></li>
+<li><span class="math inline">\(Y_t \overset{D}{=} Y_0\)</span> for all <span class="math inline">\(t\)</span>, i.e., all <span class="math inline">\(Y_t\)</span> are identically distributed. Proof: take <span class="math inline">\(n=1\)</span> in the definition.</li>
+<li>If the distribution (of <span class="math inline">\(Y_t\)</span>) has finite 2nd moment (which implies finite first moment by <span class="math inline">\((\mathbb{E}[Y])^2 \le \mathbb{E}[Y^2] &lt; \infty\)</span>), then for any <span class="math inline">\(t\)</span>,
+<ul>
+<li><span class="math inline">\(\mu_t = \mathbb{E}[Y_t] = \mathbb{E}[Y_0]\)</span> does not depend on <span class="math inline">\(t\)</span>.</li>
+<li><span class="math inline">\(\sigma_t^2 = Var(Y_t) = Var(Y_0)\)</span> does not depend on <span class="math inline">\(t\)</span>.</li>
+</ul></li>
+<li>Let <span class="math inline">\(n=2\)</span> in the definition, we have <span class="math inline">\((Y_s,Y_t) \overset{D}{=} (Y_{s-k},Y_{t-k}) \overset{D}{=} (Y_0, Y_{t-s})\)</span>. Consider the covariance, <span class="math inline">\(Cov(Y_s,Y_t) = Cov(Y_0, Y_{t-s})\)</span>, i.e., <span class="math inline">\(\gamma_{s,t} = \gamma_{0, t-s}\)</span> which only depends on the lag <span class="math inline">\(t-s\)</span>. So for strictly stationary time series, we can simplify the notation by the following definition</li>
+</ul>
+<p><span class="math display">\[
+\gamma_{t-s} := \gamma_{0, t-s} = \gamma_{s,t}.
+\]</span> By the symmetry of ACVF, <span class="math inline">\(\gamma_{s-t} = \gamma_{t,s} = \gamma_{s,t} = \gamma_{t-s}\)</span>, so <span class="math inline">\(\gamma_k\)</span> is an even function of <span class="math inline">\(k\)</span> in the sense that <span class="math inline">\(\gamma_{s-t} = \gamma_{t-s} = \gamma_{|t-s|}\)</span>. Example: for a strictly stationary time series, <span class="math inline">\(\gamma_5 = \gamma_{-5}= Cov(Y_0,Y_5)= Cov(Y_1,Y_6) = Cov(Y_t,Y_{t+5}), \forall t\)</span>.</p>
+<p>In summary, for a strictly stationary time series with finite 2nd moment,</p>
+<ul>
+<li><strong>Mean Function</strong>: <span class="math inline">\(\mu_t=\mu\)</span>, <span class="math inline">\(\forall t\in \mathbb{Z}\)</span>.</li>
+<li><strong>Variance Function</strong>: <span class="math inline">\(Var(Y_t) = \gamma_{t,t}= \gamma_0 = \sigma^2\)</span>, <span class="math inline">\(\forall t\in \mathbb{Z}\)</span>.</li>
+<li><strong>ACVF</strong>: <span class="math inline">\(\gamma_k = Cov(Y_t,Y_{t-k}) = Cov(Y_{t-k},Y_t) = \gamma_{-k}\)</span>, <span class="math inline">\(\forall k,t\in \mathbb{Z}\)</span>.</li>
+<li><strong>ACF</strong>: <span class="math inline">\(\rho_k = \frac{\gamma_k}{\gamma_0}\)</span> (assuming <span class="math inline">\(\gamma_0 \neq 0\)</span>).</li>
 </ul>
 </section>
-<section id="a-note-on-the-material" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-the-material">A Note on the Material</h2>
-<p>These notes are designed as <strong>teaching resources</strong> and not polished textbooks.</p>
-<p>They include: - Theory, examples and proofs - Code snippets and exercises</p>
-<p>Feedback is always welcome — feel free to suggest improvements or point out typos via GitHub.</p>
+<section id="weak-stationarity" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="weak-stationarity"><span class="header-section-number">1.3</span> Weak stationarity</h2>
+<p><strong>Definition:</strong> A time series <span class="math inline">\((Y_t)\)</span>, <span class="math inline">\(t\in \mathbb{Z}\)</span>, satisfying the following three conditions,</p>
+<ul>
+<li><span class="math inline">\(\mu_t=\mu\)</span> for some (finite) constant <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\forall t\in \mathbb{Z}\)</span>,</li>
+<li><span class="math inline">\(Var(Y_t) =\sigma^2\)</span> for some (finite) constant <span class="math inline">\(\sigma^2\)</span>, <span class="math inline">\(\forall t\in \mathbb{Z}\)</span>,</li>
+<li><span class="math inline">\(Cov(Y_t,Y_{t-k}) = \gamma_k\)</span> for some function <span class="math inline">\(\gamma_k\)</span> that only depends on the lag <span class="math inline">\(k\)</span> and does not depend on the time <span class="math inline">\(t\)</span>,</li>
+</ul>
+<p>is called weakly stationary/ stationary / second order stationary / covariance stationary.</p>
 </section>
-<section id="license" class="level2">
-<h2 class="anchored" data-anchor-id="license">License</h2>
-<p>Content is © 2025 Sergey Kushnarev unless otherwise noted. You may share or adapt the materials for non-commercial purposes with attribution.</p>
+</section>
+<section id="some-examples" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Some examples</h1>
+<p>In the examples below, example 1 is both strictly stationary and weakly stationary, example 2 is weakly stationary but not strictly stationary.</p>
+<p><strong>Exercise:</strong> Give an example of strictly stationary time series that is not weakly stationary.</p>
+<section id="example-1" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="example-1"><span class="header-section-number">2.1</span> Example 1</h2>
+<p>Consider the time series <span class="math inline">\((e_t)\)</span> where <span class="math inline">\(e_t \sim IID(0,\sigma_e^2)\)</span>.</p>
+<ul>
+<li>Show the joint cdf of <span class="math inline">\((e_{t_1},\cdots,e_{t_n})\)</span> and <span class="math inline">\((e_{t_1-k},\cdots,e_{t_n-k})\)</span> are the same:</li>
+</ul>
+<p><span class="math display">\[
+\begin{split}
+F_{e_{t_1},\cdots,e_{t_n}}(a_1,\cdots,a_n) &amp;= \mathbb{P}(e_{t_1}\le a_1, \cdots, e_{t_n}\le a_n) \\
+&amp;= \mathbb{P}(e_{t_1}\le a_1) \mathbb{P}(e_{t_2}\le a_2) \cdots \mathbb{P}(e_{t_n}\le a_n) \\
+&amp;= \mathbb{P}(e_{t_1-k}\le a_1) \mathbb{P}(e_{t_2-k}\le a_2) \cdots \mathbb{P}(e_{t_n-k}\le a_n) \\
+&amp;= \mathbb{P}(e_{t_1-k}\le a_1, \cdots, e_{t_n-k}\le a_n) = F_{e_{t_1-k},\cdots,e_{t_n-k}}(a_1,\cdots,a_n)
+\end{split}
+\]</span> By definition, <span class="math inline">\((e_t)\)</span> is strictly stationary.</p>
+<ul>
+<li>It is also weakly stationary, since
+<ul>
+<li><span class="math inline">\(\mu_t = 0\)</span>, does not depend on <span class="math inline">\(t\)</span>,</li>
+<li><span class="math inline">\(Var(e_t) = \sigma_e^2\)</span>, does not depend on <span class="math inline">\(t\)</span>,</li>
+<li>The ACVF only depends on the lag <span class="math inline">\(k\)</span> as follows</li>
+</ul>
+<span class="math display">\[
+Cov(e_t, e_{t-k}) = \begin{cases}
+0, &amp; k\neq 0\\
+\sigma_e^2, &amp; k=0.
+\end{cases}
+\]</span></li>
+</ul>
+</section>
+<section id="example-2" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="example-2"><span class="header-section-number">2.2</span> Example 2</h2>
+<p>Let <span class="math inline">\(U_t \overset{iid}{\sim} N(0,1)\)</span>. Define <span class="math inline">\(X_t\)</span> as follows <span class="math display">\[
+X_t = \begin{cases}
+U_t, &amp; t \text{ is even}\\
+\frac{1}{\sqrt{2}}(U_t^2 - 1), &amp; t \text{ is odd}.
+\end{cases}
+\]</span> It is weakly stationary since</p>
+<ul>
+<li>For even <span class="math inline">\(t\)</span>, <span class="math inline">\(\mu_t= \mathbb{E}[U_t] = 0\)</span>. For odd <span class="math inline">\(t\)</span>, <span class="math inline">\(\mu_t= \mathbb{E}[\frac{1}{\sqrt{2}}(U_t^2 - 1)] = \frac{1}{\sqrt{2}}(\mathbb{E}[U_t^2]-1) = 0\)</span>. So <span class="math inline">\(\mu_t=0\)</span> for all <span class="math inline">\(t\)</span>.</li>
+<li>For even <span class="math inline">\(t\)</span>, <span class="math inline">\(Var(X_t) = Var(U_t)=1\)</span>. For odd <span class="math inline">\(t\)</span>, <span class="math inline">\(Var(X_t) = Var(\frac{1}{\sqrt{2}}(U_t^2 - 1)) = \frac{1}{2} Var(U_t^2) = \frac{1}{2} (\mathbb{E}[U_t^4] - (\mathbb{E}[U_t^2])^2 ) = \frac{1}{2}(3-1) = 1\)</span>. So <span class="math inline">\(Var(X_t) = 1\)</span> for all <span class="math inline">\(t\)</span>.</li>
+<li></li>
+</ul>
+<p><span class="math display">\[
+Cov(Y_t,Y_{t-k}) = \begin{cases}
+0, \quad k\neq 0 \\
+1, \quad k=0.
+\end{cases}
+\]</span> <strong>Exercise:</strong> show that <span class="math inline">\(Cov(Y_t,Y_{t-k}) = 0\)</span> for <span class="math inline">\(k\neq 0\)</span>.</p>
+<p>For this example <span class="math inline">\((X_t)\)</span>, we can show that it is not strictly stationary by proving <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are not identically distributed.</p>
+<p><strong>Exercise:</strong> prove the claim above. (<em>Hint:</em> find some real number <span class="math inline">\(a\)</span> such that <span class="math inline">\(\mathbb{P}(\frac{1}{\sqrt{2}}(U_1^2 - 1) \le a) \neq \mathbb{P}(U_2 \le a)\)</span>.)</p>
+</section>
+<section id="clarification-on-some-notations-and-concepts" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="clarification-on-some-notations-and-concepts"><span class="header-section-number">2.3</span> Clarification on some notations and concepts</h2>
+<ul>
+<li><strong>IID noise</strong>: In the previous Example 1, <span class="math inline">\(e_t \sim IID(0,\sigma_e^2)\)</span>. <strong>In this course (TSA)</strong>, we call a time series <span class="math inline">\((e_t)\)</span> <strong>iid noise</strong>, denoted by <span class="math inline">\(e_t \sim IID(0,\sigma_e^2)\)</span>, if it satisfies: mean <span class="math inline">\(0\)</span>, variance <span class="math inline">\(\sigma_e^2\)</span>, all <span class="math inline">\(e_t\)</span> are iid (independently identically distributed).</li>
+<li><strong>White noise</strong>: In this course, we call a time series <span class="math inline">\((e_t)\)</span> <strong>white noise</strong>, denoted by <span class="math inline">\(e_t \sim WN(0,\sigma_e^2)\)</span>, if it satisfies: mean <span class="math inline">\(0\)</span>, variance <span class="math inline">\(\sigma_e^2\)</span>, all <span class="math inline">\(e_t\)</span> are uncorrelated (pairwise uncorrelated).</li>
+<li>In general, iid noise implies white noise, and the inverse is not true. Under the assumption of normality, they are equivalent. (Note: here normality refers to the assumption that the time series <span class="math inline">\((e_t)\)</span> is a Gaussian process.)</li>
+</ul>
+<p><span class="math display">\[
+\begin{split}
+\text{iid noise} \quad &amp; \Rightarrow \quad \text{white noise}, \\
+\text{iid noise} \quad &amp; \not\Leftarrow \quad \text{white noise}, \\
+\text{iid Normal(Gaussian) noise} \quad &amp; \Leftrightarrow \quad \text{Normal(Gaussian) white noise}.
+\end{split}
+\]</span></p>
+<ul>
+<li><strong>Warning:</strong> in Cryer and Chan, they often use iid noise and white noise interchangeably.</li>
+</ul>
+</section>
+<section id="more-examples-details-omitted" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="more-examples-details-omitted"><span class="header-section-number">2.4</span> More examples (details omitted)</h2>
+<ul>
+<li>“Linear regression” example from lecture 1, where <span class="math inline">\(Y_t = a+bt+e_t\)</span>, and <span class="math inline">\(e_t \sim WN(0,\sigma_e^2)\)</span>. This is not stationary since <span class="math inline">\(\mu_t = a+bt\)</span> (whenever <span class="math inline">\(b\neq 0\)</span>).</li>
+<li>“Random walk” example from lecture 1. For positive integer <span class="math inline">\(t\)</span>, <span class="math inline">\(Y_t = \sum_{i}^t e_i\)</span>, where <span class="math inline">\(e_t \sim WN(0,\sigma_e^2)\)</span>. We have <span class="math inline">\(\mu_t=0\)</span>, <span class="math inline">\(Var(Y_t) = t \sigma_e^2\)</span>. This <span class="math inline">\((Y_t)\)</span> is not stationary.</li>
+<li>“Moving average” example from lecture 1, where <span class="math inline">\(Y_t = \frac{e_t+ e_{t-1}}{2}\)</span>, and <span class="math inline">\(e_t \sim WN(0,\sigma_e^2)\)</span>. In lecture 1, we already calculated its mean function, variance function and ACVF. This <span class="math inline">\((Y_t)\)</span> is stationary.</li>
+</ul>
+</section>
+<section id="example-3" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="example-3"><span class="header-section-number">2.5</span> Example 3</h2>
+<p>Let <span class="math inline">\(A,B\)</span> be two iid random variables, with <span class="math inline">\(\mathbb{E}[A]=\mathbb{E}[B]=0\)</span> and <span class="math inline">\(Var(A)= Var(B) = \sigma^2\)</span>. Let <span class="math inline">\(w\in \mathbb{R}\)</span> be a fixed real number. For each <span class="math inline">\(t\in \mathbb{Z}\)</span>, define <span class="math inline">\(Y_t = A \cos(wt) + B \sin(wt)\)</span>. <em>Remark:</em> note that <span class="math inline">\(A,B\)</span> are random, but they are “same” for all <span class="math inline">\(t\)</span>.</p>
+<ul>
+<li><span class="math inline">\(\mu_t = \mathbb{E}[Y_t] = \mathbb{E}[A \cos(wt) + B \sin(wt)] = \cos(wt)\mathbb{E}[A] + \sin(wt) \mathbb{E}[B] =0\)</span>.</li>
+<li><span class="math inline">\(Var(Y_t)= Var(A \cos(wt) + B \sin(wt)) = \cos^2(wt)Var(A) + \sin^2(wt)Var(B) + 0 = \sigma^2\)</span>.</li>
+<li>The ACVF only depends on the lag <span class="math inline">\(k\)</span> as follows</li>
+</ul>
+<p><span class="math display">\[
+\begin{split}
+Cov(Y_t,Y_{t-k}) &amp;= Cov(A \cos(wt) + B \sin(wt), A \cos(w(t-k)) + B \sin(w(t-k))) \\
+&amp;= \cos(wt)\cos(w(t-k)) Var(A) + \sin(wt)\sin(w(t-k)) Var(B) + 0 + 0 \\
+&amp;= \sigma^2 (\cos(wt)\cos(w(t-k)) + \sin(wt)\sin(w(t-k))) \\
+&amp;= \sigma^2 \cos(wt - w(t-k)) = \sigma^2 \cos(wk)
+\end{split}
+\]</span> So <span class="math inline">\((Y_t)\)</span> is weakly stationary. In general (for generic choice of <span class="math inline">\(w\)</span>, generic distribution of <span class="math inline">\(A,B\)</span>, etc.), <span class="math inline">\((Y_t)\)</span> is not strictly stationary.</p>
+<p><strong>Exercise:</strong> show that <span class="math inline">\(Y_0\)</span> and <span class="math inline">\(Y_1\)</span> are not identically distributed in general.</p>
+</section>
+</section>
+<section id="q-dependent-clt" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> <span class="math inline">\(q\)</span>-dependent CLT</h1>
+<p><strong>Motivation:</strong> Assume <span class="math inline">\((Y_t)\)</span> is a stationary time series with <span class="math inline">\(\mu_t=\mu\)</span>, <span class="math inline">\(Var(Y_t)=\sigma^2\)</span>, <span class="math inline">\(Cov(Y_t, Y_{t-k})= \gamma_k\)</span>. Suppose we observe <span class="math inline">\(Y_1,\dots,Y_n\)</span>, can we make any estimation/inference on <span class="math inline">\(\mu\)</span>? The sample mean <span class="math inline">\(\overline{Y}= \frac{1}{n} \sum_{t=1}^n Y_t\)</span> may have nice properties under some strong assumptions. For example, if <span class="math inline">\(Y_t\)</span> are iid, then the Central Limit Theorem (CLT) provides the limiting distribution of <span class="math inline">\(\overline{Y}\)</span>. But for a general time series <span class="math inline">\((Y_t)\)</span> without iid condition, the behavior of <span class="math inline">\(\overline{Y}\)</span> can be tricky.</p>
+<p><strong>Example:</strong> Let <span class="math inline">\(Z\sim N(0,1)\)</span>, <span class="math inline">\(U_t \overset{iid}{\sim}\text{Unif}[0,1]\)</span>, and assume <span class="math inline">\(Z\)</span> is independent of all <span class="math inline">\((U_t)\)</span>. Let <span class="math inline">\(Y_t = Z+ U_t\)</span>. Under this setting, <span class="math inline">\(\mu= \mathbb{E}[Y_t]= \mathbb{E}[Z]+ \mathbb{E}[U_t] = \frac{1}{2}\)</span>. The classic CLT cannot be directly applied to <span class="math inline">\(\frac{1}{n} \sum_{t=1}^n Y_t\)</span> since <span class="math inline">\(Y_t\)</span> are not iid. But we can still manage to obtain the limiting distribution of <span class="math inline">\(\overline{Y}\)</span>. Note that <span class="math display">\[
+\overline{Y} = \frac{1}{n} \sum_{t=1}^n (Z+U_t) = Z+ \overline{U}.
+\]</span> The classic CLT can be applied to <span class="math inline">\(\overline{U} = \frac{1}{n} \sum_{t=1}^n U_t\)</span>, which gives <span class="math inline">\(\overline{U} \to N(\frac{1}{2}, \frac{1}{12n})\)</span>. Also recall that <span class="math inline">\(Z\sim N(0,1)\)</span> and it is independent with <span class="math inline">\(\overline{U}\)</span>. So <span class="math inline">\(\overline{Y} = Z+ \overline{U} \to N(\frac{1}{2}, 1+ \frac{1}{12n})\)</span>. This result looks quite different from the classic CLT in the following sense: the classic limiting distribution looks like <span class="math inline">\(\overline{Y} \to N(\mu_Y, \frac{\sigma_Y^2}{n})\)</span>. Consider the large-sample variance: as <span class="math inline">\(n\to \infty\)</span>, the classic result <span class="math inline">\(\frac{\sigma_Y^2}{n}\)</span> shrinks to <span class="math inline">\(0\)</span>, while the actual variance in this example <span class="math inline">\(1+ \frac{1}{12n}\)</span> converges to <span class="math inline">\(1\)</span>!</p>
+<p>From the example above, we can see that the classic CLT do not work (the iid condition fails and consequently the limiting behavior also looks different). <em>Question:</em> can we still get something similar to CLT? The answer is Yes. A similar version of CLT works if there is some but “not much” dependence between the <span class="math inline">\(Y_t\)</span>. This idea leads to the concept <strong><span class="math inline">\(q\)</span>-dependent</strong>.</p>
+<p><strong>Definition:</strong> For a time series <span class="math inline">\((Y_t)\)</span>,</p>
+<ul>
+<li>If <span class="math inline">\(Y_s\)</span> and <span class="math inline">\(Y_{s+k}\)</span> are independent for any <span class="math inline">\(s\)</span> and any <span class="math inline">\(k&gt;q\)</span>, then <span class="math inline">\((Y_t)\)</span> is <strong><span class="math inline">\(q\)</span>-dependent</strong>.</li>
+<li>If <span class="math inline">\(Y_s\)</span> and <span class="math inline">\(Y_{s+k}\)</span> are uncorrelated for any <span class="math inline">\(s\)</span> and any <span class="math inline">\(k&gt;q\)</span>, then <span class="math inline">\((Y_t)\)</span> is <strong><span class="math inline">\(q\)</span>-correlated</strong>.</li>
+</ul>
+<p>So “<span class="math inline">\(q\)</span>-dependent” means “dependent only up to lag <span class="math inline">\(q\)</span>”. The concept “<span class="math inline">\(q\)</span>-correlated” is defined in a similar fashion where the only difference is we care about the covariance instead of the dependence.</p>
+<p>In the previous example, <span class="math inline">\(\gamma_0 = Var(Y_t) = Var(Z+U_t) = Var(Z)+Var(U_t) = \frac{13}{12}\)</span>. For lag <span class="math inline">\(k&gt;0\)</span>, <span class="math inline">\(\gamma_k = Cov(Y_t, Y_{t-k}) = Cov(Z+U_t, Z+U_{t-k}) = Var(Z) = 1\)</span>. Since <span class="math inline">\(\gamma_k=1\neq 0\)</span> for any <span class="math inline">\(k&gt;0\)</span>, the <span class="math inline">\((Y_t)\)</span> in this example is not <span class="math inline">\(q\)</span>-dependent (for any <span class="math inline">\(q\)</span>).</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -805,13 +977,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Home">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Home</span>
+      <a href="./TSA-Lecture01.html" class="pagination-link" aria-label="Lecture 1">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 1</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./TSA-Lecture01.html" class="pagination-link" aria-label="Lecture 1">
-        <span class="nav-page-text">Lecture 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./TSA-Lecture03.html" class="pagination-link" aria-label="Lecture 3">
+        <span class="nav-page-text">Lecture 3</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

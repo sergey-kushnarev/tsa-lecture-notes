@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>About these Notes – Lecture Notes</title>
+<title>25 Spring 439/639 TSA: Lecture 23 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./TSA-Lecture01.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./TSA-Lecture23-arch-garch.html" rel="next">
+<link href="./TSA-Lecture22-spurious.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -69,11 +70,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./about.html">About</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture23.html">Lecture 23</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -115,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link active">
+  <a href="./about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
@@ -301,7 +331,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture23.html" class="sidebar-item-text sidebar-link">
+  <a href="./TSA-Lecture23.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture 23</span></a>
   </div>
 </li>
@@ -316,19 +346,52 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#archgarch-models" id="toc-archgarch-models" class="nav-link active" data-scroll-target="#archgarch-models"><span class="header-section-number">1</span> ARCH/GARCH models</a>
+  <ul class="collapse">
+  <li><a href="#arch1" id="toc-arch1" class="nav-link" data-scroll-target="#arch1"><span class="header-section-number">1.1</span> ARCH(1)</a>
+  <ul class="collapse">
+  <li><a href="#stationarity-of-arch1" id="toc-stationarity-of-arch1" class="nav-link" data-scroll-target="#stationarity-of-arch1"><span class="header-section-number">1.1.1</span> Stationarity of ARCH(1)</a></li>
+  <li><a href="#financial-returns" id="toc-financial-returns" class="nav-link" data-scroll-target="#financial-returns"><span class="header-section-number">1.1.2</span> Financial Returns</a></li>
+  <li><a href="#properties-of-arch1" id="toc-properties-of-arch1" class="nav-link" data-scroll-target="#properties-of-arch1"><span class="header-section-number">1.1.3</span> Properties of ARCH(1)</a></li>
+  <li><a href="#connection-to-ar1" id="toc-connection-to-ar1" class="nav-link" data-scroll-target="#connection-to-ar1"><span class="header-section-number">1.1.4</span> Connection to AR(1)</a></li>
+  <li><a href="#signs-of-arch1-effects" id="toc-signs-of-arch1-effects" class="nav-link" data-scroll-target="#signs-of-arch1-effects"><span class="header-section-number">1.1.5</span> Signs of ARCH(1) effects</a></li>
+  </ul></li>
+  <li><a href="#archp" id="toc-archp" class="nav-link" data-scroll-target="#archp"><span class="header-section-number">1.2</span> ARCH(p)</a></li>
+  <li><a href="#garchpq" id="toc-garchpq" class="nav-link" data-scroll-target="#garchpq"><span class="header-section-number">1.3</span> GARCH(p,q)</a>
+  <ul class="collapse">
+  <li><a href="#stationarity-of-garch" id="toc-stationarity-of-garch" class="nav-link" data-scroll-target="#stationarity-of-garch"><span class="header-section-number">1.3.1</span> Stationarity of GARCH</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#fitting-an-arima-garch-model" id="toc-fitting-an-arima-garch-model" class="nav-link" data-scroll-target="#fitting-an-arima-garch-model"><span class="header-section-number">2</span> Fitting an ARIMA-GARCH model</a>
+  <ul class="collapse">
+  <li><a href="#caveats" id="toc-caveats" class="nav-link" data-scroll-target="#caveats"><span class="header-section-number">2.1</span> Caveats</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About these Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 23</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -339,47 +402,195 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="instructor" class="level1">
-<h1>Instructor</h1>
-<p><strong>Dr Sergey Kushnarev</strong><br>
-Senior Lecturer, AMS JHU</p>
+<section id="archgarch-models" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> ARCH/GARCH models</h1>
+<p>ARCH/GARCH stands for Autoregressive Conditional Heteroskedastic / Generalized Autoregressive Conditional Heteroskedastic models. These models are models for <strong>conditional heteroskedasticity</strong>, which means that they allow the variance of the error terms to change over time. This is particularly useful in financial time series data, where volatility (i.e.&nbsp;conditional variance) tends to cluster over time.</p>
+<p>In contrast, ARMA models, are models of <em>conditional mean</em>, while ARCH/GARCH models are used to model <em>conditional variance</em>. Specifically, for AR(1):</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_t &amp;= \phi Y_{t-1} + e_t \\
+e_t &amp;\sim iid(0, \sigma^2)
+\end{aligned}
+\]</span></p>
+<p>Here, unconditional mean is constant over time, <span class="math inline">\(EY_t = 0\)</span>. But conditional mean is given by:</p>
+<p><span class="math display">\[
+E[Y_t | Y_{t-1}] = \phi Y_{t-1} =: \mu_{t|t-1}.
+\]</span></p>
+<p>So AR(1) model could be written as:</p>
+<p><span class="math display">\[
+Y_t = \underbrace{\mu_{t|t-1}}_{\text{conditional mean}} + \underbrace{\sigma_0}_{\text{conditional sd}} e_t,\qquad e_t\sim iid(0,1).
+\]</span></p>
+<section id="arch1" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="arch1"><span class="header-section-number">1.1</span> ARCH(1)</h2>
+<p>ARCH(1) model, on the other hand, models <em>conditional variance</em>:</p>
+<p><span class="math display">\[
+\begin{cases}
+Y_t = \mu_{0} + \sigma_{t|t-1} e_t, \quad e_t\sim iid(0,1) \\
+\sigma_{t|t-1}^2 = \alpha_0 + \alpha_1 Y_{t-1}^2
+\end{cases}
+\]</span></p>
+<p>This is <strong>conditionally heteroskedastic</strong> model, as the variance of the error term <span class="math inline">\(e_t\)</span> is not constant but depends on the past values of the series. Note, we need <span class="math inline">\(\alpha_0 &gt; 0\)</span> and <span class="math inline">\(\alpha_1 &gt; 0\)</span> for the model to be valid. These models were developed by Robert Engle (ARCH, 1982) and Tim Bollerslev (GARCH, 1986). ARCH models are often used in financial time series analysis, particularly for modeling return volatility.</p>
+<section id="stationarity-of-arch1" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="stationarity-of-arch1"><span class="header-section-number">1.1.1</span> Stationarity of ARCH(1)</h3>
+<p>It can be shown that ARCH(1) process is stationary if <span class="math inline">\(0&lt;\alpha_1 &lt; 1\)</span>. It may seem contradictory that a stationary process can have non-constant conditional variance. But, recall that weakly stationary processes has constant <strong>unconditional variance</strong>.</p>
 </section>
-<section id="about" class="level1">
-<h1>About</h1>
-<p>This website is a collection of lecture notes from courses I have taught or am currently teaching.<br>
-The notes are typeset in <a href="https://quarto.org/">Quarto</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a>.</p>
-<section id="current-courses" class="level2">
-<h2 class="anchored" data-anchor-id="current-courses">Current Courses</h2>
+<section id="financial-returns" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="financial-returns"><span class="header-section-number">1.1.2</span> Financial Returns</h3>
+<p>Consider <span class="math inline">\(X_t\)</span> the price of a stock/asset. The <strong>return</strong> can be defined as:</p>
+<p><span class="math display">\[
+Y_t = \nabla \log(X_t)\approx \frac{X_t - X_{t-1}}{X_{t-1}} = \frac{X_t}{X_{t-1}} - 1
+\]</span> Standard deviation of <span class="math inline">\(Y_t\)</span> is known as <strong>volatility</strong>.</p>
+<p>For simplicity assume <span class="math inline">\(\mu_0=0\)</span>, then ARCH(1) process becomes:</p>
+<p><span class="math display">\[
+\begin{cases}
+Y_t = \sigma_{t} e_t, \quad e_t\sim iid(0,1) \\
+\sigma_{t}^2 = \alpha_0 + \alpha_1 Y_{t-1}^2
+\end{cases}
+\]</span></p>
+<p>If the previous time series value <span class="math inline">\(Y_{t-1}\)</span> is large, then volatility <span class="math inline">\(\sigma_{t}\)</span> will also be large, indicating a period of high uncertainty or risk in the asset’s return: <span class="math inline">\(Y_t\)</span> may <em>potentially</em> be quite large as well.</p>
+</section>
+<section id="properties-of-arch1" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="properties-of-arch1"><span class="header-section-number">1.1.3</span> Properties of ARCH(1)</h3>
+<ol type="1">
+<li><p>Expectation <span class="math display">\[
+EY_t=E[\sigma_{t} e_t]=E[\sigma_{t}]E[e_t]=0.
+\]</span></p></li>
+<li><p>Variance <span class="math display">\[
+Var(Y_t) = E(Y_t^2) = E[\sigma_{t}^2e_t^2] = E[\sigma_{t}^2]E[e_t^2] = E[\sigma_{t}^2]
+\]</span> <span class="math display">\[
+=\alpha_0 + \alpha_1 E[Y_{t-1}^2]=\alpha_0 + \alpha_1 Var(Y_t).
+\]</span></p></li>
+</ol>
+<p>In the last step we used the fact that ARCH(1) is stationary, so <span class="math inline">\(E[Y_t^2] = Var(Y_t)\)</span>. Solving for <span class="math inline">\(Var(Y_t)\)</span> gives:</p>
+<p><span class="math display">\[
+Var(Y_t) = \frac{\alpha_0}{1 - \alpha_1}.
+\]</span></p>
+<p>Thus it is necessary to have <span class="math inline">\(\alpha_1 &lt; 1\)</span> for the model to be stable and for the variance to be finite.</p>
+<p>Note, the conditional variance will not be constant:</p>
+<p><span class="math display">\[
+Var(Y_t|Y_{t-1}) = \alpha_0 + \alpha_1 Y_{t-1}^2.
+\]</span></p>
+<ol start="3" type="1">
+<li>Dependence</li>
+</ol>
+<p><span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_{t-h}\)</span> are <strong>uncorrelated</strong> for <span class="math inline">\(h &gt; 0\)</span>, but <strong>dependent</strong>.</p>
+<p><span class="math display">\[
+cov(Y_t,Y_{t-1}) = E[Y_t Y_{t-1}] - E[Y_t]E[Y_{t-1}] = E[Y_t Y_{t-1}]=E[\sigma_{t} e_t \sigma_{t-1} e_{t-1}] = E[\sigma_{t} \sigma_{t-1} e_{t-1}] E[e_t] = 0.
+\]</span> Above we used the fact that <span class="math inline">\(e_t\)</span> is independent of the past, i.e.&nbsp;of <span class="math inline">\(\sigma_{t}, \sigma_{t-1}, e_{t-1}\)</span>.</p>
+<ol start="4" type="1">
+<li><span class="math inline">\(Y_t\)</span> is leptokurtic, i.e.&nbsp;has heavier tails than normal.</li>
+</ol>
+<p>Recall, <strong>kurtosis</strong> is defined as <span class="math inline">\(K=\frac{\mu_4}{\sigma_t^2}=\frac{EY_t^4}{(Var Y_t)^2}\)</span>.</p>
+<p><span class="math display">\[
+\mu_4=E[Y_t^4]=E[\sigma_t^4 e_t^4]=E[\sigma_t^4]E[e_t^4]= 3E[\sigma_t^4].
+\]</span></p>
+<p><span class="math display">\[
+=3E[(\alpha_0+\alpha_1 Y_{t-1}^2)^2]=3(\alpha_0^2+\alpha_1^2 E[Y_{t-1}^4]+2\alpha_0\alpha_1 E[Y_{t-1}^2]).
+\]</span></p>
+<p>Note that <span class="math inline">\(E[Y_{t-1}^2] = Var(Y_t)\)</span> and <span class="math inline">\(E[Y_{t-1}^4] = \mu_4\)</span> by stationarity, so <span class="math display">\[
+\begin{aligned}
+\mu_4(1-3\alpha_1^2) &amp;= 3\alpha_0^2+6\alpha_0\alpha_1 \frac{\alpha_0}{1-\alpha_1} \\
+&amp;= \frac{3\alpha_0^2-3\alpha_0^2\alpha_1+6\alpha_0^2\alpha_1}{1-\alpha_1} \\
+&amp;= 3\alpha_0^2\frac{1+\alpha_1}{1-\alpha_1}
+\end{aligned}
+\]</span></p>
+<p>Thus, we have:</p>
+<p><span class="math display">\[
+\mu_4 = 3\frac{\alpha_0^2}{(1-3\alpha_1^2)}\frac{1+\alpha_1}{1-\alpha_1}
+\]</span></p>
+<p>So kurtosis is given by:</p>
+<p><span class="math display">\[
+K = \frac{\mu_4}{(\sigma_t^2)^2} = \frac{3\frac{\alpha_0^2}{(1-3\alpha_1^2)}\frac{1+\alpha_1}{1-\alpha_1}}{\frac{\alpha_0^2}{(1 - \alpha_1)^2}} = 3\frac{1-\alpha_1^2}{1-3\alpha_1^2}
+\]</span></p>
+<p><em>Excess kurtosis</em> is <span class="math display">\[
+K-K_{normal}=K-3=\frac{6\alpha_1^2}{1-3\alpha_1^2}&gt;0.
+\]</span> The ARCH(1) model exhibits excess kurtosis, indicating that it has heavier tails than a normal distribution.</p>
+<p>This is an important property for financial time series, as it suggests that extreme events (e.g., market crashes) are more likely than what a normal distribution would predict.</p>
+<p>So in summary for <span class="math inline">\(Y_t\sim ARCH(1)\)</span>, we have:</p>
+<ol type="1">
+<li>Expectation: <span class="math inline">\(EY_t = 0\)</span>.</li>
+<li>Variance: <span class="math inline">\(Var(Y_t) = \frac{\alpha_0}{1 - \alpha_1}\)</span>.</li>
+<li>ACF <span class="math inline">\(\rho_k=0\)</span> for <span class="math inline">\(k&gt;0\)</span>.</li>
+<li><span class="math inline">\(Y_t\)</span> is leptokurtic, i.e.&nbsp;has heavier tails than normal.</li>
+<li><span class="math inline">\(Y_t\)</span> is symmetric (question: why?).</li>
+</ol>
+<p>In other words, <span class="math inline">\(Y_t\)</span> is a symmetric heavy-tailed white noise process! But it is not an independent process!</p>
+</section>
+<section id="connection-to-ar1" class="level3" data-number="1.1.4">
+<h3 data-number="1.1.4" class="anchored" data-anchor-id="connection-to-ar1"><span class="header-section-number">1.1.4</span> Connection to AR(1)</h3>
+<p>We can think of <span class="math inline">\(Y_t^2\)</span> as approximately following AR(1) in the following sense.</p>
+<p>Let’s write the following equations and take their difference: <span class="math display">\[
+\begin{aligned}
+Y_t^2 &amp;= \sigma_t^2 e_t^2\\
+\alpha_0 + \alpha_1 Y_{t-1}^2 &amp;= \sigma_{t}^2.
+\end{aligned}
+\]</span></p>
+<p>We get</p>
+<p><span class="math display">\[
+Y_t^2 - \alpha_0 - \alpha_1 Y_{t-1}^2 = \sigma_t^2(e_t^2-1)=:\eta_t
+\]</span></p>
+<p>Note, that on the RHS we have <span class="math inline">\(e_t^2-1\)</span>, a centered <span class="math inline">\(\chi^2_1\)</span> noise term, scaled by <span class="math inline">\(\sigma_t^2\)</span>. Thus we have</p>
+<p><span class="math display">\[
+Y_t^2 = \alpha_0 + \alpha_1 Y_{t-1}^2 + \eta_t
+\]</span></p>
+<p><span class="math inline">\(Y_t^2\)</span> <code>follows</code> AR(1) process with the non-normal, mean zero innovation process <span class="math inline">\(\eta_t\)</span>, which is <strong>uncorrelated but dependant.</strong></p>
+</section>
+<section id="signs-of-arch1-effects" class="level3" data-number="1.1.5">
+<h3 data-number="1.1.5" class="anchored" data-anchor-id="signs-of-arch1-effects"><span class="header-section-number">1.1.5</span> Signs of ARCH(1) effects</h3>
+<p>If <span class="math inline">\(Y_t\sim WN\)</span> and <span class="math inline">\(Y_t^2\sim AR(1)\)</span>, then <span class="math inline">\(Y_t\sim ARCH(1)\)</span>. We will refer to this behavior (i.e.&nbsp;uncorrelated but dependent) as <strong>ARCH effects</strong>.</p>
+<p>We will talk about fitting the ARCH/GARCH models below.</p>
+</section>
+</section>
+<section id="archp" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="archp"><span class="header-section-number">1.2</span> ARCH(p)</h2>
+<p>We can generalize the ARCH(1) model to ARCH(p) model as follows:</p>
+<p><span class="math display">\[
+Y_t = \sigma_t e_t, \quad \sigma_t^2 = \alpha_0 + \sum_{i=1}^{p} \alpha_i Y_{t-i}^2.
+\]</span></p>
+<p>Larger values of <span class="math inline">\(Y_t\)</span> in the last <span class="math inline">\(p\)</span> lags will lead to larger values of <span class="math inline">\(\sigma_t^2\)</span>, thus potentially large <span class="math inline">\(Y_t\)</span>.</p>
+<p>One can show that ARCH(p) is stationary if the sum of the coefficients is less than 1: <span class="math display">\[
+\sum_{i=0}^{p} \alpha_i &lt; 1.
+\]</span></p>
+</section>
+<section id="garchpq" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="garchpq"><span class="header-section-number">1.3</span> GARCH(p,q)</h2>
+<p>Generalized Autoregressive Conditional Heteroskedasticity (GARCH) models extend ARCH models by including lagged values of the conditional variance itself. The GARCH(p,q) model is defined as:</p>
+<p><span class="math display">\[
+Y_t = \sigma_t e_t, \quad \sigma_t^2 = \alpha_0 + \sum_{i=1}^{p} \alpha_i Y_{t-i}^2 + \sum_{j=1}^{q} \beta_j \sigma_{t-j}^2.
+\]</span></p>
+<p>Larger values of <span class="math inline">\(Y_t\)</span> in the last <span class="math inline">\(p\)</span> lags and/or larger values of <span class="math inline">\(\sigma_t^2\)</span> in the last <span class="math inline">\(q\)</span> lags will lead to larger values of <span class="math inline">\(\sigma_t^2\)</span>, thus potentially large <span class="math inline">\(Y_t\)</span>.</p>
+<section id="stationarity-of-garch" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="stationarity-of-garch"><span class="header-section-number">1.3.1</span> Stationarity of GARCH</h3>
+<p>It can be shown that GARCH(p,q) process is stationary if <span class="math display">\[
+\sum_{i=1}^{p} \alpha_i + \sum_{j=1}^{q} \beta_j &lt; 1.
+\]</span> Note, that all <span class="math inline">\(\alpha_i, \beta_j &gt; 0\)</span>.</p>
+<p>Similarly to the previous analysis, one can show that <span class="math inline">\(Y_t\sim GARCH(p,q)\)</span> is white noise, mean zero, and <span class="math inline">\(Y_t^2\sim ARMA(p,q)\)</span> with non-normal errors:</p>
+<p><span class="math display">\[
+Y_t^2=\alpha_0 + \sum_{i=1}^{max(p,q)} (\alpha_i+\beta_i) Y_{t-i}^2 +\eta_t- \sum_{j=1}^{q} \beta_j \eta_{t-j}.
+\]</span></p>
+</section>
+</section>
+</section>
+<section id="fitting-an-arima-garch-model" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Fitting an ARIMA-GARCH model</h1>
+<p>Given a time series <span class="math inline">\(X_t\)</span> we can fit an ARIMA-GARCH model. This model would fit an ARIMA process to the mean and the GARCH process to the variance.</p>
+<ol type="1">
+<li>Make <span class="math inline">\(X_t\)</span> stationary (if needed) using differencing or transformation <span class="math inline">\(\rightarrow W_t\)</span>.</li>
+<li>Fit an ARMA(p,q) model to the stationary series <span class="math inline">\(W_t\)</span>. Then define residuals <span class="math inline">\(Y_t = W_t - ARMA(p,q)\)</span>.</li>
+<li>Check whether <span class="math inline">\(Y_t\)</span> exhibits ARCH effects. In other words, whether it is white noise, heavy tailed and <span class="math inline">\(Y_t^2 \overset{\approx}{\sim} ARMA(p_0,q_0)\)</span></li>
+<li>Fit a GARCH(p_0,q_0) model to the residuals <span class="math inline">\(Y_t\)</span> if ARCH effects are present.</li>
+</ol>
+<p>Then we have <span class="math display">\[
+W_t \sim ARMA(p,q) + GARCH(p_0,q_0).
+\]</span></p>
+<section id="caveats" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="caveats"><span class="header-section-number">2.1</span> Caveats</h2>
 <ul>
-<li><p><strong>Time Series Analysis (TSA)</strong><br>
-Lecture notes: <a href="https://sergey-kushnarev.github.io/tsa-lecture-notes/">TSA Lecture Notes</a><br>
-Based on Cryer and Chen’s <em>Time Series Analysis: With Applications in R</em>, 2nd edition.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Stationarity, ARMA/ARIMA/SARIMA models, forecasting.</p></li>
-<li><p><strong>Bayesian Statistics</strong><br>
-Notes: Bayesian Notes <em>To be posted</em> Based on Peter Hoff’s <em>A First Course in Bayesian Statistical Methods</em>.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Conjugate priors, Gibbs sampling, Metropolis-Hastings, model comparison, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis I</strong><br>
-Notes: ASDA1 <em>To be posted</em> Based on Kutner, Nachtsheim, Neter, and Li’s <em>Applied Linear Statistical Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Simple and multiple linear regression, ANOVA, model selection, diagnostics, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis II</strong><br>
-Notes: ASDA2 <em>To be posted</em> Based on Alan Agresti’s book <em>Foundations of Linear and Generalized Linear Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Linear regression, logistic regression, Poisson regression, GLMs.</p></li>
-<li><p><strong>Elements of Statistical Learning</strong> Notes: ESL <em>To be posted</em> Based on Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani’s <em>An Introduction to Statistical Learning in R</em>, 2nd edition. Audience: Advanced undergraduates and master’s students. Topics: Supervised/unsupervised learning, model assessment, regularization, tree-based methods, etc.</p></li>
+<li>In general, <span class="math inline">\(p_0,q_0\leq 2\)</span>.</li>
+<li><span class="math inline">\(Y_t^2\)</span> rarely follows a simple ARMA structure.</li>
+<li>Sometimes <span class="math inline">\(|Y_t|\)</span> exhibits a better behavior, close to the predicted ARMA structure.</li>
+<li>In reality one would fit a low dimensional GARCH model to <span class="math inline">\(Y_t\)</span> and then would check the residuals for GARCH effects.</li>
 </ul>
-</section>
-<section id="a-note-on-the-material" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-the-material">A Note on the Material</h2>
-<p>These notes are designed as <strong>teaching resources</strong> and not polished textbooks.</p>
-<p>They include: - Theory, examples and proofs - Code snippets and exercises</p>
-<p>Feedback is always welcome — feel free to suggest improvements or point out typos via GitHub.</p>
-</section>
-<section id="license" class="level2">
-<h2 class="anchored" data-anchor-id="license">License</h2>
-<p>Content is © 2025 Sergey Kushnarev unless otherwise noted. You may share or adapt the materials for non-commercial purposes with attribution.</p>
 
 
 </section>
@@ -805,13 +1016,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Home">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Home</span>
+      <a href="./TSA-Lecture22-spurious.html" class="pagination-link" aria-label="R notebook: Advanced Topics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">R notebook: Advanced Topics</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./TSA-Lecture01.html" class="pagination-link" aria-label="Lecture 1">
-        <span class="nav-page-text">Lecture 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./TSA-Lecture23-arch-garch.html" class="pagination-link" aria-label="R notebook: Advanced Topics">
+        <span class="nav-page-text">R notebook: Advanced Topics</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

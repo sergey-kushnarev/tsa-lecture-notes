@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lecture Notes</title>
+<title>Time Series Analysis: Lecture Notes – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -68,11 +68,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -113,12 +142,201 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
         <li class="sidebar-item">
- <span class="menu-text">Courses</span>
-  </li>
-        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture07-plots.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R notebook: Plots</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 8</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture08-regression-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R notebook: Regression Methods</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 9</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 10</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 11</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 12</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 13</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 14</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture14-model-specification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R notebook: Model Specification</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture15.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 15</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture16.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 16</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture16-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R notebook: Parameter Estimation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture17.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 17</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture17-model-diagnostics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R notebook: Diagnostics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture18.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 18</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture19.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 19</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture19-forecasting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R notebook: Forecasting</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture20.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 20</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture20-sarima.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R notebook: SARIMA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture21.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 21</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture22.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 22</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture22-spurious.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R notebook: Advanced Topics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture23.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 23</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TSA-Lecture23-arch-garch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R notebook: Advanced Topics</span></a>
   </div>
 </li>
     </ul>
@@ -126,24 +344,13 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
-  <ul class="collapse">
-  <li><a href="#courses" id="toc-courses" class="nav-link" data-scroll-target="#courses">Courses</a></li>
-  </ul></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lecture Notes</h1>
+<h1 class="title">Time Series Analysis: Lecture Notes</h1>
 </div>
 
 
@@ -160,21 +367,85 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome" class="level1">
-<h1>Welcome</h1>
-<p>This site hosts lecture notes for several courses I have taught or am currently teaching at the Applied Mathematics and Statistics department of Johns Hopkins University.</p>
-<section id="courses" class="level2">
-<h2 class="anchored" data-anchor-id="courses">Courses</h2>
+<section id="welcome" class="level2">
+<h2 class="anchored" data-anchor-id="welcome">Welcome!</h2>
+<p>These are the lecture notes for <strong>EN.553.439/639 Time Series Analysis</strong>, based on the Cryer and Chen textbook <em>Time Series Analysis: With Applications in R</em> and Time Series Lecture notes of Dr Torcaso.</p>
+<p>The notes are typed by Yue Wu. The notes are authored and maintained by <a href="./about.html">Sergey Kushnarev</a>, and include:</p>
 <ul>
-<li><a href="tsa/index.html">Time Series Analysis</a></li>
-<li><a href="esl/index.html">Elements of Statistical Learning</a></li>
-<li><a href="bayes/index.html">Bayesian Statistics</a></li>
-<li><a href="asda1/index.html">Applied Statistics and Data Analysis I</a></li>
-<li><a href="asda2/index.html">Applied Statistics and Data Analysis II</a></li>
+<li>Topic summaries</li>
+<li>Mathematical derivations</li>
+<li>R notebooks with code and data examples</li>
+<li>Figures and simulation results</li>
+</ul>
+<blockquote class="blockquote">
+<p>Think of these notes as a companion to our lectures and discussions, not a substitute. You’ll likely spot some typos and errors, so always double-check with the textbook and other course materials. If you catch an issue or have a question, please don’t hesitate to reach out to me via email or during office hours.</p>
+</blockquote>
+<hr>
+</section>
+<section id="lecture-notes" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-notes">📚 Lecture Notes</h2>
+<ul>
+<li><a href="./TSA-Lecture01.html">Lecture 1: Introduction to Time Series Analysis</a></li>
+<li><a href="./TSA-Lecture02.html">Lecture 2: Stationarity</a></li>
+<li><a href="./TSA-Lecture03.html">Lecture 3: Q-dependent CLT. MA(q), General Linear Process. Causality</a></li>
+<li><a href="./TSA-Lecture04.html">Lecture 4: AR(1), Yule-Walker method, AR-polynomial</a></li>
+<li><a href="./TSA-Lecture05.html">Lecture 5: AR(p): causality, YW method, GLP representation,</a></li>
+<li><a href="./TSA-Lecture06.html">Lecture 6: Recursive equations, ACVF for AR(2), AR(p), Invertibility</a></li>
+<li><a href="./TSA-Lecture07.html">Lecture 7: ARMA(1,1), ARMA(p,q): GLP representation, YW method, ACVF.</a>
+<ul>
+<li><a href="./TSA-Lecture07-plots.html">Rnotebook: Visualizing Time Series</a></li>
+</ul></li>
+<li><a href="./TSA-Lecture08.html">Lecture 8: Trends, Estimation of the mean Yt, Rnotebook: regression approach, residual analysis</a>
+<ul>
+<li><a href="./TSA-Lecture08-regression-methods.html">Rnotebook: Regression Methods in Time Series</a></li>
+</ul></li>
+<li><a href="./TSA-Lecture09.html">Lecture 9: Residual Analysis. Sample ACF</a></li>
+<li><a href="./TSA-Lecture10.html">Lecture 10: ARIMA(<span class="math inline">\(p,d,q\)</span>), Overdifferencing, GLP-like representation</a></li>
+<li><a href="./TSA-Lecture11.html">Lecture 11: Transformations of TS, sample ACF, Bartletts Theorem, Hypothesis test for MA(q)</a></li>
+<li><a href="./TSA-Lecture12.html">Lecture 12: PACF, sample PACF, Durbin-Levinson recursion</a></li>
+<li><a href="./TSA-Lecture13.html">Lecture 13: EACF, Specification of some TS, Unit Root test.</a></li>
+<li><a href="./TSA-Lecture14.html">Lecture 14: Parameter Estimation: method of moments</a>
+<ul>
+<li><a href="./TSA-Lecture14-model-specification.html">Rnotebook: Model Specification</a></li>
+</ul></li>
+<li>Lecture 15: Parameter Estimation: Method of Moments, condtional least squares</li>
+<li>Lecture 16: Parameter Estimation: MLE, unconditional least squares.
+<ul>
+<li><a href="./TSA-Lecture16-parameter-estimation.html">Rnotebook: Parameter Estimation</a></li>
+</ul></li>
+<li>Lecture 17: Diagnostics: residuals, overfitting
+<ul>
+<li><a href="./TSA-Lecture17-model-diagnostics.html">Rnotebook: Model Diagnostics</a></li>
+</ul></li>
+<li>Lecture 18: Forecasting</li>
+<li>Lecture 19: Forecasting: RW, ARMA(1,1), ARIMA, EWMA
+<ul>
+<li><a href="./TSA-Lecture19-forecasting.html">Rnotebook: Forecasting</a></li>
+</ul></li>
+<li>Lecture 20: SARIMA = Seasonal ARIMA
+<ul>
+<li><a href="./TSA-Lecture20-sarima.html">Rnotebook: SARIMA = Seasonal ARIMA</a></li>
+</ul></li>
+<li>Lecture 21: Cross-Correlation Function, Spurious Regression.</li>
+<li>Lecture 22: Spurious Regression, Prewhitening
+<ul>
+<li><a href="./TSA-Lecture22-spurious.html">Rnotebook: Spurious Regression</a></li>
+</ul></li>
+<li><a href="./TSA-Lecture23.html">Lecture 23: ARCH/GARCH Models</a>
+<ul>
+<li><a href="./TSA-Lecture23-arch-garch.html">Rnotebook: ARCH/GARCH</a></li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">🔗 Resources</h2>
+<ul>
+<li>[Course Syllabus (PDF)] <strong>TBD</strong></li>
+<li><a href="https://posit.cloud/">RStudio Cloud Project</a></li>
 </ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

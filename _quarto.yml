@@ -25,12 +25,12 @@ website:
         text: Lecture 6
       - href: TSA-Lecture07.qmd
         text: Lecture 7
-          - href: TSA-Lecture07-plots.qmd
-            text: "R notebook: Plots"
+      - href: TSA-Lecture07-plots.qmd
+        text: "R notebook: Plots"
       - href: TSA-Lecture08.qmd
         text: Lecture 8
-        - href: TSA-Lecture08-regression-methods.qmd
-          text: "R notebook: Regression Methods"
+      - href: TSA-Lecture08-regression-methods.qmd
+        text: "R notebook: Regression Methods"
       - href: TSA-Lecture09.qmd
         text: Lecture 9
       - href: TSA-Lecture10.qmd
@@ -43,38 +43,38 @@ website:
         text: Lecture 13
       - href: TSA-Lecture14.qmd
         text: Lecture 14
-        - href: TSA-Lecture14-model-specification.qmd
-          text: "R notebook: Model Specification"
+      - href: TSA-Lecture14-model-specification.qmd
+        text: "R notebook: Model Specification"
       - href: TSA-Lecture15.qmd
         text: Lecture 15
       - href: TSA-Lecture16.qmd
         text: Lecture 16
-          - href: TSA-Lecture16-parameter-estimation.qmd
-            text: "R notebook: Parameter Estimation"
+      - href: TSA-Lecture16-parameter-estimation.qmd
+        text: "R notebook: Parameter Estimation"
       - href: TSA-Lecture17.qmd
         text: Lecture 17
-          - href: TSA-Lecture17-model-diagnostics.qmd
-            text: "R notebook: Diagnostics"
+      - href: TSA-Lecture17-model-diagnostics.qmd
+        text: "R notebook: Diagnostics"
       - href: TSA-Lecture18.qmd
         text: Lecture 18
       - href: TSA-Lecture19.qmd
         text: Lecture 19
-          - href: TSA-Lecture19-forecasting.qmd
-            text: "R notebook: Forecasting"
+      - href: TSA-Lecture19-forecasting.qmd
+        text: "R notebook: Forecasting"
       - href: TSA-Lecture20.qmd
         text: Lecture 20
-          - href: TSA-Lecture20-sarima.qmd
-            text: "R notebook: SARIMA"
+      - href: TSA-Lecture20-sarima.qmd
+        text: "R notebook: SARIMA"
       - href: TSA-Lecture21.qmd
         text: Lecture 21
       - href: TSA-Lecture22.qmd
         text: Lecture 22
-          - href: TSA-Lecture22-spurious.qmd
-            text: "R notebook: Advanced Topics"
+      - href: TSA-Lecture22-spurious.qmd
+        text: "R notebook: Advanced Topics"
       - href: TSA-Lecture23.qmd
         text: Lecture 23
-          - href: TSA-Lecture23-arch-garch.qmd
-            text: "R notebook: Advanced Topics"
+      - href: TSA-Lecture23-arch-garch.qmd
+        text: "R notebook: Advanced Topics"
 
 format:
   html:

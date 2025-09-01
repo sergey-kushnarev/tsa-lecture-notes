@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>About these Notes – Lecture Notes</title>
+<title>25 Spring 439/639 TSA: Lecture 1 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./TSA-Lecture01.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./TSA-Lecture02.html" rel="next">
+<link href="./about.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -69,11 +70,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./about.html">About</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture01.html">Lecture 1</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -115,13 +145,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link active">
+  <a href="./about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture01.html" class="sidebar-item-text sidebar-link">
+  <a href="./TSA-Lecture01.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture 1</span></a>
   </div>
 </li>
@@ -316,19 +346,52 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#basic-definitions" id="toc-basic-definitions" class="nav-link active" data-scroll-target="#basic-definitions"><span class="header-section-number">1</span> Basic definitions</a>
+  <ul class="collapse">
+  <li><a href="#observed-t.s.-vs.-probabilistic-model-for-t.s." id="toc-observed-t.s.-vs.-probabilistic-model-for-t.s." class="nav-link" data-scroll-target="#observed-t.s.-vs.-probabilistic-model-for-t.s."><span class="header-section-number">1.1</span> Observed T.S. vs.&nbsp;Probabilistic Model for T.S.</a></li>
+  <li><a href="#formal-definition-of-time-series" id="toc-formal-definition-of-time-series" class="nav-link" data-scroll-target="#formal-definition-of-time-series"><span class="header-section-number">1.2</span> Formal definition of time series</a></li>
+  </ul></li>
+  <li><a href="#some-useful-functions-to-characterize-a-time-series" id="toc-some-useful-functions-to-characterize-a-time-series" class="nav-link" data-scroll-target="#some-useful-functions-to-characterize-a-time-series"><span class="header-section-number">2</span> Some useful functions to characterize a time series</a>
+  <ul class="collapse">
+  <li><a href="#definitions" id="toc-definitions" class="nav-link" data-scroll-target="#definitions"><span class="header-section-number">2.1</span> Definitions</a></li>
+  <li><a href="#properties" id="toc-properties" class="nav-link" data-scroll-target="#properties"><span class="header-section-number">2.2</span> Properties</a></li>
+  </ul></li>
+  <li><a href="#examples-of-time-series" id="toc-examples-of-time-series" class="nav-link" data-scroll-target="#examples-of-time-series"><span class="header-section-number">3</span> Examples of time series</a>
+  <ul class="collapse">
+  <li><a href="#example-1-linear-regression" id="toc-example-1-linear-regression" class="nav-link" data-scroll-target="#example-1-linear-regression"><span class="header-section-number">3.1</span> Example 1: Linear Regression</a></li>
+  <li><a href="#example-2-random-walk" id="toc-example-2-random-walk" class="nav-link" data-scroll-target="#example-2-random-walk"><span class="header-section-number">3.2</span> Example 2: Random Walk</a></li>
+  <li><a href="#example-3-moving-average" id="toc-example-3-moving-average" class="nav-link" data-scroll-target="#example-3-moving-average"><span class="header-section-number">3.3</span> Example 3: “Moving Average”</a></li>
+  </ul></li>
+  <li><a href="#stationarity" id="toc-stationarity" class="nav-link" data-scroll-target="#stationarity"><span class="header-section-number">4</span> Stationarity</a>
+  <ul class="collapse">
+  <li><a href="#strict-stationarity" id="toc-strict-stationarity" class="nav-link" data-scroll-target="#strict-stationarity"><span class="header-section-number">4.1</span> Strict stationarity</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About these Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 1</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -339,47 +402,170 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="instructor" class="level1">
-<h1>Instructor</h1>
-<p><strong>Dr Sergey Kushnarev</strong><br>
-Senior Lecturer, AMS JHU</p>
-</section>
-<section id="about" class="level1">
-<h1>About</h1>
-<p>This website is a collection of lecture notes from courses I have taught or am currently teaching.<br>
-The notes are typeset in <a href="https://quarto.org/">Quarto</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a>.</p>
-<section id="current-courses" class="level2">
-<h2 class="anchored" data-anchor-id="current-courses">Current Courses</h2>
+<section id="basic-definitions" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Basic definitions</h1>
+<section id="observed-t.s.-vs.-probabilistic-model-for-t.s." class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="observed-t.s.-vs.-probabilistic-model-for-t.s."><span class="header-section-number">1.1</span> Observed T.S. vs.&nbsp;Probabilistic Model for T.S.</h2>
 <ul>
-<li><p><strong>Time Series Analysis (TSA)</strong><br>
-Lecture notes: <a href="https://sergey-kushnarev.github.io/tsa-lecture-notes/">TSA Lecture Notes</a><br>
-Based on Cryer and Chen’s <em>Time Series Analysis: With Applications in R</em>, 2nd edition.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Stationarity, ARMA/ARIMA/SARIMA models, forecasting.</p></li>
-<li><p><strong>Bayesian Statistics</strong><br>
-Notes: Bayesian Notes <em>To be posted</em> Based on Peter Hoff’s <em>A First Course in Bayesian Statistical Methods</em>.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Conjugate priors, Gibbs sampling, Metropolis-Hastings, model comparison, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis I</strong><br>
-Notes: ASDA1 <em>To be posted</em> Based on Kutner, Nachtsheim, Neter, and Li’s <em>Applied Linear Statistical Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Simple and multiple linear regression, ANOVA, model selection, diagnostics, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis II</strong><br>
-Notes: ASDA2 <em>To be posted</em> Based on Alan Agresti’s book <em>Foundations of Linear and Generalized Linear Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Linear regression, logistic regression, Poisson regression, GLMs.</p></li>
-<li><p><strong>Elements of Statistical Learning</strong> Notes: ESL <em>To be posted</em> Based on Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani’s <em>An Introduction to Statistical Learning in R</em>, 2nd edition. Audience: Advanced undergraduates and master’s students. Topics: Supervised/unsupervised learning, model assessment, regularization, tree-based methods, etc.</p></li>
+<li>We use lower case letters to denote <strong>Observed T.S.(Time Series)</strong>. Example: <span class="math inline">\(y_0,y_1,y_2,\dots,\)</span> or <span class="math inline">\(\dots,y_{-2},y_{-1},y_0,y_1,y_2,\dots.\)</span></li>
+<li>We use capital letters to denote <strong>Probabilistic Model for T.S.</strong>, which is a series/sequence of RVs. Example: <span class="math inline">\(Y_0,Y_1,Y_2,\dots,\)</span> or <span class="math inline">\(\dots,Y_{-2},Y_{-1},Y_0,Y_1,Y_2,\dots.\)</span> We may also use the following shorthand notations: <span class="math inline">\((Y_i), (Y_t), (Y_t)_{t=0}^{+\infty}, (Y_t)_{t=1}^{+\infty}, (Y_t)_{t=-\infty}^{+\infty},\)</span> etc.</li>
 </ul>
 </section>
-<section id="a-note-on-the-material" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-the-material">A Note on the Material</h2>
-<p>These notes are designed as <strong>teaching resources</strong> and not polished textbooks.</p>
-<p>They include: - Theory, examples and proofs - Code snippets and exercises</p>
-<p>Feedback is always welcome — feel free to suggest improvements or point out typos via GitHub.</p>
+<section id="formal-definition-of-time-series" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="formal-definition-of-time-series"><span class="header-section-number">1.2</span> Formal definition of time series</h2>
+<p><strong>Definition:</strong> A <strong>time series model</strong> for the observed data <span class="math inline">\((y_t)\)</span> is a specification of the joint distribution, or possibly just the means and covariances, of a sequence of random variables <span class="math inline">\(\{ Y(\omega,t), t\in T\}\)</span> of which <span class="math inline">\((y_t)\)</span> is a realization.</p>
+<p>We will frequently use the term <strong>time series</strong> to denote both the model and the observed data.</p>
+<p>In this definition, the stochastic process can be seen as a set/sequence of random variables <span class="math inline">\(Y(\omega,t)\)</span> indexed by time <span class="math inline">\(t\)</span>. The <span class="math inline">\(T\)</span> is an index set for time <span class="math inline">\(t\)</span>. The randomness comes from <span class="math inline">\(\omega\)</span>, which takes values from the sample space <span class="math inline">\(\Omega\)</span>. For this course TSA, in most cases, we have the following setting:</p>
+<ul>
+<li>The time index set <span class="math inline">\(T\)</span> is often <span class="math inline">\(\mathbb{Z}\)</span> (the set of integers) or <span class="math inline">\(\mathbb{Z}_{\ge 0}\)</span> (nonnegative integers).</li>
+<li>The random variables here are continuous, which means for any fixed <span class="math inline">\(t\)</span>, the random variable <span class="math inline">\(Y(\omega,t)\)</span> follows a continuous distribution.</li>
+</ul>
 </section>
-<section id="license" class="level2">
-<h2 class="anchored" data-anchor-id="license">License</h2>
-<p>Content is © 2025 Sergey Kushnarev unless otherwise noted. You may share or adapt the materials for non-commercial purposes with attribution.</p>
+</section>
+<section id="some-useful-functions-to-characterize-a-time-series" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Some useful functions to characterize a time series</h1>
+<p>To characterize a time series, we look at the means, variances, autocovariances, autocorrelations of a time series.</p>
+<section id="definitions" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="definitions"><span class="header-section-number">2.1</span> Definitions</h2>
+<ul>
+<li><strong>Mean Function</strong>: for any <span class="math inline">\(t\)</span>, define <span class="math display">\[\mu_t := \mathbb{E}[Y_t].\]</span></li>
+<li><strong>Autocovariance Function(ACVF)</strong>: for any two time indices <span class="math inline">\(t,s\)</span>, define the corresponding ACVF as the covariance of <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_s\)</span>, i.e., <span class="math display">\[\gamma_{t,s} := Cov(Y_t, Y_s) = \mathbb{E}[(Y_t-\mu_t)(Y_s-\mu_s)] = \mathbb{E}[Y_t Y_s] -\mu_t\mu_s.\]</span></li>
+<li><strong>Variance Function</strong> is the special case of ACVF with <span class="math inline">\(t=s\)</span>, which is equal to the variance of <span class="math inline">\(Y_t\)</span>, <span class="math display">\[\gamma_{t,t} = Cov(Y_t, Y_t) = Var(Y_t).\]</span></li>
+<li><strong>Autocorrelation Function(ACF)</strong>: for any two time indices <span class="math inline">\(t,s\)</span>, define the corresponding ACF as the correlation of <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_s\)</span>, i.e., <span class="math display">\[\rho_{t,s} := \frac{Cov(Y_t, Y_s)}{\sqrt{Var(Y_t) \cdot Var(Y_s)}} = \frac{\gamma_{t,s}}{\sqrt{\gamma_{t,t} \cdot \gamma_{s,s}}}.\]</span></li>
+</ul>
+</section>
+<section id="properties" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="properties"><span class="header-section-number">2.2</span> Properties</h2>
+<ul>
+<li>When <span class="math inline">\(t=s\)</span>: <span class="math display">\[\gamma_{t,t} = Var(Y_t), \quad \rho_{t,t}=1.\]</span></li>
+<li><strong>Symmetry</strong>: <span class="math display">\[\gamma_{t,s} = \gamma_{s,t}, \quad \rho_{t,s} = \rho_{s,t}.\]</span></li>
+<li>Recall that the Cauchy–Schwarz inequality <span class="math inline">\(Var(X) \cdot Var(Y) \ge |Cov(X,Y)|^2\)</span> holds for any two random variables <span class="math inline">\(X,Y\)</span>. This immediately gives <span class="math display">\[|\gamma_{t,s}| \le \sqrt{\gamma_{t,t} \cdot \gamma_{s,s} }, \quad |\rho_{t,s}| \le 1.\]</span> Some further remarks:
+<ul>
+<li>If <span class="math inline">\(\rho_{t,s} \approx \pm 1\)</span>, then <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_s\)</span> are strongly linearly related.</li>
+<li>If <span class="math inline">\(\rho_{t,s} \approx 0\)</span>, then <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_s\)</span> are weakly linearly related.</li>
+<li>If <span class="math inline">\(\rho_{t,s} = 0\)</span>, then <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_s\)</span> are uncorrelated.</li>
+</ul></li>
+<li>If <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_s\)</span> are independent, then <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(Y_s\)</span> are uncorrelated (assuming both have nonzero and finite second moments). This is because independence directly implies <span class="math inline">\(\gamma_{t,s}=0\)</span>, which further implies <span class="math inline">\(\rho_{t,s} = 0\)</span>.</li>
+<li><strong>Bilinearity</strong>: For any positive integers <span class="math inline">\(n,m\)</span>, any real numbers <span class="math inline">\(a_1,\dots,a_n, b_1,\dots,b_m \in \mathbb{R}\)</span>, and any time points/indices <span class="math inline">\(t_1,\dots,t_n,s_1,\dots,s_m\)</span>, the following holds <span class="math display">\[Cov\left( \sum_{i=1}^n a_i Y_{t_i}, \sum_{j=1}^m b_j Y_{s_j} \right) = \sum_{i=1}^n \sum_{j=1}^m a_i b_j Cov(Y_{t_i}, Y_{s_j}).\]</span> Examples:
+<ul>
+<li><span class="math inline">\(Cov(a_1 Y_{t_1} + a_2 Y_{t_2}, Y_s) = a_1 Cov(Y_{t_1}, Y_s) + a_2 Cov(Y_{t_2}, Y_s).\)</span></li>
+<li><span class="math inline">\(Cov(a_1 Y_{t_1} + a_2 Y_{t_2}, b_1 Y_{s_1} + b_2 Y_{s_2}) = a_1 b_1 Cov(Y_{t_1}, Y_{s_1}) + a_2 b_1 Cov(Y_{t_2}, Y_{s_1}) + a_1 b_2 Cov(Y_{t_1}, Y_{s_2}) + a_2 b_2 Cov(Y_{t_2}, Y_{s_2}).\)</span></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="examples-of-time-series" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Examples of time series</h1>
+<section id="example-1-linear-regression" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="example-1-linear-regression"><span class="header-section-number">3.1</span> Example 1: Linear Regression</h2>
+<p>Consider the time series defined by <span class="math display">\[Y_t= a+ bt + e_t, \quad e_t \overset{iid}{\sim} N(0,\sigma_e^2).\]</span> <em>Remark: In time series models, such <span class="math inline">\(e_t\)</span> terms are called innovation terms, error terms, or noise terms.</em> For this example,</p>
+<ul>
+<li>Mean function: <span class="math inline">\(\mu_t = \mathbb{E}[Y_t] = \mathbb{E}[a+ bt + e_t] = a+ bt.\)</span></li>
+<li>ACVF:</li>
+</ul>
+<p><span class="math display">\[\gamma_{t,s} = Cov(a+ bt + e_t, a+ bs + e_s) = Cov(e_t, e_s) = \begin{cases}
+0, &amp;\text{if } t\neq s\\
+\sigma_e^2, &amp;\text{if } t=s.
+\end{cases}\]</span></p>
+<ul>
+<li>ACF:</li>
+</ul>
+<p><span class="math display">\[\rho_{t,s} = \begin{cases}
+0, &amp;\text{if } t\neq s\\
+1, &amp;\text{if } t=s.
+\end{cases}\]</span></p>
+</section>
+<section id="example-2-random-walk" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="example-2-random-walk"><span class="header-section-number">3.2</span> Example 2: Random Walk</h2>
+<p>Let <span class="math inline">\(e_1,e_2,e_3,\dots \sim IID(0,\sigma_e^2)\)</span>, which means they are iid random variables with mean <span class="math inline">\(0\)</span> and variance <span class="math inline">\(\sigma_e^2\)</span>. Define Random Walk as follows: <span class="math display">\[
+\begin{split}
+&amp;Y_0 = 0 \\
+&amp;Y_1 = e_1 \\
+&amp;Y_2 = e_1+e_2 \\
+&amp;Y_3 = e_1+e_2+e_3 \\
+&amp;\cdots
+\end{split}
+\]</span> <em>Remark: Alternatively, it can be defined by <span class="math inline">\(Y_0=0\)</span> and <span class="math inline">\(Y_{t+1}= Y_t+ e_{t+1}\)</span>.</em> For this example,</p>
+<ul>
+<li>Mean function: <span class="math inline">\(\mu_t = \mathbb{E}[Y_t] = \mathbb{E}[e_1+\cdots+e_t] = 0.\)</span></li>
+<li>Variance function: Using the dependence between the <span class="math inline">\(e_t\)</span> terms, we have</li>
+</ul>
+<p><span class="math display">\[\gamma_{t,t} = Var(Y_t) = Var(e_1+\cdots+e_t) = \sum_{i=1}^t Var(e_i) + 2\sum_{1\le i&lt;j\le t} Cov(e_i,e_j) = t \sigma_e^2.\]</span> So this variance function grows linearly with time <span class="math inline">\(t\)</span>.</p>
+<ul>
+<li>ACVF: Suppose <span class="math inline">\(1\le s\le t\)</span>, then we have</li>
+</ul>
+<p><span class="math display">\[\begin{split}
+\gamma_{s,t} &amp;= Cov(Y_s,Y_t) = Cov(Y_s, Y_s+(Y_t-Y_s)) \\
+&amp;= Var(Y_s) + Cov(Y_s, e_{s+1}+ e_{s+2}+ \cdots +e_t) = s \sigma_e^2.
+\end{split}\]</span> where the last step is because <span class="math inline">\(Y_s\)</span> is independent of the terms <span class="math inline">\(e_{s+1},\dots,e_t\)</span>. If <span class="math inline">\(1\le t\le s\)</span>, we can derive <span class="math inline">\(\gamma_{s,t} = t \sigma_e^2\)</span> in the same way. So we conclude that <span class="math inline">\(\gamma_{s,t} = \min\{s,t\} \cdot \sigma_e^2\)</span> for any <span class="math inline">\(s,t\)</span>.</p>
+<ul>
+<li>ACF: Using ACVF, <span class="math inline">\(\rho_{s,t}= \frac{\gamma_{s,t}}{ \sqrt{\gamma_{s,s}\cdot \gamma_{t,t}}} = \frac{\min\{s,t\} \cdot \sigma_e^2}{\sqrt{s \sigma_e^2} \sqrt{t \sigma_e^2}} = \frac{\min\{s,t\}}{ \sqrt{st}}\)</span>. It can also be rewritten as <span class="math inline">\(\rho_{s,t} = \min\{ \sqrt{\frac{s}{t}}, \sqrt{\frac{t}{s}}\}\)</span>. Example: <span class="math inline">\(\rho_{1,2}= \sqrt{\frac{1}{2}}\)</span>, <span class="math inline">\(\rho_{2,3}= \sqrt{\frac{2}{3}}\)</span>. Some further observations: <span class="math inline">\(\rho_{t,t+1}= \sqrt{\frac{t}{t+1}} \to 1\)</span> as <span class="math inline">\(t\to\infty\)</span>; <span class="math inline">\(\rho_{1,t}= \sqrt{\frac{1}{t}} \to 0\)</span> as <span class="math inline">\(t\to\infty\)</span>.</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="TSA-Lecture01_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption>Two Sample Paths of a Random Walk</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="example-3-moving-average" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="example-3-moving-average"><span class="header-section-number">3.3</span> Example 3: “Moving Average”</h2>
+<p>Let <span class="math inline">\((e_t) \sim IID(0,\sigma_e^2)\)</span>, and define <span class="math inline">\(Y_t = \frac{1}{2} (e_t + e_{t-1})\)</span>. For this example,</p>
+<ul>
+<li>Mean function: <span class="math inline">\(\mu_t = \mathbb{E}[Y_t] = \frac{1}{2} \mathbb{E}[e_t + e_{t-1}] = 0.\)</span> Note that this mean function does not depend on time <span class="math inline">\(t\)</span>.</li>
+<li>Variance function: <span class="math inline">\(\gamma_{t,t} = Var(Y_t) = Var(\frac{1}{2} (e_t + e_{t-1})) = \frac{1}{4} (Var(e_t) + Var(e_{t-1}) + 2 Cov(e_t, e_{t-1})) = \frac{1}{2} \sigma_e^2\)</span>. Note that this variance function does not depend on time <span class="math inline">\(t\)</span>.</li>
+<li>ACVF: The case <span class="math inline">\(\gamma_{t,t}\)</span> reduces to the variance function. Next, we compute <span class="math inline">\(\gamma_{t,t-1}\)</span>.</li>
+</ul>
+<p><span class="math display">\[\begin{split}
+\gamma_{t,t-1} &amp;= Cov(Y_t, Y_{t-1}) = Cov(\frac{1}{2} (e_t + e_{t-1}), \frac{1}{2} (e_{t-1} + e_{t-2})) \\
+&amp;= \frac{1}{4} (Cov(e_{t}, e_{t-1}) + Cov(e_{t}, e_{t-2}) + Cov(e_{t-1}, e_{t-1}) + Cov(e_{t-1}, e_{t-2})) = \frac{1}{4} \sigma_e^2.
+\end{split}\]</span></p>
+<p><strong>Exercise:</strong> Show that <span class="math inline">\(\gamma_{t,t-k}=0\)</span> for <span class="math inline">\(k\ge 2\)</span>.</p>
+<p>Combining all the cases above, we get</p>
+<p><span class="math display">\[\gamma_{t,s} = \begin{cases}
+  \frac{1}{2} \sigma_e^2, &amp;\text{if } t=s \\
+  \frac{1}{4} \sigma_e^2, &amp;\text{if } |t-s|=1 \\
+  0, &amp;\text{if } |t-s|\ge 2.
+  \end{cases}\]</span></p>
+<ul>
+<li><p>ACF: Using ACVF, we get</p>
+<p><span class="math display">\[\rho_{t,s} = \begin{cases}
+1 , &amp;\text{if } t=s \\
+\frac{1}{2} , &amp;\text{if } |t-s|=1 \\
+0, &amp;\text{if } |t-s|\ge 2.
+\end{cases}\]</span> Note that in this example, both ACVF and ACF only depend on the <strong>lag</strong> <span class="math inline">\(t-s\)</span>.</p></li>
+</ul>
+</section>
+</section>
+<section id="stationarity" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Stationarity</h1>
+<p>The Moving Average example above is an example of <strong>Stationary Time Series</strong>. “Stationary” roughly means “the probability laws for the time series do not change with time”. (This is not a formal definition, but we can get some fuzzy idea from the example above. In the Moving Average example above, the mean function and the variance function do not depend on time <span class="math inline">\(t\)</span>; the ACVF and ACF also do not depend on <span class="math inline">\(t\)</span> once the lag <span class="math inline">\(t-s\)</span> is fixed.)</p>
+<p>There are two types of stationarity.</p>
+<ol type="1">
+<li>Strict stationarity (also called strong stationarity);</li>
+<li>Weak stationarity (also called second order stationarity).</li>
+</ol>
+<p>Here are the formal definitions of stationarity.</p>
+<section id="strict-stationarity" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="strict-stationarity"><span class="header-section-number">4.1</span> Strict stationarity</h2>
+<p><strong>Definition:</strong> A stochastic process is strictly stationary if all finite dimensional joint distributions do not change if their indices are shifted by the same amount. (In other words, finite dimensional joint distributions are time invariant.)</p>
+<p>This definition is for general stochastic processes. For a time series (suppose the time index set is <span class="math inline">\(\mathbb{Z}\)</span>), the definition can be stated as follows.</p>
+<p><strong>Definition:</strong> A time series <span class="math inline">\((\dots,Y_{-1},Y_0,Y_1,\dots)\)</span> is strictly stationary if for any positive integer <span class="math inline">\(n\)</span>, any distinct integers <span class="math inline">\(t_1,\dots,t_n \in \mathbb{Z}\)</span>, and any integer <span class="math inline">\(k\in \mathbb{Z}\)</span>, the following holds <span class="math display">\[F_{Y_{t_1}, \dots, Y_{t_n}} = F_{Y_{t_1 -k}, \dots, Y_{t_n -k}},\]</span> i.e., the joint cdf of <span class="math inline">\((Y_{t_1}, Y_{t_2}, \dots, Y_{t_n})\)</span> is same as the joint cdf of <span class="math inline">\((Y_{t_1 -k}, Y_{t_2 -k}, \dots, Y_{t_n -k})\)</span>.</p>
+<p><em>Remark:</em> we may also use the notation <span class="math inline">\(\overset{D}{=}\)</span> or <span class="math inline">\(\overset{D}{\equiv}\)</span> to denote two random variables/vectors have same (joint) distributions.</p>
+<p>By this definition, a strictly stationary time series must satisfy</p>
+<ul>
+<li><span class="math inline">\(Y_1 \overset{D}{=} Y_2 \overset{D}{=} Y_3 \overset{D}{=} Y_t\)</span> for any <span class="math inline">\(t\)</span>;</li>
+<li><span class="math inline">\((Y_1,Y_3) \overset{D}{=} (Y_2,Y_4) \overset{D}{=} (Y_{10},Y_{12}) \overset{D}{=} (Y_t,Y_{t+2})\)</span> for any <span class="math inline">\(t\)</span>;</li>
+<li><span class="math inline">\((Y_1,Y_3,Y_7) \overset{D}{=} (Y_{10},Y_{12},Y_{16}) \overset{D}{=} (Y_{t},Y_{t+2},Y_{t+6})\)</span> for any <span class="math inline">\(t\)</span>;</li>
+<li><span class="math inline">\(\dots\)</span></li>
+</ul>
+<p>(Note: the listed properties here are for illustration only. They are just some <strong>necessary conditions</strong> for a strictly stationary time series.)</p>
+<p><strong>Exercise:</strong> Show that for a strictly stationary time series, its ACVF <span class="math inline">\(\gamma_{t,s}\)</span> only depends on the lag <span class="math inline">\(t-s\)</span>. Moreover, by symmetry of ACVF, we can immediately show <span class="math inline">\(\gamma_{t,s}\)</span> only depends on <span class="math inline">\(|t-s|\)</span>.</p>
+<p>Consequently, for a strictly stationary time series, we can replace the notation <span class="math inline">\(\gamma_{t,s}\)</span> by <span class="math inline">\(\gamma_{|t-s|}\)</span> to simplify the notation, since this transformation is well defined by the previous exercise.</p>
 
 
 </section>
@@ -805,13 +991,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Home">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Home</span>
+      <a href="./about.html" class="pagination-link" aria-label="About">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">About</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./TSA-Lecture01.html" class="pagination-link" aria-label="Lecture 1">
-        <span class="nav-page-text">Lecture 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./TSA-Lecture02.html" class="pagination-link" aria-label="Lecture 2">
+        <span class="nav-page-text">Lecture 2</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

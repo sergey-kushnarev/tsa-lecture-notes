@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr Sergey Kushnarev">
 
-<title>About these Notes – Lecture Notes</title>
+<title>25 Spring 439/639 TSA: Lecture 14 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./TSA-Lecture01.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./TSA-Lecture14-model-specification.html" rel="next">
+<link href="./TSA-Lecture13.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -69,11 +70,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./about.html">About</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture14.html">Lecture 14</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -115,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link active">
+  <a href="./about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
@@ -211,7 +241,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture14.html" class="sidebar-item-text sidebar-link">
+  <a href="./TSA-Lecture14.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture 14</span></a>
   </div>
 </li>
@@ -316,19 +346,34 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#parameter-estimation" id="toc-parameter-estimation" class="nav-link active" data-scroll-target="#parameter-estimation"><span class="header-section-number">1</span> Parameter estimation</a></li>
+  <li><a href="#method-of-moments-mom" id="toc-method-of-moments-mom" class="nav-link" data-scroll-target="#method-of-moments-mom"><span class="header-section-number">2</span> Method of Moments (MoM)</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About these Notes</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 14</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr Sergey Kushnarev </p>
+          </div>
+  </div>
     
   
     
@@ -339,50 +384,140 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="instructor" class="level1">
-<h1>Instructor</h1>
-<p><strong>Dr Sergey Kushnarev</strong><br>
-Senior Lecturer, AMS JHU</p>
+<section id="parameter-estimation" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Parameter estimation</h1>
+<p>Using all the tools we have seen (sample ACF/PACF/EACF, transformations, ADF test, ARMA subsets, etc.) we arrive at a few candidate models.</p>
+<p><strong>Next goal:</strong> Estimate the parameters <span class="math inline">\(\phi_i\)</span> (<span class="math inline">\(i=1,...,p\)</span>), <span class="math inline">\(\theta_j\)</span> (<span class="math inline">\(j=1,...,p\)</span>). And maybe the variance of the noise <span class="math inline">\(\sigma_e^2\)</span>, the mean of the time series <span class="math inline">\(\mu\)</span>.</p>
 </section>
-<section id="about" class="level1">
-<h1>About</h1>
-<p>This website is a collection of lecture notes from courses I have taught or am currently teaching.<br>
-The notes are typeset in <a href="https://quarto.org/">Quarto</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a>.</p>
-<section id="current-courses" class="level2">
-<h2 class="anchored" data-anchor-id="current-courses">Current Courses</h2>
-<ul>
-<li><p><strong>Time Series Analysis (TSA)</strong><br>
-Lecture notes: <a href="https://sergey-kushnarev.github.io/tsa-lecture-notes/">TSA Lecture Notes</a><br>
-Based on Cryer and Chen’s <em>Time Series Analysis: With Applications in R</em>, 2nd edition.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Stationarity, ARMA/ARIMA/SARIMA models, forecasting.</p></li>
-<li><p><strong>Bayesian Statistics</strong><br>
-Notes: Bayesian Notes <em>To be posted</em> Based on Peter Hoff’s <em>A First Course in Bayesian Statistical Methods</em>.<br>
-Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.<br>
-Topics: Conjugate priors, Gibbs sampling, Metropolis-Hastings, model comparison, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis I</strong><br>
-Notes: ASDA1 <em>To be posted</em> Based on Kutner, Nachtsheim, Neter, and Li’s <em>Applied Linear Statistical Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Simple and multiple linear regression, ANOVA, model selection, diagnostics, etc.</p></li>
-<li><p><strong>Applied Statistics and Data Analysis II</strong><br>
-Notes: ASDA2 <em>To be posted</em> Based on Alan Agresti’s book <em>Foundations of Linear and Generalized Linear Models</em>.<br>
-Audience: Advanced undergraduates and master’s students.<br>
-Topics: Linear regression, logistic regression, Poisson regression, GLMs.</p></li>
-<li><p><strong>Elements of Statistical Learning</strong> Notes: ESL <em>To be posted</em> Based on Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani’s <em>An Introduction to Statistical Learning in R</em>, 2nd edition. Audience: Advanced undergraduates and master’s students. Topics: Supervised/unsupervised learning, model assessment, regularization, tree-based methods, etc.</p></li>
-</ul>
-</section>
-<section id="a-note-on-the-material" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-the-material">A Note on the Material</h2>
-<p>These notes are designed as <strong>teaching resources</strong> and not polished textbooks.</p>
-<p>They include: - Theory, examples and proofs - Code snippets and exercises</p>
-<p>Feedback is always welcome — feel free to suggest improvements or point out typos via GitHub.</p>
-</section>
-<section id="license" class="level2">
-<h2 class="anchored" data-anchor-id="license">License</h2>
-<p>Content is © 2025 Sergey Kushnarev unless otherwise noted. You may share or adapt the materials for non-commercial purposes with attribution.</p>
+<section id="method-of-moments-mom" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Method of Moments (MoM)</h1>
+<p>Recall that the task is estimating the parameters given the observed samples. The idea of <strong>Method of Moments (MoM)</strong> is to solve the parameters from the equation(s) <span class="math display">\[
+\text{theoretical moment} = \text{sample moment}
+\]</span> where the theoretical <span class="math inline">\(k\)</span>-th moment <span class="math inline">\(\mu_k = \mathbb{E}[Y^k]\)</span> is a function of the parameters, and the sample <span class="math inline">\(k\)</span>-th moment <span class="math inline">\(m_k = \frac{1}{n} \sum_{i=1}^n Y_i^k\)</span> is a function of the observed data.</p>
+<p><strong>Example 0.</strong> Suppose <span class="math inline">\(Y_1, \cdots, Y_n \overset{\text{iid}}{\sim} N(\mu, \sigma^2)\)</span>. Then we know that <span class="math inline">\(\mu_1 = \mathbb{E}[Y] = \mu\)</span>, and <span class="math inline">\(\mu_2 = \mathbb{E}[Y^2] = \mu^2 + \sigma^2\)</span>. The MoM method considers <span class="math display">\[
+\begin{cases}
+\mu_1 = m_1 \\
+\mu_2 = m_2
+\end{cases}
+\implies
+\begin{cases}
+\mathbb{E} [Y] = \dfrac{1}{n} \sum_{i=1}^{n} Y_i \\
+\mathbb{E} [Y^2] = \dfrac{1}{n} \sum_{i=1}^{n} Y_i^2
+\end{cases}
+\implies
+\begin{cases}
+\mu = \frac{1}{n} \sum_{i=1}^{n} Y_i = \overline{Y} \\
+\mu^2 + \sigma^2 = \frac{1}{n} \sum_{i=1}^{n} Y_i^2
+\end{cases}
+\]</span> Solving the system gives <span class="math display">\[
+\begin{cases}
+\widehat{\mu}_{\text{MOM}} = \overline{Y} \\
+\widehat{\sigma}^2_{\text{MOM}} = \frac{1}{n} \sum_{i=1}^{n} Y_i^2 - \overline{Y}^2 = \frac{1}{n} \sum_{i=1}^{n} (Y_i - \overline{Y})^2
+\end{cases}
+\]</span> <strong>Exercise:</strong> verify the last step above.</p>
+<p>There is a variant method of MoM, called <strong>generalized method of moments (GMoM)</strong>. (For simplicity, we may also call it MoM.) The basic idea is, if we want to estimate some quantity <span class="math inline">\(g(Y)\)</span>, then we can directly use <span class="math inline">\(\frac{1}{n}\sum_{i=1}^n g(Y_i)\)</span>. This idea is useful in time series parameter estimation, since we can utilize the sequential structure of the observed data.</p>
+<p><strong>Example 1.</strong> Suppose <span class="math inline">\(Y_1, \dots, Y_n\)</span> are from an AR(<span class="math inline">\(1\)</span>) model with mean zero: <span class="math display">\[
+Y_t - \phi Y_{t-1} = e_t, \quad e_t \sim \text{iid} (0, \sigma_e^2).
+\]</span> We can apply the generalized MoM here by solving the equation(s) <span class="math display">\[
+\text{theoretical ACF} = \text{sample ACF}.
+\]</span> Note that the theoretical ACF is <span class="math inline">\(\rho_k = \phi^k\)</span>, and in particular <span class="math inline">\(\rho_1 = \phi\)</span>. To estimate <span class="math inline">\(\phi\)</span>, we can solve the equation <span class="math inline">\(\rho_1 = r_1\)</span> where <span class="math inline">\(r_1\)</span> is the sample ACF at lag <span class="math inline">\(1\)</span>: <span class="math display">\[
+r_1 = \frac{\sum_{t=1}^{n-1} (Y_{t+1} - \overline{Y})(Y_t - \overline{Y})}
+{\sum_{t=1}^{n} (Y_t - \overline{Y})^2}.
+\]</span> Solving the equation <span class="math inline">\(\rho_1 = r_1\)</span> gives the MoM (GMoM) estimate <span class="math display">\[
+\widehat{\phi}_\text{MOM} = \frac{\sum_{t=1}^{n-1} (Y_{t+1} - \overline{Y})(Y_t - \overline{Y})}
+{\sum_{t=1}^{n} (Y_t - \overline{Y})^2}.
+\]</span></p>
+<p><strong>Example 2.</strong> Suppose <span class="math inline">\(Y_1, \dots, Y_n\)</span> are from an AR(<span class="math inline">\(2\)</span>) model with mean zero: <span class="math display">\[
+Y_t - \phi_1 Y_{t-1} - \phi_2 Y_{t-2} = e_t.
+\]</span> The first two YW equations are <span class="math display">\[
+\begin{cases}
+\gamma_1 - \phi_1 \gamma_0 - \phi_2 \gamma_1 = 0 \\
+\gamma_2 - \phi_1 \gamma_1 - \phi_2 \gamma_0 = 0
+\end{cases}
+\implies
+\begin{cases}
+\rho_1 = \phi_1 + \phi_2 \rho_1 \\
+\rho_2 = \phi_1 \rho_1 + \phi_2
+\end{cases}
+\implies
+\begin{cases}
+\rho_1 = \frac{\phi_1}{1 - \phi_2} \\
+\rho_2 = \frac{\phi_1^2 - \phi_2^2 + \phi_2}{1 - \phi_2}
+\end{cases}
+\]</span> Using MoM, we need to solve <span class="math inline">\(\phi_1, \phi_2\)</span> from the equations <span class="math display">\[
+\begin{cases}
+\rho_1(\phi_1, \phi_2) = r_1 \\
+\rho_2(\phi_1, \phi_2) = r_2
+\end{cases} \quad\text{i.e.,}\quad
+\begin{cases}
+\frac{\phi_1}{1 - \phi_2} = r_1 \\
+\frac{\phi_1^2 - \phi_2^2 + \phi_2}{1 - \phi_2} = r_2
+\end{cases}
+\]</span> Alternatively, we can also replace the theoretical ACF with sample ACF in the YW equations, and then solve for <span class="math inline">\(\phi_1, \phi_2\)</span>: (this is equivalent to the procedure above) <span class="math display">\[
+\begin{cases}
+r_1 = \phi_1 + \phi_2 r_1 \\
+r_2 = \phi_1 r_1 + \phi_2
+\end{cases}
+\]</span> <strong>Exercise:</strong> verify that <span class="math display">\[
+\begin{cases}
+\widehat{\phi}_1^{\text{MOM}} = \frac{r_1 (1 - r_2)}{1 - r_1^2} \\
+\widehat{\phi}_2^{\text{MOM}} = \frac{r_2 - r_1^2}{1 - r_1^2}
+\end{cases}
+\]</span></p>
+<p><strong>Example 3.</strong> Suppose <span class="math inline">\(Y_1, \dots, Y_n\)</span> are from an AR(<span class="math inline">\(p\)</span>) model with mean zero: <span class="math display">\[
+Y_t - \phi_1 Y_{t-1} - \phi_2 Y_{t-2} - \cdots - \phi_p Y_{t-p}= e_t.
+\]</span> Similar to the AR(<span class="math inline">\(2\)</span>) example, we start from the first <span class="math inline">\(p\)</span> YW equations <span class="math display">\[
+\begin{cases}
+\rho_1 = \phi_1 + \phi_2 \rho_1 + \cdots + \phi_p \rho_{p-1} \\
+\rho_2 = \phi_1 \rho_1 + \phi_2 + \cdots + \phi_p \rho_{p-2} \\
+\quad\vdots \\
+\rho_p = \phi_1 \rho_{p-1} + \phi_2 \rho_{p-2} + \cdots + \phi_p
+\end{cases}
+\]</span> which can be written in the matrix form <span class="math display">\[
+\begin{bmatrix}
+\rho_0 &amp; \rho_1 &amp; \cdots &amp; \rho_{p-1} \\
+\rho_1 &amp; \rho_0 &amp; \cdots &amp; \rho_{p-2} \\
+\vdots &amp; \vdots &amp;        &amp; \vdots \\
+\rho_{p-1} &amp; \rho_{p-2} &amp; \cdots &amp; \rho_0
+\end{bmatrix}
+\begin{bmatrix}
+\phi_{1} \\
+\phi_{2} \\
+\vdots \\
+\phi_{p}
+\end{bmatrix}
+= \begin{bmatrix}
+\rho_1 \\
+\rho_2 \\
+\vdots \\
+\rho_k
+\end{bmatrix}.
+\]</span> Replace the theoretical ACF <span class="math inline">\(\rho_k\)</span> by the sample ACF <span class="math inline">\(r_k\)</span>, and solve the MoM estimate for <span class="math inline">\((\phi_1,...,\phi_p)\)</span>. So the MoM estimates satisfy <span class="math display">\[
+\widehat{R}_p \ \widehat{\vec\phi} = \widehat{\vec\rho}_p,\quad
+\text{where}\quad
+\widehat{R}_p = \begin{bmatrix}
+r_0 &amp; r_1 &amp; \cdots &amp; r_{p-1} \\
+r_1 &amp; r_0 &amp; \cdots &amp; r_{p-2} \\
+\vdots &amp; \vdots &amp;        &amp; \vdots \\
+r_{p-1} &amp; r_{p-2} &amp; \cdots &amp; r_0
+\end{bmatrix},\quad
+\widehat{\vec\phi} = \begin{bmatrix}
+\widehat{\phi}_{1} \\
+\widehat{\phi}_{2} \\
+\vdots \\
+\widehat{\phi}_{p}
+\end{bmatrix},\quad
+\widehat{\vec\rho}_p = \begin{bmatrix}
+r_1 \\
+r_2 \\
+\vdots \\
+r_p
+\end{bmatrix}.
+\]</span> Then we get the MoM estimate <span class="math display">\[
+\widehat{\vec\phi}_\text{MOM} = \widehat{R}_p^{-1}\ \widehat{\vec\rho}_p.
+\]</span> <em>Remark:</em> The matrix <span class="math inline">\(\widehat{R}_p\)</span> defined above is always invertible, which is guaranteed by the particular way (and details) we used to construct the sample ACF <span class="math inline">\(r_k\)</span> in lecture 9. In fact, we remarked in lecture 9 that our construction of <span class="math inline">\(r_k\)</span> makes the “sample ACF matrix” invertible, and this matrix is nothing but the <span class="math inline">\(\widehat{R}_p\)</span> we have just seen.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -805,13 +940,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Home">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Home</span>
+      <a href="./TSA-Lecture13.html" class="pagination-link" aria-label="Lecture 13">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 13</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./TSA-Lecture01.html" class="pagination-link" aria-label="Lecture 1">
-        <span class="nav-page-text">Lecture 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./TSA-Lecture14-model-specification.html" class="pagination-link" aria-label="R notebook: Model Specification">
+        <span class="nav-page-text">R notebook: Model Specification</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
