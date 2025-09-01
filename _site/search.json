@@ -434,7 +434,7 @@
     "href": "TSA-Lecture14-model-specification.html#detecting-nonstationarity-augmented-dickey-fuller-test",
     "title": "R notebook: Model Specification",
     "section": "1.6 Detecting nonstationarity: Augmented Dickey-Fuller test",
-    "text": "1.6 Detecting nonstationarity: Augmented Dickey-Fuller test\n\n\nCode\n# Augmented Dickey-Fuller test\n# Unit root test of the random walk and its first difference\nlibrary(tseries)\n\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\n\nCode\nadf.test(rw)\n\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  rw\nDickey-Fuller = -2.8191, Lag order = 3, p-value = 0.2437\nalternative hypothesis: stationary\n\n\nCode\nadf.test(diff(rw))\n\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  diff(rw)\nDickey-Fuller = -3.51, Lag order = 3, p-value = 0.04848\nalternative hypothesis: stationary",
+    "text": "1.6 Detecting nonstationarity: Augmented Dickey-Fuller test\n\n\nCode\n# Augmented Dickey-Fuller test\n# Unit root test of the random walk and its first difference\nlibrary(tseries)\n\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\n\nCode\nadf.test(rw)\n\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  rw\nDickey-Fuller = -2.6961, Lag order = 3, p-value = 0.2934\nalternative hypothesis: stationary\n\n\nCode\nadf.test(diff(rw))\n\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  diff(rw)\nDickey-Fuller = -3.7842, Lag order = 3, p-value = 0.02539\nalternative hypothesis: stationary",
     "crumbs": [
       "R notebook: Model Specification"
     ]

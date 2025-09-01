@@ -1,6 +1,17 @@
-/* css styles */
-.navbar .navbar-nav {
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  white-space: nowrap;
+/* Make bottom navigation sticky/floating */
+.q-bottom-nav {
+  position: fixed;       /* fixed to viewport */
+  bottom: 0;             /* at the bottom */
+  left: 0;
+  width: 100%;           /* full width */
+  background-color: white; /* or match your theme */
+  border-top: 1px solid #ccc;
+  padding: 0.5em 1em;
+  z-index: 9999;         /* appear above content */
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+body {
+  padding-bottom: 60px;  /* avoid content being hidden behind nav */
 }
