@@ -8,7 +8,7 @@
 
 <meta name="author" content="Dr Sergey Kushnarev">
 
-<title>25 Spring 439/639 TSA: Lecture 3 – Lecture Notes</title>
+<title>25 Spring 439/639 TSA: Lecture 16 – Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./TSA-Lecture04.html" rel="next">
-<link href="./TSA-Lecture02.html" rel="prev">
+<link href="./TSA-Lecture16-parameter-estimation.html" rel="next">
+<link href="./TSA-Lecture15.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -112,7 +112,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture03.html">Lecture 3</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./TSA-Lecture16.html">Lecture 16</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -163,7 +163,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture03.html" class="sidebar-item-text sidebar-link active">
+  <a href="./TSA-Lecture03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lecture 3</span></a>
   </div>
 </li>
@@ -259,7 +259,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./TSA-Lecture16.html" class="sidebar-item-text sidebar-link">
+  <a href="./TSA-Lecture16.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lecture 16</span></a>
   </div>
 </li>
@@ -351,18 +351,13 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#q-dependent-clt" id="toc-q-dependent-clt" class="nav-link active" data-scroll-target="#q-dependent-clt"><span class="header-section-number">1</span> <span class="math inline">\(q\)</span>-dependent CLT</a>
+  <li><a href="#mle-for-ar1" id="toc-mle-for-ar1" class="nav-link active" data-scroll-target="#mle-for-ar1"><span class="header-section-number">1</span> MLE for AR(<span class="math inline">\(1\)</span>)</a>
   <ul class="collapse">
-  <li><a href="#statement-of-the-theorem" id="toc-statement-of-the-theorem" class="nav-link" data-scroll-target="#statement-of-the-theorem"><span class="header-section-number">1.1</span> Statement of the theorem</a></li>
-  <li><a href="#sketch-of-the-proof" id="toc-sketch-of-the-proof" class="nav-link" data-scroll-target="#sketch-of-the-proof"><span class="header-section-number">1.2</span> Sketch of the proof</a></li>
+  <li><a href="#unconditional-sum-of-squares" id="toc-unconditional-sum-of-squares" class="nav-link" data-scroll-target="#unconditional-sum-of-squares"><span class="header-section-number">1.1</span> Unconditional sum of squares</a></li>
   </ul></li>
-  <li><a href="#maq" id="toc-maq" class="nav-link" data-scroll-target="#maq"><span class="header-section-number">2</span> MA(<span class="math inline">\(q\)</span>)</a></li>
-  <li><a href="#general-linear-process" id="toc-general-linear-process" class="nav-link" data-scroll-target="#general-linear-process"><span class="header-section-number">3</span> General Linear Process</a>
-  <ul class="collapse">
-  <li><a href="#backshift-operator" id="toc-backshift-operator" class="nav-link" data-scroll-target="#backshift-operator"><span class="header-section-number">3.1</span> Backshift operator</a></li>
-  <li><a href="#glp-is-stationary" id="toc-glp-is-stationary" class="nav-link" data-scroll-target="#glp-is-stationary"><span class="header-section-number">3.2</span> GLP is stationary</a></li>
-  </ul></li>
-  <li><a href="#ar1" id="toc-ar1" class="nav-link" data-scroll-target="#ar1"><span class="header-section-number">4</span> AR(<span class="math inline">\(1\)</span>)</a></li>
+  <li><a href="#comparison-and-comments-of-the-methods" id="toc-comparison-and-comments-of-the-methods" class="nav-link" data-scroll-target="#comparison-and-comments-of-the-methods"><span class="header-section-number">2</span> Comparison and comments of the methods</a></li>
+  <li><a href="#asymptotic-theory" id="toc-asymptotic-theory" class="nav-link" data-scroll-target="#asymptotic-theory"><span class="header-section-number">3</span> Asymptotic theory</a></li>
+  <li><a href="#overfitting-as-a-tool" id="toc-overfitting-as-a-tool" class="nav-link" data-scroll-target="#overfitting-as-a-tool"><span class="header-section-number">4</span> Overfitting as a tool</a></li>
   </ul>
 </nav>
     </div>
@@ -371,7 +366,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">25 Spring 439/639 TSA: Lecture 3</h1>
+<h1 class="title">25 Spring 439/639 TSA: Lecture 16</h1>
 </div>
 
 
@@ -394,145 +389,128 @@ window.Quarto = {
 </header>
 
 
-<section id="q-dependent-clt" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> <span class="math inline">\(q\)</span>-dependent CLT</h1>
-<p>Last time we defined <span class="math inline">\(q\)</span>-dependent and <span class="math inline">\(q\)</span>-correlated time series.</p>
-<section id="statement-of-the-theorem" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="statement-of-the-theorem"><span class="header-section-number">1.1</span> Statement of the theorem</h2>
-<p><strong><span class="math inline">\(q\)</span>-dependent CLT:</strong> Let <span class="math inline">\((Y_t)\)</span> be a <span class="math inline">\(q\)</span>-dependent (<span class="math inline">\(q \geq 0\)</span>) stationary time series with <span class="math inline">\(\mu = \mathbb{E}[Y_t]\)</span> and <span class="math inline">\(\sigma^2 = Var(Y_t)\)</span>. Then as long as <span class="math display">\[
-\sigma^2 + 2\operatorname{Cov}(Y_1, Y_2) + \cdots + 2\operatorname{Cov}(Y_1, Y_{q+1}) &gt; 0,
-\]</span></p>
-<p>then <span class="math display">\[
-\frac{\sum_{i=1}^n Y_i - n\mu}{\sqrt{\mathrm{Var}\left(\sum_{i=1}^n Y_i\right)}} \xrightarrow{D} N(0, 1), \quad \text{as } n\to \infty,
-\]</span> or equivalently, <span class="math display">\[
-\frac{\overline{Y} - \mu}{\sqrt{\mathrm{Var}(\overline{Y})}} \xrightarrow{D} N(0, 1), \quad \text{as } n \to \infty.
-\]</span></p>
-<p><em>Remark:</em> the last statement can be loosely thought of as <span class="math inline">\(\overline{Y} \approx N(\mu, \mathrm{Var}(\overline{Y}))\)</span>.</p>
-</section>
-<section id="sketch-of-the-proof" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="sketch-of-the-proof"><span class="header-section-number">1.2</span> Sketch of the proof</h2>
-<p>Suppose <span class="math inline">\(n &gt; q\)</span>. Since <span class="math inline">\((Y_t)\)</span> is stationary, using ACVF we have <span class="math display">\[
+<section id="mle-for-ar1" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> MLE for AR(<span class="math inline">\(1\)</span>)</h1>
+<p>Last time, for the model <span class="math display">\[
+(Y_t - \mu) = \phi (Y_{t-1} - \mu) + e_t, \quad e_t \overset{iid}{\sim} \mathcal{N}(0, \sigma_e^2),
+\]</span> we derived that <span class="math display">\[
 \begin{split}
-\operatorname{Var} \left( \sum_{i=1}^n Y_i \right) &amp;=
-    \sum_{i=1}^n \sum_{j=1}^n \operatorname{Cov}(Y_i, Y_j) = \sum_{i=1}^n \sum_{j=1}^n \gamma_{|i-j|} \\
-&amp;=n\gamma_0 + 2(n-1)\gamma_1 + 2(n-2)\gamma_2 + \cdots + 2\gamma_{n-1} \\
-&amp;= n\gamma_0 + 2\sum_{j=1}^q (n-j)\gamma_j
+&amp; \mathcal{L}(\mu,\phi, \sigma_e^2 \mid Y_1, Y_2, \ldots, Y_n) = \left(2\pi \sigma_e^2\right)^{-\frac{n}{2}} \left(1 - \phi^2\right)^{\frac{1}{2}}
+\exp \left[ -\frac{1}{2\sigma_e^2} S(\mu,\phi) \right] ,\\
+&amp;\text{where}\quad S(\mu,\phi) = S_c(\mu,\phi) + (1 - \phi^2)(Y_1 - \mu)^2,\\
+&amp;\text{and}\quad S_c(\mu,\phi) = \sum_{t=2}^n \left(Y_t - \mu - \phi (Y_{t-1}-\mu) \right)^2.
 \end{split}
-\]</span> where the last step is because <span class="math inline">\(\gamma_j = 0\)</span> for <span class="math inline">\(j &gt; q\)</span> (by <span class="math inline">\(q\)</span>-dependence). So <span class="math display">\[
-\mathrm{Var}(\overline{Y}) = \frac{1}{n^2} \mathrm{Var} \left( \sum_{i=1}^n Y_i \right)
-= \frac{1}{n} \gamma_0 + \frac{2}{n^2} \sum_{j=1}^{q} (n-j) \gamma_j .
-\]</span> As <span class="math inline">\(n \to \infty\)</span>, this variance <span class="math inline">\(\mathrm{Var}(\overline{Y}) \approx \frac{1}{n}(\sigma^2 + 2\operatorname{Cov}(Y_1, Y_2) + \cdots + 2\operatorname{Cov}(Y_1, Y_{q+1}))\)</span>, which goes to <span class="math inline">\(0\)</span> at the rate <span class="math inline">\(O(\frac{1}{n})\)</span>. This behavior looks similar to the standard CLT (with iid setting). Then, (following the idea of standard CLT) <span class="math display">\[
-\frac{\overline{Y} - \mu}{\sqrt{\mathrm{Var}(\overline{Y})}} \xrightarrow{D} N(0,1), \quad \text{as } n \to \infty.
+\]</span> We have noticed that <span class="math inline">\(S_c\)</span> is just the objective function in the conditional LS for AR(<span class="math inline">\(1\)</span>). We call <span class="math inline">\(S_c(\mu,\phi)\)</span> the conditional sum of squares, and <span class="math inline">\(S(\mu,\phi)\)</span> the unconditional sum of squares, i.e. <span class="math display">\[
+\underbrace{S(\mu, \phi)}_{\text{unconditional sum of squares}} =  
+\underbrace{S_c(\mu, \phi)}_{\text{conditional sum of squares}} + (1 - \phi^2)(Y_1 - \mu)^2 .
 \]</span></p>
-<p><em>Remark:</em> the CLT can be even generalized to some time series that are not <span class="math inline">\(q\)</span>-dependent, as long as <span class="math inline">\(\gamma_k\)</span> decays to zero (as <span class="math inline">\(k\to \infty\)</span>) sufficiently fast.</p>
+<p>In the MLE, maximizing the likelihood function <span class="math display">\[
+\mathcal{L}(\mu,\phi, \sigma_e^2 ) = \left(2\pi \sigma_e^2\right)^{-\frac{n}{2}} \left(1 - \phi^2\right)^{\frac{1}{2}}
+\exp \left[ -\frac{1}{2\sigma_e^2} S(\mu,\phi) \right]
+\]</span> is equivalent to maximizing the log likelihood function <span class="math display">\[
+\mathcal{l}(\mu,\phi, \sigma_e^2 ) = \log \mathcal{L}(\mu,\phi, \sigma_e^2 ) = -\frac{n}{2} \log \left(2\pi \sigma_e^2\right) + \frac{1}{2} \log \left(1 - \phi^2\right) -\frac{1}{2\sigma_e^2} S(\mu,\phi).
+\]</span> Take the partial derivative of <span class="math inline">\(\sigma_e^2\)</span>: <span class="math display">\[
+\frac{\partial l}{\partial \sigma_e^2} = -\frac{n}{2} \frac{1}{\sigma_e^2} + 0 + \frac{1}{2 (\sigma_e^2)^2} S(\mu,\phi).
+\]</span> By setting <span class="math inline">\(\frac{\partial l}{\partial \sigma_e^2} =0\)</span>, we know that the MLE estimator must satisfy <span class="math display">\[
+\widehat{\sigma}^2_{e}= \frac{1}{n} S(\widehat{\mu}_{\text{MLE}}, \widehat{\phi}_{\text{MLE}})
+\]</span> <strong>Remark:</strong> the MLE estimator for <span class="math inline">\(\sigma_e^2\)</span> is biased. To make it unbiased, we can use <span class="math display">\[
+\widehat{\sigma}^2_{e}= \frac{1}{n-2} S(\widehat{\mu}_{\text{MLE}}, \widehat{\phi}_{\text{MLE}})
+\]</span> since we lost <span class="math inline">\(2\)</span> degree of freedoms when estimating the <span class="math inline">\(2\)</span> parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\phi\)</span>. In general, we replace <span class="math inline">\(n\)</span> by <span class="math inline">\(n-p\)</span> to get an unbiased estimator for variance, where <span class="math inline">\(p\)</span> is the number of other parameters to be estimated.</p>
+<p>The partial derivative of <span class="math inline">\(\mu\)</span> has a very simple form <span class="math display">\[
+\frac{\partial l}{\partial \mu} = 0+0 -\frac{1}{2\sigma_e^2} \frac{\partial S(\mu,\phi)}{\partial \mu}.
+\]</span> <strong>Exercise:</strong> find <span class="math inline">\(\widehat{\mu}_{\text{MLE}}\)</span> from <span class="math inline">\(\frac{\partial l}{\partial \mu} =0\)</span></p>
+<p>The partial derivative of <span class="math inline">\(\phi\)</span> is <span class="math display">\[
+\frac{\partial l}{\partial \phi} = \frac{\partial}{\partial \phi} \left( \frac{1}{2} \log \left(1 - \phi^2\right) -\frac{1}{2\sigma_e^2} S(\mu,\phi) \right).
+\]</span> In general, <span class="math inline">\(\frac{\partial l}{\partial \phi} =0\)</span> needs to be solved numerically.</p>
+<section id="unconditional-sum-of-squares" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="unconditional-sum-of-squares"><span class="header-section-number">1.1</span> Unconditional sum of squares</h2>
+<p>In general, MLE is hard to compute. Recall that MLE, i.e.&nbsp;maximizing <span class="math inline">\(\mathcal{L}(\mu,\phi, \sigma_e^2 )\)</span>, is equivalent to maximizing <span class="math display">\[
+\mathcal{l}(\mu,\phi, \sigma_e^2 ) = -\frac{n}{2} \log \left(2\pi \sigma_e^2\right) + \frac{1}{2} \log \left(1 - \phi^2\right) -\frac{1}{2\sigma_e^2} S(\mu,\phi).
+\]</span> If we only think about <span class="math inline">\((\mu,\phi)\)</span>, and (make a bold move to) ignore the first two terms above, then the optimal <span class="math inline">\((\mu,\phi)\)</span> are just the solutions to <span class="math inline">\(\min_{\mu, \phi} S(\mu,\phi)\)</span>. We call this alternive method <strong>unconditional sum of squares (UCSS)</strong>: <span class="math display">\[
+\min S(\mu, \phi).
+\]</span> Of course, the solution of UCSS is different from the solutions of MLE in general, i.e. <span class="math display">\[
+\arg\max \mathcal{l}(\mu,\phi) \neq \arg\min S(\mu, \phi).
+\]</span> But for large sample sizes, they are close <span class="math display">\[
+\arg\max \mathcal{l}(\mu,\phi) \approx \arg\min S(\mu, \phi).
+\]</span> And the optimization problem of UCSS <span class="math inline">\(\min S(\mu, \phi)\)</span> is easier to solve (numerically) than the MLE <span class="math inline">\(\max \mathcal{l}(\mu,\phi,\sigma_e^2)\)</span>.</p>
+<p>Also recall that <span class="math display">\[
+\begin{split}
+&amp; \mathcal{L}(\mu,\phi, \sigma_e^2 ) = \left(2\pi \sigma_e^2\right)^{-\frac{n}{2}} \left(1 - \phi^2\right)^{\frac{1}{2}} \exp \left[ -\frac{1}{2\sigma_e^2} S(\mu,\phi) \right] ,\\
+&amp;S(\mu,\phi) = S_c(\mu,\phi) + (1 - \phi^2)(Y_1 - \mu)^2,
+\end{split}
+\]</span> the UCSS method can be seen as a compromise between MLE and the CSS(conditional sum of squares, i.e., conditional LS) method.</p>
 </section>
 </section>
-<section id="maq" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> MA(<span class="math inline">\(q\)</span>)</h1>
-<p>MA(<span class="math inline">\(q\)</span>) stands for Moving Average of order <span class="math inline">\(q\)</span>.</p>
-<p><strong>MA(<span class="math inline">\(q\)</span>):</strong> An MA(<span class="math inline">\(q\)</span>) time series <span class="math inline">\((Y_t)\)</span> is defined as <span class="math display">\[
-Y_t = e_t - \theta_1 e_{t-1} - \theta_2 e_{t-2} - \cdots - \theta_q e_{t-q}
-\]</span> where <span class="math inline">\(e_t \sim IID(0, \sigma_e^2)\)</span>.</p>
-<p>Remarks:</p>
+<section id="comparison-and-comments-of-the-methods" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Comparison and comments of the methods</h1>
+<p>Let’s compare the three methods</p>
 <ul>
-<li>The coefficient for <span class="math inline">\(e_t\)</span> is always <span class="math inline">\(1\)</span>, while <span class="math inline">\(\theta_1,\dots,\theta_{q}\)</span> are unrestricted.</li>
-<li>This notation is same as C&amp;C textbook. Pay attention to the notations since some books and R/Python may use different conventions <span class="math inline">\(Y_t = e_t + \theta_1 e_{t-1} + \cdots + \theta_q e_{t-q}\)</span>.</li>
-<li>MA(<span class="math inline">\(0\)</span>) can be seen as <span class="math inline">\(Y_t=e_t\)</span>, which is the IID noise.</li>
+<li>MLE, maximizing the likelihood function <span class="math inline">\(\mathcal{L}\)</span>, or equivalently the log likelihood function <span class="math inline">\(\mathcal{l}\)</span>.</li>
+<li>UCSS, minimizing the unconditional sum of squares <span class="math inline">\(S\)</span>.</li>
+<li>CSS, minimizing the conditional sum of squares <span class="math inline">\(S_c\)</span> (i.e.&nbsp;the conditional LS method in earlier lectures).</li>
 </ul>
-<p>In homework, you will show the ACVF of MA(<span class="math inline">\(q\)</span>): <span class="math display">\[
-\gamma_k =
-\begin{cases}
-    0, &amp; \text{if } k &gt; q \\
-    \sigma_e^2 \sum_{j=0}^{q-k} \theta_j \theta_{j+k}, &amp; 0 \leq k \leq q
-\end{cases}
-\qquad (\theta_0 = -1)
-\]</span> This result shows that an MA(<span class="math inline">\(q\)</span>) process is always <span class="math inline">\(q\)</span>-dependent. The reverse is also true, in the following sense.</p>
-<p><strong>Theorem (without proof):</strong> If <span class="math inline">\((Y_t)\)</span> is a stationary <span class="math inline">\(q\)</span>-correlated time series with mean <span class="math inline">\(0\)</span>, then there exists an uncorrelated stationary sequence <span class="math inline">\((\widetilde{e}_t)\)</span> and <span class="math inline">\(q\)</span> constants <span class="math inline">\(\widetilde{\theta}_1,\dots,\widetilde{\theta}_q\)</span> such that, if <span class="math inline">\(X_t\)</span> is constructed as <span class="math display">\[
-X_t = \widetilde{e}_t - \widetilde{\theta}_1 \widetilde{e}_{t-1} - \cdots - \widetilde{\theta}_q \widetilde{e}_{t-q} ,
-\]</span> then <span class="math inline">\((X_t)\)</span> will have the same ACVF as <span class="math inline">\((Y_t)\)</span>.</p>
+<p>(<em>Note:</em> MLE contains <span class="math inline">\(\sigma_e^2\)</span> in the objective function, while the other two do not. We only compare the behavior of the estimated parameters other than <span class="math inline">\(\sigma_e^2\)</span>, like <span class="math inline">\(\mu,\phi_i,\theta_i\)</span>.)</p>
+<p>For large samples, the three methods MLE, UCSS, CSS have very similar results.</p>
+<p>In general, UCSS is different from MLE, <span class="math display">\[
+\operatorname{argmin} S(\mu, \phi_i, \theta_j) \neq \operatorname{argmax} \ \mathcal{l}(\mu, \phi_i, \theta_j)
+\]</span> especially if ARMA models are close to non-stationary.</p>
+<p>If sample size is small or medium, MLE is preferred. (See the pros and cons of MLE in last lecture.)</p>
+<p>But MLE is hard to compute, only viable through numerical methods (no closed form solutions in general). <em>Note:</em> As part of this, MoM estimates (which is much easier to get) are often used as the initial guesses in the numerical computing of MLE.</p>
+<ul>
+<li>MLE is <em>conceptually</em> better than the other since it uses “all information” and do not assume something is zero (like <span class="math inline">\(e_i=0\)</span>)
+<ul>
+<li>MOM only uses the first <span class="math inline">\(k\)</span> moments. (And it may not exist as we have seen.)</li>
+<li>CSS assumes something, like <span class="math inline">\(e_1=\cdots=e_m=0\)</span> (so it throws away some information from the likelihood function.)</li>
+<li>UCSS is a compromise between MLE and the CSS.</li>
+</ul></li>
+<li>MLE is hard to compute even numerically.</li>
+</ul>
 </section>
-<section id="general-linear-process" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> General Linear Process</h1>
-<p><strong>GLP(General Linear Process)</strong>: Let <span class="math inline">\((e_t) \sim IID(0, \sigma_e^2)\)</span>. A process <span class="math inline">\((Y_t)\)</span> is called <strong>GLP</strong> (mean <span class="math inline">\(0\)</span>) if <span class="math display">\[
-Y_t = \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}
-\]</span> where <span class="math inline">\(\psi_j\)</span> are constants such that <span class="math inline">\(\sum_{j=-\infty}^{+\infty} |\psi_j| &lt; \infty\)</span>. Explicitly, <span class="math display">\[
-Y_t = \cdots + \psi_{-2} e_{t+2} + \psi_{-1} e_{t+1} + \psi_0 e_t + \psi_1 e_{t-1} + \cdots .
-\]</span> <strong>Causality:</strong> If <span class="math inline">\(\psi_j = 0\)</span> for all <span class="math inline">\(j &lt; 0\)</span> in the GLP representation, then <span class="math display">\[
-Y_t = \psi_0 e_t + \psi_1 e_{t-1} + \dots = \sum_{j=0}^{\infty} \psi_j e_{t-j} .
-\]</span> In this case, <span class="math inline">\((Y_t)\)</span> is called a <strong>causal / future-independent process</strong>. Otherwise, if there exist nonzero <span class="math inline">\(\psi_j\)</span> for some <span class="math inline">\(j&lt;0\)</span>, <span class="math inline">\((Y_t)\)</span> is <strong>non-causal / future-dependent</strong>.</p>
-<section id="backshift-operator" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="backshift-operator"><span class="header-section-number">3.1</span> Backshift operator</h2>
-<p><strong>Definition:</strong> For a sequence <span class="math inline">\((y_t)\)</span>, the <strong>backshift operator</strong> <span class="math inline">\(B\)</span> is defined by <span class="math inline">\(B Y_t = Y_{t-1}\)</span>.</p>
-<p>Example: <span class="math inline">\(B^2 Y_t = B(Y_{t-1}) = Y_{t-2}\)</span>, <span class="math inline">\(B^k Y_t = Y_{t-k}\)</span> for <span class="math inline">\(k \ge 0\)</span>.</p>
-<p>The inverse of <span class="math inline">\(B\)</span> is considered as <strong>forwardshift</strong>: <span class="math inline">\(B^{-1} Y_t = Y_{t+1}\)</span>, <span class="math inline">\(B^{-2} Y_t = Y_{t+2}\)</span>, etc.</p>
-<p><strong>Definition:</strong> A <strong>linear filter</strong> is an operator defined as <span class="math display">\[
-\Psi(B) = \sum_{j=-\infty}^{+\infty} \psi_j B^j.
-\]</span> By this definition, the GLP process <span class="math inline">\(Y_t = \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\)</span> can be written as <span class="math inline">\(Y_t = \Psi(B) e_t\)</span>, since <span class="math display">\[
-\left(\sum_{j=-\infty}^{+\infty} \psi_j B^j\right) e_t
-= \sum_{j=-\infty}^{+\infty} \psi_j B^j e_t
-= \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j} = Y_t .
+<section id="asymptotic-theory" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Asymptotic theory</h1>
+<p>In this part, we think about the asymptotic, i.e., large sample properties for MLE/UCSS/CSS (since they are very similar when sample size is large). In parameter estimation, the estimated <span class="math inline">\(\widehat{\phi}_i, \widehat{\theta}_j\)</span> are all random variables that depend on the random sample.</p>
+<p>Via asymptotic MLE theory, estimators are unbiased, asymptotically normal, and have some certain variance (see the examples below).</p>
+<p>For AR(<span class="math inline">\(1\)</span>), <span class="math display">\[
+\operatorname{Var}(\widehat{\phi}) \approx \frac{1 - \phi^2}{n},
+\]</span> where the <span class="math inline">\(\phi\)</span> is the true parameter of the AR(<span class="math inline">\(1\)</span>).</p>
+<p>For AR(<span class="math inline">\(2\)</span>), <span class="math display">\[
+\begin{split}
+&amp;\operatorname{Var}(\widehat{\phi}_1) \approx \operatorname{Var}(\widehat{\phi}_2) \approx \frac{1 - \phi_2^2}{n} ,\\
+&amp;\text{and}\quad \operatorname{corr}(\widehat{\phi}_1, \widehat{\phi}_2) \approx -\frac{\phi_1}{1 - \phi_2} .
+\end{split}
+\]</span> For MA(<span class="math inline">\(1\)</span>) and MA(<span class="math inline">\(2\)</span>), the results have the same form, just replace the <span class="math inline">\(\phi_1\)</span> to <span class="math inline">\(\theta_i\)</span>. (See the textbook.) For example, for MA(<span class="math inline">\(1\)</span>), we have <span class="math display">\[
+\widehat{\theta} \sim \mathcal{N}\left( \theta,\ \frac{1 - \theta^2}{n} \right).
+\]</span></p>
+<p>For ARMA(<span class="math inline">\(1,1\)</span>), <span class="math display">\[
+\begin{split}
+&amp;\operatorname{Var}(\widehat{\phi}) \approx \frac{1 - \phi^2}{n} \left( \frac{1 - \phi\theta}{\phi - \theta} \right)^2 ,\quad
+\operatorname{Var}(\widehat{\theta}) \approx \frac{1 - \theta^2}{n} \left( \frac{1 - \phi\theta}{\phi - \theta} \right)^2 ,\\
+&amp;\operatorname{corr}(\widehat{\phi},\, \widehat{\theta}) \approx \frac{\sqrt{(1-\phi^2)(1-\theta^2)}}{1 - \phi\theta} .
+\end{split}
+\]</span> <em>Note:</em> if <span class="math inline">\(\phi\approx \theta\)</span> in the ARMA(<span class="math inline">\(1,1\)</span>), then both the variance <span class="math inline">\(\operatorname{Var}(\widehat{\phi})\)</span> and <span class="math inline">\(\operatorname{Var}(\widehat{\theta})\)</span> are increasing to infinity. This is because the parameters in ARMA(<span class="math inline">\(1,1\)</span>) are redundant if <span class="math inline">\(\phi = \theta\)</span> (so the model itself is not correctly specified): <span class="math display">\[
+Y_t - \phi Y_{t-1} = e_t - \theta e_{t-1}
+\overset{\phi = \theta}{\Longleftrightarrow} Y_t = e_t.
 \]</span></p>
 </section>
-<section id="glp-is-stationary" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="glp-is-stationary"><span class="header-section-number">3.2</span> GLP is stationary</h2>
-<p>In this part, we will derive the mean function, variance function, ACVF, ACF of a GLP. Then we can see that a GLP is stationary.</p>
-<ul>
-<li><p>Mean function <span class="math display">\[
-\mu_t = \mathbb{E} [Y_t] = \mathbb{E}\left[\sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\right]
-= \sum_{j=-\infty}^{+\infty} \psi_j \mathbb{E}[e_{t-j}] = 0.
-\]</span></p></li>
-<li><p>Variance function <span class="math display">\[
-\begin{split}
-\operatorname{Var}(Y_t) &amp;= \operatorname{Var}\left(\sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\right)
-= \sum_{j=-\infty}^{+\infty} \psi_j^2 \operatorname{Var}(e_{t-j}) + \ 2 \sum_{i&lt;j} \psi_i \psi_j \operatorname{Cov}(e_{t-i}, e_{t-j}) = \sigma_e^2 \left( \sum_{j=-\infty}^{+\infty} \psi_j^2 \right)
-\end{split}
-\]</span> which is a finite constant (see the following exercise).</p></li>
-</ul>
-<p><strong>Exercise:</strong> Show that <span class="math inline">\(\sum_{j=-\infty}^{+\infty} |\psi_j| &lt; \infty\)</span> implies <span class="math inline">\(\sum_{j=-\infty}^{+\infty} \psi_j^2 &lt; \infty\)</span> (i.e., absolute summability implies square summability/convergence).</p>
-<ul>
-<li><p>ACVF <span class="math display">\[
-\begin{split}
-\operatorname{Cov}(Y_t, Y_{t+k}) &amp;= \mathbb{E}\left[Y_t Y_{t+k}\right] - \left(\mathbb{E} Y_t\right)\left(\mathbb{E} Y_{t+k}\right) = \mathbb{E}\left[Y_t Y_{t+k}\right]
-= \mathbb{E}\left[
-  \left( \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j} \right)
-  \left( \sum_{i=-\infty}^{+\infty} \psi_i e_{t+k-i} \right)
-\right] \\
-&amp; = \sum_{i=-\infty}^{+\infty} \sum_{j=-\infty}^{+\infty} \psi_i \psi_j \mathbb{E}[e_{t-j} e_{t+k-i}] .
-\end{split}
-\]</span> Note that <span class="math inline">\(\mathbb{E}[e_{t-j} e_{t+k-i}] = \mathbb{E}[e_{t-j}] \cdot \mathbb{E}[e_{t+k-i}] = 0\)</span> if <span class="math inline">\(i \neq j+k\)</span>, and <span class="math inline">\(\mathbb{E}[e_{t-j} e_{t+k-i}] = \sigma_e^2\)</span> if <span class="math inline">\(i=j+k\)</span>. So the ACVF depends only on the lag <span class="math inline">\(k\)</span>: <span class="math display">\[
-\gamma_k = \sum_{j=-\infty}^{+\infty} \psi_{k+j}\psi_j \sigma_e^2 .
-\]</span></p></li>
-<li><p>ACF <span class="math display">\[
-\rho_k = \frac{\gamma_k}{\gamma_0}
-= \frac{ \displaystyle\sum_{j=-\infty}^{+\infty} \psi_{k+j} \psi_j }
-      { \displaystyle\sum_{j=-\infty}^{+\infty} \psi_j^2 } .
-\]</span></p></li>
-</ul>
-<p><em>Remark:</em> If we want a GLP (<span class="math inline">\(Y_t\)</span>) with mean <span class="math inline">\(\mu\)</span>, then just add <span class="math inline">\(\mu\)</span>. Let <span class="math inline">\(Y_t = \mu + \sum_{j=-\infty}^{+\infty} \psi_j e_{t-j}\)</span>. ACVF, ACF remain the same.</p>
-</section>
-</section>
-<section id="ar1" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> AR(<span class="math inline">\(1\)</span>)</h1>
-<p>AR(<span class="math inline">\(1\)</span>) stands for Autoregressive time series of order <span class="math inline">\(1\)</span>.</p>
-<p><strong>Definition of AR(<span class="math inline">\(1\)</span>):</strong> Let <span class="math inline">\(\phi \in \mathbb{R}\)</span>, <span class="math inline">\(|\phi| &lt; 1\)</span>, and <span class="math inline">\((e_t) \sim \text{iid}(0, \sigma_e^2)\)</span>. Define <span class="math inline">\((Y_t)\)</span> as a stationary solution to: <span class="math display">\[
-Y_t = \phi Y_{t-1} + e_t.
-\]</span> <em>Remark:</em> (1) This looks like linear regression <span class="math inline">\(Y_t = \beta_0 + \beta_1 Y_{t-1} + e_t\)</span> with <span class="math inline">\(\beta_0 = 0\)</span>. (2) AR(<span class="math inline">\(1\)</span>) can be rewritten as <span class="math inline">\(Y_t - \phi Y_{t-1} = e_t\)</span>. In comparison, MA(<span class="math inline">\(1\)</span>) is <span class="math inline">\(Y_t = e_t - \theta e_{t-1}\)</span>.</p>
-<p>Assume <span class="math inline">\(Y_s\)</span> is independent of the future <span class="math inline">\(e_t\)</span> terms (for any <span class="math inline">\(t&gt;s\)</span>). We can write AR(<span class="math inline">\(1\)</span>) in a GLP.</p>
-<p>From the definition: <span class="math display">\[
-\begin{split}
-Y_t &amp;= \phi Y_{t-1} + e_t = \phi \left( \phi Y_{t-2} + e_{t-1} \right) + e_t \\
-    &amp;= \phi^2 Y_{t-2} + \phi e_{t-1} + e_t \\
-    &amp;= \phi^3 Y_{t-3} + \phi^2 e_{t-2} + \phi e_{t-1} + e_t \\
-    &amp;= \cdots \\
-    &amp;= \sum_{j=0}^n \phi^j e_{t-j} + \phi^{n+1} Y_{t-n-1} .
-\end{split}
-\]</span> So <span class="math inline">\(Y_t - \sum_{j=0}^n \phi^j e_{t-j} = \phi^{n+1} Y_{t-n-1}\)</span>. Taking the variance gives <span class="math display">\[
-\mathrm{Var} \left( Y_t - \sum_{j=0}^n \phi^j e_{t-j} \right) = \phi^{2n+2} \mathrm{Var} (Y_{t-n-1}) .
-\]</span> By stationarity of <span class="math inline">\((Y_t)\)</span> and the assumption <span class="math inline">\(|\phi|&lt;1\)</span>, the term <span class="math inline">\(\phi^{2n+2} \mathrm{Var} (Y_{t-n-1}) = \phi^{2n+2} \gamma_0 \to 0\)</span> as <span class="math inline">\(n\to +\infty\)</span>. So <span class="math inline">\(\mathrm{Var} \left( Y_t - \sum_{j=0}^n \phi^j e_{t-j} \right)\)</span> also converges to <span class="math inline">\(0\)</span> as <span class="math inline">\(n\to \infty\)</span>. Then we have <span class="math display">\[
-Y_t = \lim_{n \to \infty} \sum_{j=0}^n \phi^j e_{t-j} = \sum_{j=0}^{\infty} \phi^j e_{t-j}
-\]</span> which is a GLP.</p>
-<p><em>Remark:</em> From our earlier discussion, this GLP is causal. It is not <span class="math inline">\(q\)</span>-dependent for any finite <span class="math inline">\(q\)</span> (for generic <span class="math inline">\(\phi\)</span>), this is called <span class="math inline">\(\infty\)</span>-dependent. Moreover, this GLP can be seen as an MA(<span class="math inline">\(\infty\)</span>).</p>
-<p>In summary, a stationary solution to AR(<span class="math inline">\(1\)</span>) with <span class="math inline">\(|\phi|&lt;1\)</span> is a causal GLP, and can be seen as an MA(<span class="math inline">\(\infty\)</span>).</p>
+<section id="overfitting-as-a-tool" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Overfitting as a tool</h1>
+<p>We can use overfitting to check correctness of the fit:</p>
+<p>For example, suppose the time series is actually an AR(<span class="math inline">\(1\)</span>) <span class="math inline">\(Y_t - \phi Y_{t-1} = e_t\)</span>. We fit two models, AR(<span class="math inline">\(1\)</span>) and AR(<span class="math inline">\(2\)</span>).</p>
+<p>For the AR(<span class="math inline">\(1\)</span>) fitting, we have an estimated parameter <span class="math inline">\(\widehat{\phi}\)</span>, and <span class="math display">\[
+\operatorname{Var}(\widehat{\phi}) \approx \frac{1 - \phi^2}{n}.
+\]</span></p>
+<p>For the AR(<span class="math inline">\(2\)</span>) fitting, we get two estimated parameters <span class="math inline">\(\widehat{\phi}_1,\widehat{\phi}_2\)</span>. Note that the true model can be seen as an AR(<span class="math inline">\(2\)</span>), <span class="math inline">\(Y_t - \phi_1 Y_{t-1} - \phi_2 Y_{t-2} = e_t\)</span> where <span class="math inline">\(\phi_2=0\)</span>. By the asymptotic variance property, <span class="math display">\[
+\operatorname{Var}(\widehat{\phi}_1) \approx \frac{1 - \phi_2^2}{n} = \frac{1}{n} &gt; \frac{1 - \phi^2}{n}.
+\]</span> So the variance of <span class="math inline">\(\widehat{\phi}_1\)</span> in the second fitting is larger than the variance of <span class="math inline">\(\widehat{\phi}\)</span> first fitting. We should go back to the AR(<span class="math inline">\(1\)</span>) fitting.</p>
+<p>In general, if corresponding parameter(s) have larger variance/standard error after fitting a larger model than a smaller model, then this suggests overfitting and we should go back to the smaller model.</p>
+<p>For a concrete example, suppose we have <span class="math inline">\(n=100\)</span> samples from an AR(<span class="math inline">\(1\)</span>) model with true parameter <span class="math inline">\(\phi=0.7\)</span>. If we fit an AR(<span class="math inline">\(1\)</span>), we know <span class="math inline">\(\widehat{\phi} \sim \mathcal{N}\left(\phi, \frac{1 - \phi^2}{n}\right)\)</span>. Then the 95% CI for <span class="math inline">\(\widehat{\phi}\)</span> is <span class="math display">\[
+\left[ \widehat{\phi} \pm 2 \sqrt{\frac{1 - \phi^2}{n}} \right]=
+\left[ \widehat{\phi} \pm 2 \sqrt{\frac{1 - 0.49}{100}} \right]
+\approx \left[\widehat{\phi} \pm 0.14 \right].
+\]</span> If we fit an AR(<span class="math inline">\(2\)</span>), then <span class="math inline">\(\widehat{\phi}_1 \sim \mathcal{N}\left(\phi_1, \frac{1 - 0^2}{n}\right)\)</span>. tTe 95% CI for <span class="math inline">\(\widehat{\phi}_1\)</span> becomes <span class="math display">\[
+\left[ \widehat{\phi}_1 \pm 2 \times \sqrt{\frac{1}{n}} \right]
+= \left[ \widehat{\phi}_1 \pm 0.2 \right].
+\]</span> So the standard error increased.</p>
 
 
 </section>
@@ -957,13 +935,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./TSA-Lecture02.html" class="pagination-link" aria-label="Lecture 2">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 2</span>
+      <a href="./TSA-Lecture15.html" class="pagination-link" aria-label="Lecture 15">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 15</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./TSA-Lecture04.html" class="pagination-link" aria-label="Lecture 4">
-        <span class="nav-page-text">Lecture 4</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./TSA-Lecture16-parameter-estimation.html" class="pagination-link" aria-label="R notebook: Parameter Estimation">
+        <span class="nav-page-text">R notebook: Parameter Estimation</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
