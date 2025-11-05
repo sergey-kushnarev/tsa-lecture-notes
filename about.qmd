@@ -28,7 +28,7 @@ The notes are typeset in [Quarto](https://quarto.org/) and hosted on [GitHub Pag
   Notes: Bayesian Notes *To be posted*
   Based on Peter Hoff’s *A First Course in Bayesian Statistical Methods*.  
   Audience: Upper-level undergraduates and master’s students in Statistics/Applied Math.  
-  Topics: Conjugate priors, Gibbs sampling, Metropolis-Hastings, model comparison, etc.  
+  Topics: Conjugate priors, Gibbs sampling, Metropolis-Hastings, model comparison, hierarchical models etc.  
 
 - **Applied Statistics and Data Analysis I**  
   Notes: ASDA1 *To be posted*
@@ -53,10 +53,11 @@ The notes are typeset in [Quarto](https://quarto.org/) and hosted on [GitHub Pag
 These notes are designed as **teaching resources** and not polished textbooks.  
 
 They include:
+
 - Theory, examples and proofs
 - Code snippets and exercises
 
-Feedback is always welcome — feel free to suggest improvements or point out typos via GitHub.
+Feedback is always welcome -- feel free to suggest improvements or point out typos via GitHub.
 
 
 ## License
