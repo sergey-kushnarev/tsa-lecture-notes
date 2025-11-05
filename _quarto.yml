@@ -2,6 +2,8 @@ project:
   type: website
   output-dir: docs
 
+execute:
+  freeze: auto
 website:
   title: "Lecture Notes"
   sidebar:
@@ -85,6 +87,3 @@ format:
     css: styles.css
     toc: true
     page-navigation: true
-
-
-
